@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">نقشه ترافیک شهر تهران</string>
+    <string name="mapURL">http://www.tehrantraffic.com/trafficmap/map.asp</string>
+    <string name="imgURL">http://www.tehrantraffic.com/trafficmap/ShowImage.asp</string>
+    <string name="videoURL">http://www.tehrantraffic.com/trafficmap/vmap/vmap.gif</string>
+    <string name="imgPage">&lt;html&gt;&lt;body&gt;&lt;center&gt;&lt;img src=\&quot;http://www.tehrantraffic.com/trafficmap/ShowImage.asp&quot;+path to your image+&quot;\&quot;/&gt;&lt;/center&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string name="app_about">اطلاعات نمایش داده شده در این نرم افزار توسط شرکت کنترل ترافیک شهر تهران ارائه مییگردد.</string>
+    <string name="app_design">طراح و برنامه نویس: محسن میرحسینی ارگي</string>
+    <string name="app_email">msn.mirhoseini@gmail.com</string>
+    <string name="app_facebook1">به ما بپيونديد:</string>
+    <string name="app_facebook2">http://www.facebook.com/tehrantrafficmap</string>
+    <string name="app_about_title">درباره نرم افزار&#8230;</string>
+    <string name="app_progress">لطفا منتظر بمانید&#8230;</string>
+    <string name="app_progress_title">درحال دریافت اطلاعات</string>
+    <string name="app_connection_error">خطا در ارتباط با سرور، لطفا از اتصال اینترنت خود اطمینان حاصل فرمایید.</string>
+    <string name="app_plane_title">طرح ترافيك</string>
+    <string name="app_help_title">راهنمای نرم افزار</string>
+    <string name="app_help">این نرم افزار بر اساس آخرین اطلاعات دوربینهای کنترل ترافیک و از طریق سرور شرکت  کنترل ترافیک شهر تهران نقشه ای از میزان بار ترافیکی معابر اصلی شهر نمایش میدهد.\nبا فشردن دکمه بروزرسانی آخرین تصویر از طریق شبکه اینترنت دریافت و نقشه قبل بصورت آرشیو جهت نمایش و مقایسه در نرم افزار ذخیره میگردد.</string>
+    <string name="mnu_video">انيميشن ترافيك</string>
+    <string name="mnu_video_short">انيميشن ترافيك</string>
+    <string name="mnu_plane">طرح ترافيك</string>
+    <string name="mnu_plane_short">طرح ترافيك</string>
+    <string name="mnu_metro">نقشه مترو</string>
+    <string name="mnu_metro_short">نقشه مترو</string>
+    <string name="mnu_help">راهنماي نرم افزار</string>
+    <string name="mnu_help_short">راهنما</string>
+    <string name="mnu_about">درباره نرم افزار</string>
+    <string name="mnu_about_short">درباره</string>
+    <string name="mnu_exit">خروج از نرم افزار</string>
+    <string name="mnu_exit_short">خروج</string>
+    <string name="app_ver">2.2</string>
+    <string name="msg_updatemap">اطلاعات تغيير كرده است، يا تمايل داريد نقشه بروزرساني شود؟</string>
+    <string name="msg_yes">بلي</string>
+    <string name="msg_no">خير</string>
+    <string name="msg_highdensity">درحال دريافت تصويري با حجم زياد، لطفا صبور باشيد&#8230;</string>
+    <string name="msg_exit">جهت خروج مجدد كليد بازگشت را بزنيد&#8230;</string>
+    <string name="adadToken">d8efa7999202494f80252e5539496795</string>
+
+</resources>

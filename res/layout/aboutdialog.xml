@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayoutAbout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <ScrollView
+        android:id="@+id/scrollViewAbout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp" >
+
+        <LinearLayout
+            android:id="@+id/linearLayoutAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/txtAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:text="@string/app_about" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/txtVersion"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="none"
+                android:text="@string/app_ver" >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/imgFacebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/facebook" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/txtFacebook1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_facebook1" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/txtFacebook2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:text="@string/app_facebook2" >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/imgGmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/gmail" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/txtDesigned"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_design" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="email"
+                android:text="@string/app_email" >
+            </TextView>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
