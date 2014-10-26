@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollViewAbout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:id="@+id/linearLayoutAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp" >
+
+        <ImageView
+            android:id="@+id/icIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:scaleType="fitEnd"
+            android:src="@drawable/icon" />
+
+        <TextView
+            android:id="@+id/txtAppName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:autoLink="none"
+            android:gravity="center_horizontal"
+            android:text="@string/app_name" />
+
+        <TextView
+            android:id="@+id/txtVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:autoLink="none"
+            android:gravity="center_horizontal"
+            android:text="@string/app_ver" >
+        </TextView>
+
+        <Button
+            android:id="@+id/purchase1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="onClick"
+            android:padding="10dp"
+            android:text="@string/purchase"
+            android:textColor="@color/button"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/imgFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:scaleType="fitEnd"
+            android:src="@drawable/facebook" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/txtFacebook1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/app_facebook1" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtFacebook2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:gravity="center_horizontal"
+            android:text="@string/app_facebook2" >
+        </TextView>
+
+        <ImageView
+            android:id="@+id/imgGmail"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:scaleType="fitEnd"
+            android:src="@drawable/gmail" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/txtDesigned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/app_design" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:autoLink="email"
+            android:gravity="center_horizontal"
+            android:text="@string/app_email" >
+        </TextView>
+    </LinearLayout>
+
+</ScrollView>
