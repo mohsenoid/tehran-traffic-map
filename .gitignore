@@ -1,5 +1,3 @@
+/bin
+/gen
 /.DS_Store
-
-# generated files
-bin/
-gen/
