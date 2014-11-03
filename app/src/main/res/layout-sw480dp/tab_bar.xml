@@ -5,12 +5,12 @@
     android:layout_height="wrap_content"
     android:fadingEdge="none"
     android:fillViewport="true"
-    android:scrollbars="none" >
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/ibTabTraffic"
@@ -27,11 +27,24 @@
             android:text="@string/mnu_traffic" />
 
         <Button
+            android:id="@+id/ibTabRoad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/selector_tab_7"
+            android:drawableTop="@drawable/ic_tab_road"
+            android:minWidth="120dp"
+            android:onClick="onClick"
+            android:padding="20dp"
+            android:src="@drawable/ic_tab_road"
+            android:text="@string/mnu_road" />
+
+        <Button
             android:id="@+id/ibTabPlane"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_tab_2"
+            android:background="@drawable/selector_tab_4"
             android:drawableTop="@drawable/ic_tab_plane"
             android:minWidth="120dp"
             android:onClick="onClick"
@@ -44,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_tab_4"
+            android:background="@drawable/selector_tab_2"
             android:drawableTop="@drawable/ic_tab_brt"
             android:minWidth="120dp"
             android:onClick="onClick"
@@ -57,27 +70,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_tab_3"
+            android:background="@drawable/selector_tab_6"
             android:drawableTop="@drawable/ic_tab_underground"
             android:minWidth="120dp"
             android:onClick="onClick"
             android:padding="20dp"
             android:src="@drawable/ic_tab_underground"
             android:text="@string/mnu_metro" />
-
-        <Button
-            android:id="@+id/ibTabNews"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/selector_tab_4"
-            android:drawableTop="@drawable/ic_tab_rss"
-            android:minWidth="120dp"
-            android:onClick="onClick"
-            android:padding="20dp"
-            android:src="@drawable/ic_tab_rss"
-            android:text="@string/mnu_news"
-            android:visibility="gone" />
 
         <Button
             android:id="@+id/ibTabContact"
@@ -97,7 +96,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/selector_tab_6"
+            android:background="@drawable/selector_tab_3"
             android:drawableTop="@drawable/ic_tab_about"
             android:minWidth="120dp"
             android:onClick="onClick"

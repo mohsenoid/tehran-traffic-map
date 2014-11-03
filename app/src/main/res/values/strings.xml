@@ -20,7 +20,7 @@
 		]]>
     </string>
     <string name="app_about">All information is provided by Tehran Traffic
-		Control Co.</string>
+		Control Co. &amp; Iran Roads Management Center</string>
     <string name="app_ver" translatable="false">3.2.2</string>
     <string name="app_design">Developed By: Mohsen Mirhoseini Argi</string>
     <string name="app_email" translatable="false">tehrantrafficmap@mirhoseini.info</string>
@@ -46,6 +46,8 @@
     <string name="mnu_metro_short">Metro</string>
     <string name="mnu_brt">BRT Map</string>
     <string name="mnu_brt_short">BRT</string>
+    <string name="mnu_road">Roads Traffic</string>
+    <string name="mnu_road_short">Roads</string>
     <string name="mnu_help">Help</string>
     <string name="mnu_help_short">Help</string>
     <string name="mnu_about">About</string>
@@ -63,4 +65,37 @@
     <string name="tileURL" translatable="false">http://31.24.237.150/TTCCTrafficWebSite/UploadedFiles/WebTrafficImages/web%1$s.png</string>
     <string name="purchase"><u>Buy ads free version</u></string>
 
+    <string-array name="states">
+        <item>East Azerbaijan</item>
+        <item>West Azerbaijan</item>
+        <item>Ardabil</item>
+        <item>Isfahan</item>
+        <item>Alborz</item>
+        <item>Ilam</item>
+        <item>Boushehr</item>
+        <item>Tehran</item>
+        <item>Chaharmahal And Bakhtiari</item>
+        <item>South Khorasan</item>
+        <item>Razavi Khorasan</item>
+        <item>North Khorasan</item>
+        <item>Khuzestan</item>
+        <item>Zanjan</item>
+        <item>Semnan</item>
+        <item>Sistan And Baluchestan</item>
+        <item>Fars</item>
+        <item>Qazvin</item>
+        <item>Qom</item>
+        <item>Kurdistan</item>
+        <item>Kerman</item>
+        <item>Kermanshah</item>
+        <item>Kohgiluyeh And Boyer-Ahmad</item>
+        <item>Golestan</item>
+        <item>Gilan</item>
+        <item>Lurestan</item>
+        <item>Mazandaran</item>
+        <item>Markazi</item>
+        <item>Hormozgan</item>
+        <item>Hamadan</item>
+        <item>Yazd</item>
+    </string-array>
 </resources>
