@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fullscreen_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/action_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            layout="@layout/tab_bar" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:id="@+id/flMain"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_page_bg" >
+
+                <include
+                    android:id="@+id/inMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    layout="@layout/map" />
+
+                <include
+                    android:id="@+id/inNews"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    layout="@layout/news"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/inContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    layout="@layout/contact"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/inAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    layout="@layout/about"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/llAds"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <ir.adad.AdView
+                    android:id="@+id/ad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    token="d8efa7999202494f80252e5539496795" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
