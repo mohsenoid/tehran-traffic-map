@@ -172,6 +172,8 @@ public class MainActivity extends Activity implements OnClickListener,
             loader = new DataLoader(context, tivMap, tvError);
         }
         loader.loadRoad(getState(), false);
+
+        checkLastUpdate();
     }
 
     @Override
@@ -562,14 +564,22 @@ public class MainActivity extends Activity implements OnClickListener,
                         || loader.getStatus() == Status.FINISHED) {
                     loader = new DataLoader(context, tivMap, tvError);
                 }
-                if (appState == ApplicationState.Traffic)
-                    loader.loadFile("newMap", "jpg", true);
-                else
-                    loader.loadTile(currentTile, true);
 
-                if (appState == ApplicationState.Traffic
-                        && loader.fileExist("oldMap"))
-                    ibPrev.setVisibility(Button.VISIBLE);
+                switch (appState) {
+                    case Traffic:
+                        loader.loadFile("newMap", "jpg", true);
+
+                        if (loader.fileExist("oldMap"))
+                            ibPrev.setVisibility(Button.VISIBLE);
+                        break;
+                    case Zoom:
+                        loader.loadTile(currentTile, true);
+                        break;
+                    case Road:
+                        loader.loadRoad(getState(), true);
+                        break;
+                }
+
                 break;
 
             case DialogInterface.BUTTON_NEGATIVE:
@@ -591,14 +601,26 @@ public class MainActivity extends Activity implements OnClickListener,
                     "TehranTrafficMap", 0);
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
                     Locale.US);
+            int interval = 5;
             Date lastUpdate = new Date();
-            if (appState == ApplicationState.Traffic)
-                lastUpdate = df.parse(settings.getString("newMap", ""));
-            else
-                lastUpdate = df.parse(settings.getString("newTile"
-                        + currentTile, ""));
+            switch (appState) {
+                case Traffic:
+                    lastUpdate = df.parse(settings.getString("newMap", ""));
+                    interval = 5;
+                    break;
+                case Zoom:
+                    lastUpdate = df.parse(settings.getString("newTile"
+                            + currentTile, ""));
+                    interval = 5;
+                    break;
+                case Road:
+                    lastUpdate = df.parse(settings.getString("newRoad"
+                            + getState(), ""));
+                    interval = 15;
+                    break;
+            }
             Date now = Calendar.getInstance().getTime();
-            lastUpdate.setMinutes(lastUpdate.getMinutes() + 5);
+            lastUpdate.setMinutes(lastUpdate.getMinutes() + interval);
             if ((long) lastUpdate.getTime() < (long) now.getTime()) {
                 showUpdateDialog();
             }
@@ -678,7 +700,7 @@ public class MainActivity extends Activity implements OnClickListener,
 
         findViewById(R.id.ibTabRoad).setEnabled(false);
 
-        //checkLastUpdate();
+        checkLastUpdate();
 
     }
 

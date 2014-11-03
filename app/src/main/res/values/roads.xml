@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="roads">
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_ITabriz.png</item>
+    <string-array name="roads" translatable="false">
+    <item>http://91.98.46.98/traffic_map/traffic_images/S_ITabriz.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IOromyeh.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IArdebil.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IEsfehan.png</item>
