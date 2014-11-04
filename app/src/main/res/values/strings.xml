@@ -64,6 +64,9 @@
     <string name="msg_tile_click">Tap on any part of map for more information&#8230;</string>
     <string name="tileURL" translatable="false">http://31.24.237.150/TTCCTrafficWebSite/UploadedFiles/WebTrafficImages/web%1$s.png</string>
     <string name="purchase"><u>Buy ads free version</u></string>
+    <string name="close">Close</string>
+    <string name="download">Download</string>
+    <string name="open">Open</string>
 
     <string-array name="states">
         <item>East Azerbaijan</item>

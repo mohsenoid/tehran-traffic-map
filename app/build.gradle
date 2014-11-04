@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.tehran.traffic"
         minSdkVersion 9
-        targetSdkVersion 18
+        targetSdkVersion 21
     }
     buildTypes {
         release {

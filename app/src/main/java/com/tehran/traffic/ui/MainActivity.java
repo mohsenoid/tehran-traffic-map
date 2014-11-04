@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
@@ -24,9 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.tehran.traffic.R;
+import com.tehran.traffic.models.CloudMessage;
 import com.tehran.traffic.network.DataLoader;
 import com.tehran.traffic.ui.NavigationView.OnNavigationListener;
 import com.tehran.traffic.ui.TouchImageView.OnTileListener;
@@ -59,6 +59,7 @@ public class MainActivity extends Activity implements OnClickListener,
     static int currentTile;
     static int currentRow;
     static int currentCol;
+    static String condition = "0";
     final String TAG = MainActivity.class.getName();
     final Context context = this;
     // Does the user have the premium upgrade?
@@ -162,6 +163,7 @@ public class MainActivity extends Activity implements OnClickListener,
     private View llAds, purchase1, purchase2;
     private boolean doubleBackToExitPressedOnce;
     private DataLoader loader;
+//    static String ms;
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -193,9 +195,19 @@ public class MainActivity extends Activity implements OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (checkPlayServices()) {
+        if (CloudMessage.checkPlayServices(this)) {
             // If this check succeeds, proceed with normal processing.
             // Otherwise, prompt user to get valid Play Services APK.
+        }
+
+        CloudMessage.startGCM(this);
+
+        condition = getIntent().getStringExtra("alert");
+        if (condition != null) {
+            String ms = getIntent().getStringExtra("msg");
+            alertCloudMessage(ms);
+        } else {
+
         }
 
         fillTiles();
@@ -245,6 +257,50 @@ public class MainActivity extends Activity implements OnClickListener,
             updateUi();
         }
 
+    }
+
+    private void alertCloudMessage(String ms) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(getResources().getString(R.string.app_name));
+        alertDialogBuilder
+                .setMessage(ms)
+                .setCancelable(false)
+                .setNegativeButton(getString(R.string.close), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        if (ms.contains("http")) {
+            // extract url from message
+            int start = ms.indexOf("http");
+
+            int len = ms.length();
+
+            int endSpace = ms.indexOf(" ", start);
+            endSpace = endSpace == -1 ? len : endSpace;
+
+            int endEnter = ms.indexOf("\n", start);
+            endEnter = endEnter == -1 ? len : endEnter;
+
+            final String url = ms.substring(start, Math.min(Math.min(endSpace, endEnter), len));
+
+            // remove url from message
+            //ms = ms.replaceFirst(url, "");
+
+            alertDialogBuilder.setPositiveButton(getString(R.string.open), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                }
+            });
+        }
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     private void updateUi() {
@@ -310,7 +366,8 @@ public class MainActivity extends Activity implements OnClickListener,
     protected void onResume() {
         super.onResume();
         doubleBackToExitPressedOnce = false;
-        checkPlayServices();
+
+        CloudMessage.checkPlayServices(this);
     }
 
     private void initForm() {
@@ -676,7 +733,8 @@ public class MainActivity extends Activity implements OnClickListener,
 
         findViewById(R.id.ibTabTraffic).setEnabled(false);
 
-        checkLastUpdate();
+        if (condition == null && firstRun)
+            checkLastUpdate();
     }
 
     public void showRoadMap() {
@@ -905,22 +963,6 @@ public class MainActivity extends Activity implements OnClickListener,
         mHelper = null;
     }
 
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil
-                .isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
 
     enum ApplicationState {
         Traffic, Road, Zoom, Plane, Metro, Brt, News, Contact, About

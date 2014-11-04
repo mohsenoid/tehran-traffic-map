@@ -3,14 +3,14 @@
     android:id="@+id/scrollViewAbout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true" >
+    android:fillViewport="true">
 
     <LinearLayout
         android:id="@+id/linearLayoutAbout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp" >
+        android:padding="15dp">
 
         <ImageView
             android:id="@+id/icIcon"
@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:adjustViewBounds="false"
             android:scaleType="fitEnd"
-            android:src="@drawable/icon" />
+            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/txtAppName"
@@ -38,8 +38,7 @@
             android:layout_gravity="center_horizontal"
             android:autoLink="none"
             android:gravity="center_horizontal"
-            android:text="@string/app_ver" >
-        </TextView>
+            android:text="@string/app_ver"></TextView>
 
         <Button
             android:id="@+id/purchase1"
@@ -65,16 +64,14 @@
             android:layout_weight="1"
             android:adjustViewBounds="false"
             android:scaleType="fitEnd"
-            android:src="@drawable/facebook" >
-        </ImageView>
+            android:src="@drawable/facebook"></ImageView>
 
         <TextView
             android:id="@+id/txtFacebook1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/app_facebook1" >
-        </TextView>
+            android:text="@string/app_facebook1"></TextView>
 
         <TextView
             android:id="@+id/txtFacebook2"
@@ -82,8 +79,7 @@
             android:layout_height="wrap_content"
             android:autoLink="web"
             android:gravity="center_horizontal"
-            android:text="@string/app_facebook2" >
-        </TextView>
+            android:text="@string/app_facebook2"></TextView>
 
         <ImageView
             android:id="@+id/imgGmail"
@@ -94,16 +90,14 @@
             android:layout_weight="1"
             android:adjustViewBounds="false"
             android:scaleType="fitEnd"
-            android:src="@drawable/gmail" >
-        </ImageView>
+            android:src="@drawable/gmail"></ImageView>
 
         <TextView
             android:id="@+id/txtDesigned"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/app_design" >
-        </TextView>
+            android:text="@string/app_design"></TextView>
 
         <TextView
             android:id="@+id/txtEmail"
@@ -112,8 +106,7 @@
             android:layout_weight="1"
             android:autoLink="email"
             android:gravity="center_horizontal"
-            android:text="@string/app_email" >
-        </TextView>
+            android:text="@string/app_email"></TextView>
     </LinearLayout>
 
 </ScrollView>

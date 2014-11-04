@@ -42,6 +42,9 @@
     <string name="msg_tile_click">برای نمایش اطلاعات بیشتر بر روی بخش مورد نظر خود بر روی نقشه کلیک نمایید&#8230;</string>
     <string name="msg_exit">جهت خروج مجدد كليد بازگشت را بزنيد&#8230;</string>
     <string name="purchase"><u>خرید نسخه بدون تبلیغات</u></string>
+    <string name="close">انصراف</string>
+    <string name="download">دانلود</string>
+    <string name="open">بازکردن</string>
 
     <string-array name="states">
         <item>آذربايجان شرقي</item>
