@@ -54,6 +54,7 @@ public class MainActivity extends Activity implements OnClickListener,
     static final int RC_REQUEST = 10001;
     final static int[][] tiles = new int[12][12];
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 0;
+    public static boolean firstRun = true;
     static ApplicationState appState = ApplicationState.Traffic;
     static int currentTile;
     static int currentRow;
@@ -150,7 +151,6 @@ public class MainActivity extends Activity implements OnClickListener,
         }
 
     };
-    boolean firstRun = true;
     TouchImageView tivMap;
     ImageButton ibPrev, ibNext, ibRefresh, ibPause, ibBack;
     ImageView ivRoadsHelp;
@@ -925,4 +925,5 @@ public class MainActivity extends Activity implements OnClickListener,
     enum ApplicationState {
         Traffic, Road, Zoom, Plane, Metro, Brt, News, Contact, About
     }
+
 }
