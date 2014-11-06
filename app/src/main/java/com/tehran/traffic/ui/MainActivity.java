@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.tehran.traffic.R;
 import com.tehran.traffic.models.CloudMessage;
 import com.tehran.traffic.network.DataLoader;
@@ -48,6 +50,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends Activity implements OnClickListener,
         DialogInterface.OnClickListener, OnTileListener, OnNavigationListener, AdapterView.OnItemSelectedListener {
+    public static final String FIRST_RUN = "firstRun";
     public static final String STATE_ID = "stateID";
     // SKUs for our products: the premium upgrade (non-consumable)
     static final String SKU_ADS = "ads";
@@ -55,7 +58,7 @@ public class MainActivity extends Activity implements OnClickListener,
     static final int RC_REQUEST = 10001;
     final static int[][] tiles = new int[12][12];
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 0;
-    public static boolean firstRun = true;
+    //    public static boolean firstRun = true;
     static ApplicationState appState = ApplicationState.Traffic;
     static int currentTile;
     static int currentRow;
@@ -63,33 +66,51 @@ public class MainActivity extends Activity implements OnClickListener,
     static String condition = "0";
     final String TAG = MainActivity.class.getName();
     final Context context = this;
+    EasyTracker easyTracker = EasyTracker.getInstance(this);
     // Does the user have the premium upgrade?
     boolean mIsAdsFree = false;
+
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result,
                                              Inventory inventory) {
             Log.d(TAG, "Query inventory finished.");
             if (result.isFailure()) {
+                easyTracker.send(MapBuilder
+                        .createEvent("IabHelper_query",     // Event category (required)
+                                "failure",  // Event action (required)
+                                "Failed to query inventory: " + result.getMessage(), // Event label
+                                null)            // Event value
+                        .build());
+
                 Log.d(TAG, "Failed to query inventory: " + result);
                 // mAdsFreeError = true;
                 updateUi();
                 return;
             } else {
+
+
                 Log.d(TAG, "Query inventory was successful.");
                 // does the user have the premium upgrade?
                 mIsAdsFree = inventory.hasPurchase(SKU_ADS);
 
-                // update UI accordingly
+                easyTracker.send(MapBuilder
+                        .createEvent("IabHelper_query",     // Event category (required)
+                                "successful",  // Event action (required)
+                                "User is " + (mIsAdsFree ? "premium" : "not premium"), // Event label
+                                null)            // Event value
+                        .build());
 
                 Log.d(TAG, "User is "
                         + (mIsAdsFree ? "PREMIUM" : "NOT PREMIUM"));
 
+                // update UI accordingly
                 updateUi();
             }
 
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
         }
     };
+
     boolean mAdsFreeError = false;
     // The helper object
     IabHelper mHelper;
@@ -115,6 +136,7 @@ public class MainActivity extends Activity implements OnClickListener,
             skuDetails.getPrice();
         }
     };
+
     // Callback for when a purchase is finished
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
@@ -142,6 +164,26 @@ public class MainActivity extends Activity implements OnClickListener,
             Log.d(TAG, "Purchase successful.");
 
             if (purchase.getSku().equals(SKU_ADS)) {
+                easyTracker.send(MapBuilder
+                        .createTransaction(purchase.getOrderId(),       // (String) Transaction ID
+                                purchase.getPackageName(),   // (String) Affiliation
+                                10000d,            // (Double) Order revenue
+                                741d,            // (Double) Tax
+                                2778d,             // (Double) Shipping
+                                "IRLS")            // (String) Currency code
+                        .build());
+
+                easyTracker.send(MapBuilder
+                                .createItem(purchase.getOrderId(),               // (String) Transaction ID
+                                        purchase.getPackageName(),      // (String) Product name
+                                        "L_789",                  // (String) Product SKU
+                                        purchase.getSku(),        // (String) Product category
+                                        10000d,                    // (Double) Product price
+                                        1L,                       // (Long) Product quantity
+                                        "IRLS")                    // (String) Currency code
+                                .build()
+                );
+
                 // bought the premium upgrade!
                 Log.d(TAG, "Purchase is premium upgrade. Congratulating user.");
                 Toast.makeText(context, "Thank you for upgrading to premium!",
@@ -153,6 +195,7 @@ public class MainActivity extends Activity implements OnClickListener,
         }
 
     };
+
     TouchImageView tivMap;
     ImageButton ibPrev, ibNext, ibRefresh, ibPause, ibBack;
     ImageView ivRoadsHelp;
@@ -188,7 +231,7 @@ public class MainActivity extends Activity implements OnClickListener,
     protected void onStart() {
         super.onStart();
 
-        EasyTracker.getInstance().activityStart(this); // Google Analytic
+        easyTracker.activityStart(this); // Google Analytic
     }
 
     @Override
@@ -196,19 +239,34 @@ public class MainActivity extends Activity implements OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (CloudMessage.checkPlayServices(this)) {
+        boolean hasPlayServices = CloudMessage.checkPlayServices(this);
+
+        if (hasPlayServices) {
             // If this check succeeds, proceed with normal processing.
             // Otherwise, prompt user to get valid Play Services APK.
+            easyTracker.send(MapBuilder
+                    .createEvent("play_services",     // Event category (required)
+                            "check_play_services",  // Event action (required)
+                            "with_play_services",   // Event label
+                            null)            // Event value
+                    .build());
+        } else {
+            easyTracker.send(MapBuilder
+                    .createEvent("play_services",     // Event category (required)
+                            "check_play_services",  // Event action (required)
+                            "without_play_services",   // Event label
+                            null)            // Event value
+                    .build());
         }
 
+        // start GCM
         CloudMessage.startGCM(this);
 
+        // show GCM alert
         condition = getIntent().getStringExtra("alert");
         if (condition != null) {
             String ms = getIntent().getStringExtra("msg");
             alertCloudMessage(ms);
-        } else {
-
         }
 
         fillTiles();
@@ -219,13 +277,44 @@ public class MainActivity extends Activity implements OnClickListener,
 
         switchView();
 
-        if (!isConnected())
-            tvError.setVisibility(View.VISIBLE);
+        if (!isConnected()) {
+            easyTracker.send(MapBuilder
+                    .createEvent("internet",     // Event category (required)
+                            "check_internet_connection",  // Event action (required)
+                            "offline",   // Event label
+                            null)            // Event value
+                    .build());
 
-        if (firstRun) {
+            tvError.setVisibility(View.VISIBLE);
+        } else {
+            easyTracker.send(MapBuilder
+                    .createEvent("internet",     // Event category (required)
+                            "check_internet_connection",  // Event action (required)
+                            "online",   // Event label
+                            null)            // Event value
+                    .build());
+        }
+
+        if (isFirstRun()) {
+            easyTracker.send(MapBuilder
+                    .createEvent("first_run",     // Event category (required)
+                            "check_first_run",  // Event action (required)
+                            "is_first_run",   // Event label
+                            null)            // Event value
+                    .build());
+
+            // show tiles tap help
             Toast.makeText(context, R.string.msg_tile_click, Toast.LENGTH_LONG)
                     .show();
-            firstRun = false;
+
+            setFirstRun(false);
+        } else {
+            easyTracker.send(MapBuilder
+                    .createEvent("first_run",     // Event category (required)
+                            "check_first_run",  // Event action (required)
+                            "is_not_first_run",   // Event label
+                            null)            // Event value
+                    .build());
         }
 
         // in app billing
@@ -244,15 +333,35 @@ public class MainActivity extends Activity implements OnClickListener,
                     Log.d(TAG, "Setup finished.");
 
                     if (!result.isSuccess()) {
+                        easyTracker.send(MapBuilder
+                                .createEvent("IabHelper_setup",     // Event category (required)
+                                        "error",  // Event action (required)
+                                        "Problem setting up In-app Billing: " + result.getMessage(), // Event label
+                                        null)            // Event value
+                                .build());
                         // Oh noes, there was a problem.
                         Log.d(TAG, "Problem setting up In-app Billing: "
                                 + result);
                     }
+
+                    easyTracker.send(MapBuilder
+                            .createEvent("IabHelper_setup",     // Event category (required)
+                                    "successful",  // Event action (required)
+                                    "done", // Event label
+                                    null)            // Event value
+                            .build());
                     // Hooray, IAB is fully set up!
                     mHelper.queryInventoryAsync(mGotInventoryListener);
                 }
             });
         } catch (Exception e) {
+            easyTracker.send(MapBuilder
+                    .createEvent("IabHelper_setup",     // Event category (required)
+                            "error",  // Event action (required)
+                            e.getMessage(),   // Event label
+                            null)            // Event value
+                    .build());
+
             e.printStackTrace();
             mAdsFreeError = true;
             updateUi();
@@ -261,6 +370,13 @@ public class MainActivity extends Activity implements OnClickListener,
     }
 
     private void alertCloudMessage(String ms) {
+        easyTracker.send(MapBuilder
+                .createEvent("gcm",     // Event category (required)
+                        "message",  // Event action (required)
+                        ms,   // Event label
+                        null)            // Event value
+                .build());
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(getResources().getString(R.string.app_name));
         alertDialogBuilder
@@ -320,17 +436,21 @@ public class MainActivity extends Activity implements OnClickListener,
         }
     }
 
-    // private boolean isFirstRun() {
-    // boolean firstRun = PreferenceManager.getDefaultSharedPreferences(
-    // context).getBoolean("firstRun", true);
-    // //set first run
-    // Editor editor = PreferenceManager.getDefaultSharedPreferences(context)
-    // .edit();
-    // editor.putBoolean("firstRun", false);
-    // editor.commit();
-    //
-    // return firstRun;
-    // }
+    private boolean isFirstRun() {
+        boolean firstRun = PreferenceManager.getDefaultSharedPreferences(
+                context).getBoolean(FIRST_RUN, true);
+
+
+        return firstRun;
+    }
+
+    private void setFirstRun(boolean value) {
+        //set first run
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context)
+                .edit();
+        editor.putBoolean(FIRST_RUN, value);
+        editor.commit();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -408,17 +528,34 @@ public class MainActivity extends Activity implements OnClickListener,
         spState.setSelection(getState());
         spState.setOnItemSelectedListener(this);
 
+
         llAds = findViewById(R.id.llAds);
         purchase1 = findViewById(R.id.purchase1);
         purchase2 = findViewById(R.id.purchase2);
     }
 
     private int getState() {
-        return getSharedPreferences(
+        int stateID = getSharedPreferences(
                 "TehranTrafficMap", 0).getInt(STATE_ID, getResources().getInteger(R.integer.defaultRoadState));
+
+        easyTracker.send(MapBuilder
+                .createEvent("shared_preferences",     // Event category (required)
+                        "get_state",  // Event action (required)
+                        "state_id",   // Event label
+                        (long) stateID)            // Event value
+                .build());
+
+        return stateID;
     }
 
     private void setState(int stateID) {
+        easyTracker.send(MapBuilder
+                .createEvent("shared_preferences",     // Event category (required)
+                        "set_state",  // Event action (required)
+                        "state_id",   // Event label
+                        (long) stateID)            // Event value
+                .build());
+
         SharedPreferences.Editor editor = getSharedPreferences(
                 "TehranTrafficMap", 0).edit();
         editor.putInt(STATE_ID, stateID);
@@ -475,18 +612,41 @@ public class MainActivity extends Activity implements OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ibPrev:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "button_press",  // Event action (required)
+                                "ib_prev",   // Event label
+                                null)            // Event value
+                        .build());
+
                 ibPrev.setVisibility(Button.INVISIBLE);
                 ibNext.setVisibility(Button.VISIBLE);
                 loader.loadPrev();
                 break;
 
             case R.id.ibNext:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "button_press",  // Event action (required)
+                                "ib_next",   // Event label
+                                null)            // Event value
+                        .build());
+
                 ibPrev.setVisibility(Button.VISIBLE);
                 ibNext.setVisibility(Button.INVISIBLE);
                 showTrafficMap();
                 break;
             case R.id.ibRefresh:
+
+
                 if (appState == ApplicationState.Traffic) {
+                    easyTracker.send(MapBuilder
+                            .createEvent("ui_action",     // Event category (required)
+                                    "button_press",  // Event action (required)
+                                    "ib_refresh_traffic",   // Event label
+                                    null)            // Event value
+                            .build());
+
                     if (loader == null || loader.isCancelled()
                             || loader.getStatus() == Status.FINISHED) {
                         loader = new DataLoader(MainActivity.this, tivMap, tvError);
@@ -495,6 +655,13 @@ public class MainActivity extends Activity implements OnClickListener,
 
                     ibPrev.setVisibility(Button.VISIBLE);
                 } else if (appState == ApplicationState.Road) {
+                    easyTracker.send(MapBuilder
+                            .createEvent("ui_action",     // Event category (required)
+                                    "button_press",  // Event action (required)
+                                    "ib_refresh_road",   // Event label
+                                    null)            // Event value
+                            .build());
+
                     if (loader == null || loader.isCancelled()
                             || loader.getStatus() == Status.FINISHED) {
                         loader = new DataLoader(MainActivity.this, tivMap, tvError);
@@ -504,25 +671,67 @@ public class MainActivity extends Activity implements OnClickListener,
                 break;
 
             case R.id.ibBack:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "button_press",  // Event action (required)
+                                "ib_back",   // Event label
+                                null)            // Event value
+                        .build());
+
                 switchView();
                 break;
             case R.id.ibTabTraffic:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "tab_press",  // Event action (required)
+                                "ib_tab_traffic",   // Event label
+                                null)            // Event value
+                        .build());
+
                 appState = ApplicationState.Traffic;
                 switchView();
                 break;
             case R.id.ibTabRoad:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "tab_press",  // Event action (required)
+                                "ib_tab_road",   // Event label
+                                null)            // Event value
+                        .build());
+
                 appState = ApplicationState.Road;
                 switchView();
                 break;
             case R.id.ibTabPlane:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "tab_press",  // Event action (required)
+                                "ib_tab_plane",   // Event label
+                                null)            // Event value
+                        .build());
+
                 appState = ApplicationState.Plane;
                 switchView();
                 break;
             case R.id.ibTabMetro:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "tab_press",  // Event action (required)
+                                "ib_tab_metro",   // Event label
+                                null)            // Event value
+                        .build());
+
                 appState = ApplicationState.Metro;
                 switchView();
                 break;
             case R.id.ibTabBrt:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "tab_press",  // Event action (required)
+                                "ib_tab_brt",   // Event label
+                                null)            // Event value
+                        .build());
+
                 appState = ApplicationState.Brt;
                 switchView();
                 break;
@@ -531,15 +740,42 @@ public class MainActivity extends Activity implements OnClickListener,
 //                switchView();
 //                break;
             case R.id.ibTabContact:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "tab_press",  // Event action (required)
+                                "ib_tab_contact",   // Event label
+                                null)            // Event value
+                        .build());
+
                 appState = ApplicationState.Contact;
                 switchView();
                 break;
             case R.id.ibTabAbout:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "tab_press",  // Event action (required)
+                                "ib_tab_about",   // Event label
+                                null)            // Event value
+                        .build());
+
                 appState = ApplicationState.About;
                 switchView();
                 break;
             case R.id.purchase1:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "purchase_press",  // Event action (required)
+                                "purchase_contact",   // Event label
+                                null)            // Event value
+                        .build());
             case R.id.purchase2:
+                easyTracker.send(MapBuilder
+                        .createEvent("ui_action",     // Event category (required)
+                                "purchase_press",  // Event action (required)
+                                "purchase_about",   // Event label
+                                null)            // Event value
+                        .build());
+
                 // prePurchase();
                 purchase();
                 break;
@@ -603,6 +839,13 @@ public class MainActivity extends Activity implements OnClickListener,
                     if (row > 0 && row < 12 && col > 0 && col < 12)
                         if (tiles[row][col] != 0) {
                             currentTile = tiles[row][col];
+                            easyTracker.send(MapBuilder
+                                    .createEvent("ui_action",     // Event category (required)
+                                            "tile_press",  // Event action (required)
+                                            "tile: " + currentTile,   // Event label
+                                            null)            // Event value
+                                    .build());
+
                             currentRow = row;
                             currentCol = col;
                             appState = ApplicationState.Zoom;
@@ -625,15 +868,36 @@ public class MainActivity extends Activity implements OnClickListener,
 
                 switch (appState) {
                     case Traffic:
+                        easyTracker.send(MapBuilder
+                                .createEvent("ui_action",     // Event category (required)
+                                        "dialog_button_press",  // Event action (required)
+                                        "update_traffic",   // Event label
+                                        null)            // Event value
+                                .build());
+
                         loader.loadFile("newMap", "jpg", true);
 
                         if (loader.fileExist("oldMap"))
                             ibPrev.setVisibility(Button.VISIBLE);
                         break;
                     case Zoom:
+                        easyTracker.send(MapBuilder
+                                .createEvent("ui_action",     // Event category (required)
+                                        "dialog_button_press",  // Event action (required)
+                                        "update_tile",   // Event label
+                                        null)            // Event value
+                                .build());
+
                         loader.loadTile(currentTile, true);
                         break;
                     case Road:
+                        easyTracker.send(MapBuilder
+                                .createEvent("ui_action",     // Event category (required)
+                                        "dialog_button_press",  // Event action (required)
+                                        "update_road",   // Event label
+                                        null)            // Event value
+                                .build());
+
                         loader.loadRoad(getState(), true);
                         break;
                 }
@@ -641,7 +905,32 @@ public class MainActivity extends Activity implements OnClickListener,
                 break;
 
             case DialogInterface.BUTTON_NEGATIVE:
-                // Nothing to do!
+                switch (appState) {
+                    case Traffic:
+                        easyTracker.send(MapBuilder
+                                .createEvent("ui_action",     // Event category (required)
+                                        "dialog_button_press",  // Event action (required)
+                                        "cancel_update_traffic",   // Event label
+                                        null)            // Event value
+                                .build());
+                        break;
+                    case Zoom:
+                        easyTracker.send(MapBuilder
+                                .createEvent("ui_action",     // Event category (required)
+                                        "dialog_button_press",  // Event action (required)
+                                        "cancel_update_tile",   // Event label
+                                        null)            // Event value
+                                .build());
+                        break;
+                    case Road:
+                        easyTracker.send(MapBuilder
+                                .createEvent("ui_action",     // Event category (required)
+                                        "dialog_button_press",  // Event action (required)
+                                        "cancel_update_road",   // Event label
+                                        null)            // Event value
+                                .build());
+                        break;
+                }
                 break;
         }
     }
@@ -701,7 +990,7 @@ public class MainActivity extends Activity implements OnClickListener,
                         .setNegativeButton(getString(R.string.msg_no),
                                 MainActivity.this).show();
             } else {
-                Log.i("test", "WTF!");
+                Log.wtf(TAG, "WTF!");
             }
         }
     }
@@ -734,7 +1023,7 @@ public class MainActivity extends Activity implements OnClickListener,
 
         findViewById(R.id.ibTabTraffic).setEnabled(false);
 
-        if (condition == null && firstRun)
+        if (condition == null && isFirstRun())
             checkLastUpdate();
     }
 
@@ -907,11 +1196,18 @@ public class MainActivity extends Activity implements OnClickListener,
     protected void onStop() {
         super.onStop();
 
-        EasyTracker.getInstance().activityStop(this); // Google Analytic
+        easyTracker.activityStop(this); // Google Analytic
     }
 
     @Override
     public void onDownClick(View v) {
+        easyTracker.send(MapBuilder
+                .createEvent("ui_action",     // Event category (required)
+                        "navigation_button_press",  // Event action (required)
+                        "down",   // Event label
+                        null)            // Event value
+                .build());
+
         currentRow++;
         currentTile = tiles[currentRow][currentCol];
         switchView();
@@ -920,6 +1216,13 @@ public class MainActivity extends Activity implements OnClickListener,
 
     @Override
     public void onLeftClick(View v) {
+        easyTracker.send(MapBuilder
+                .createEvent("ui_action",     // Event category (required)
+                        "navigation_button_press",  // Event action (required)
+                        "left",   // Event label
+                        null)            // Event value
+                .build());
+
         currentCol--;
         currentTile = tiles[currentRow][currentCol];
         switchView();
@@ -928,6 +1231,13 @@ public class MainActivity extends Activity implements OnClickListener,
 
     @Override
     public void onUpClick(View v) {
+        easyTracker.send(MapBuilder
+                .createEvent("ui_action",     // Event category (required)
+                        "navigation_button_press",  // Event action (required)
+                        "up",   // Event label
+                        null)            // Event value
+                .build());
+
         currentRow--;
         currentTile = tiles[currentRow][currentCol];
         switchView();
@@ -936,6 +1246,13 @@ public class MainActivity extends Activity implements OnClickListener,
 
     @Override
     public void onRightClick(View v) {
+        easyTracker.send(MapBuilder
+                .createEvent("ui_action",     // Event category (required)
+                        "navigation_button_press",  // Event action (required)
+                        "right",   // Event label
+                        null)            // Event value
+                .build());
+
         currentCol++;
         currentTile = tiles[currentRow][currentCol];
         switchView();
