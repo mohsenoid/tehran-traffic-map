@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.ExceptionReporter;
+import com.google.analytics.tracking.android.GAServiceManager;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.tehran.traffic.R;
 import com.tehran.traffic.models.CloudMessage;
@@ -176,8 +178,8 @@ public class MainActivity extends Activity implements OnClickListener,
                 easyTracker.send(MapBuilder
                                 .createItem(purchase.getOrderId(),               // (String) Transaction ID
                                         purchase.getPackageName(),      // (String) Product name
-                                        "L_789",                  // (String) Product SKU
-                                        purchase.getSku(),        // (String) Product category
+                                        purchase.getSku(),                  // (String) Product SKU
+                                        "cafebazaar",        // (String) Product category
                                         10000d,                    // (Double) Product price
                                         1L,                       // (Long) Product quantity
                                         "IRLS")                    // (String) Currency code
@@ -240,6 +242,8 @@ public class MainActivity extends Activity implements OnClickListener,
         setContentView(R.layout.activity_main);
 
         easyTracker = EasyTracker.getInstance(this);
+
+        uncaughtExceptionHandler();
 
         boolean hasPlayServices = CloudMessage.checkPlayServices(this);
 
@@ -369,6 +373,15 @@ public class MainActivity extends Activity implements OnClickListener,
             updateUi();
         }
 
+    }
+
+    private void uncaughtExceptionHandler() {
+        Thread.UncaughtExceptionHandler myHandler = new ExceptionReporter(easyTracker,
+                GAServiceManager.getInstance(),
+                Thread.getDefaultUncaughtExceptionHandler(), this);
+
+        // Make myHandler the new default uncaught exception handler.
+        Thread.setDefaultUncaughtExceptionHandler(myHandler);
     }
 
     private void alertCloudMessage(String ms) {
