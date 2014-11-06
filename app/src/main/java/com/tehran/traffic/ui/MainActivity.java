@@ -66,7 +66,7 @@ public class MainActivity extends Activity implements OnClickListener,
     static String condition = "0";
     final String TAG = MainActivity.class.getName();
     final Context context = this;
-    EasyTracker easyTracker = EasyTracker.getInstance(this);
+    EasyTracker easyTracker;
     // Does the user have the premium upgrade?
     boolean mIsAdsFree = false;
 
@@ -238,6 +238,8 @@ public class MainActivity extends Activity implements OnClickListener,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        easyTracker = EasyTracker.getInstance(this);
 
         boolean hasPlayServices = CloudMessage.checkPlayServices(this);
 
