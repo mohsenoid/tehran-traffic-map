@@ -1,37 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="roads" translatable="false">
-    <item>http://91.98.46.98/traffic_map/traffic_images/S_ITabriz.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IOromyeh.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IArdebil.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IEsfehan.png</item>
+    <string-array name="roads">
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IKaraj.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IIlam.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IArdebil.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_ITabriz.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IOromyeh.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IBoshehr.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_ITehran.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IShahrkord.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IJonobi.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IMashhad.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IShomali.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IAhvaz.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IZanjan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_ISemnan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IZahedan.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IShiraz.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGhazvin.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IQom.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_ISanandaj.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGilan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGolestan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IHamedan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IBandar.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IIlam.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IEsfehan.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IKerman.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IKermanshah.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IShomali.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IMashhad.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IJonobi.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IAhvaz.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IYasoj.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGolestan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGilan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_ISanandaj.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IKhoramabad.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IMazandaran.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IArak.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IBandar.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IHamedan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IMazandaran.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGhazvin.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IQom.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_ISemnan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IZahedan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_ITehran.png</item>
         <item>http://91.98.46.98/traffic_map/traffic_images/S_IYazd.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IZanjan.png</item>
     </string-array>
 
+    <string-array name="states">
+        <item>Alborz</item>
+        <item>Ardabil</item>
+        <item>East Azerbaijan</item>
+        <item>West Azerbaijan</item>
+        <item>Boushehr</item>
+        <item>Chaharmahal And Bakhtiari</item>
+        <item>Fars</item>
+        <item>Gilan</item>
+        <item>Golestan</item>
+        <item>Hamadan</item>
+        <item>Hormozgan</item>
+        <item>Ilam</item>
+        <item>Isfahan</item>
+        <item>Kerman</item>
+        <item>Kermanshah</item>
+        <item>North Khorasan</item>
+        <item>Razavi Khorasan</item>
+        <item>South Khorasan</item>
+        <item>Khuzestan</item>
+        <item>Kohgiluyeh And Boyer-Ahmad</item>
+        <item>Kurdistan</item>
+        <item>Lurestan</item>
+        <item>Markazi</item>
+        <item>Mazandaran</item>
+        <item>Qazvin</item>
+        <item>Qom</item>
+        <item>Semnan</item>
+        <item>Sistan And Baluchestan</item>
+        <item>Tehran</item>
+        <item>Yazd</item>
+        <item>Zanjan</item>
+    </string-array>
 </resources>

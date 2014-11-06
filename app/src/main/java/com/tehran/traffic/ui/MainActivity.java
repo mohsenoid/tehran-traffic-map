@@ -48,6 +48,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends Activity implements OnClickListener,
         DialogInterface.OnClickListener, OnTileListener, OnNavigationListener, AdapterView.OnItemSelectedListener {
+    public static final String STATE_ID = "stateID";
     // SKUs for our products: the premium upgrade (non-consumable)
     static final String SKU_ADS = "ads";
     // (arbitrary) request code for the purchase flow
@@ -414,13 +415,13 @@ public class MainActivity extends Activity implements OnClickListener,
 
     private int getState() {
         return getSharedPreferences(
-                "TehranTrafficMap", 0).getInt("stateID", 7);
+                "TehranTrafficMap", 0).getInt(STATE_ID, getResources().getInteger(R.integer.defaultRoadState));
     }
 
     private void setState(int stateID) {
         SharedPreferences.Editor editor = getSharedPreferences(
                 "TehranTrafficMap", 0).edit();
-        editor.putInt("stateID", stateID);
+        editor.putInt(STATE_ID, stateID);
         editor.commit();
     }
 

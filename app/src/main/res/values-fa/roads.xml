@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="roads">
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_ITabriz.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IOromyeh.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IArdebil.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IEsfehan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IKaraj.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IIlam.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IBoshehr.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_ITehran.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IShahrkord.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IJonobi.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IMashhad.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IShomali.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IAhvaz.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IZanjan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_ISemnan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IZahedan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IShiraz.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGhazvin.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IQom.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_ISanandaj.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IKerman.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IKermanshah.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IYasoj.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGolestan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGilan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IKhoramabad.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IMazandaran.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IArak.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IBandar.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IHamedan.png</item>
+        <item>http://91.98.46.98/traffic_map/traffic_images/S_IYazd.png</item>
+    </string-array>
+
+    <string-array name="states">
+        <item>آذربايجان شرقي</item>
+        <item>آذربايجان غربي</item>
+        <item>اردبيل</item>
+        <item>اصفهان</item>
+        <item>البرز</item>
+        <item>ايلام</item>
+        <item>بوشهر</item>
+        <item>تهران</item>
+        <item>چهار محال و بختياري</item>
+        <item>خراسان جنوبي</item>
+        <item>خراسان رضوي</item>
+        <item>خراسان شمالي</item>
+        <item>خوزستان</item>
+        <item>زنجان</item>
+        <item>سمنان</item>
+        <item>سيستان و بلوچستان</item>
+        <item>فارس</item>
+        <item>قزوين</item>
+        <item>قم</item>
+        <item>كردستان</item>
+        <item>كرمان</item>
+        <item>كرمانشاه</item>
+        <item>كهگيلويه و بويراحمد</item>
+        <item>گلستان</item>
+        <item>گيلان</item>
+        <item>لرستان</item>
+        <item>مازندران</item>
+        <item>مركزي</item>
+        <item>هرمزگان</item>
+        <item>همدان</item>
+        <item>یزد</item>
+    </string-array>
+</resources>
