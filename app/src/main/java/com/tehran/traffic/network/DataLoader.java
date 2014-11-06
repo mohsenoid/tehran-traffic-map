@@ -12,6 +12,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.tehran.traffic.R;
 import com.tehran.traffic.models.RoadData;
 import com.tehran.traffic.ui.MainActivity;
@@ -32,11 +34,16 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     Context context;
     TouchImageView tivMap;
     TextView tvError;
+    long startTime;
+    long endTime;
+    private EasyTracker easyTracker;
 
     public DataLoader(Context context, TouchImageView tivMap, TextView tvError) {
         this.context = context;
         this.tivMap = tivMap;
         this.tvError = tvError;
+
+        this.easyTracker = EasyTracker.getInstance(context);
     }
 
     @Override
@@ -52,6 +59,8 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
                         ((MainActivity) context).showTrafficMap();
                     }
                 });
+
+        startTime = Calendar.getInstance().getTimeInMillis();
         super.onPreExecute();
     }
 
@@ -137,6 +146,16 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean done) {
+        endTime = Calendar.getInstance().getTimeInMillis();
+
+        easyTracker.send(MapBuilder
+                        .createTiming("network",    // Timing category (required)
+                                endTime - startTime,       // Timing interval in milliseconds (required)
+                                "download_image",  // Timing name
+                                null)           // Timing label
+                        .build()
+        );
+
         if (done) {
             tvError.post(new Runnable() {
 
