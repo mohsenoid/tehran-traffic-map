@@ -1,4 +1,4 @@
-com.tehran.traffic
+tehran_traffic_map
 ==================
 
 <b>Tehran Traffic Map Android Application</b><br />
