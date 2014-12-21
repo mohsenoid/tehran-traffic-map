@@ -35,7 +35,7 @@ public class CloudMessage {
     private static final String TAG = CloudMessage.class.getName();
 
     static String SENDER_ID = "247656184528";
-    static String URL = "http://mirhoseini.info";
+    static String URL = "http://mirhoseini.com";
     static GoogleCloudMessaging gcm;
     static AtomicInteger msgId = new AtomicInteger();
     static SharedPreferences prefs;
