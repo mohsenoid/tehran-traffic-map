@@ -3,8 +3,6 @@
     android:id="@+id/scrollViewHelp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
     android:layout_margin="10dp"
     android:fillViewport="true">
 
@@ -13,10 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:weightSum="4">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
@@ -63,7 +62,7 @@
 
         <Button
             android:id="@+id/purchase2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
@@ -74,7 +73,7 @@
             android:text="@string/purchase"
             android:textColor="@color/button"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </LinearLayout>
 
 </ScrollView>

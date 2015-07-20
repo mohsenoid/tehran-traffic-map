@@ -60,6 +60,7 @@ public class CloudMessage {
         }
     }
 
+
     public static boolean checkPlayServices(Activity activity) {
         int resultCode = GooglePlayServicesUtil
                 .isGooglePlayServicesAvailable(activity);

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -71,7 +72,40 @@ public class MainActivity extends Activity implements OnClickListener,
     EasyTracker easyTracker;
     // Does the user have the premium upgrade?
     boolean mIsAdsFree = false;
+    boolean mAdsFreeError = false;
+    // The helper object
+    IabHelper mHelper;
+    IabHelper.QueryInventoryFinishedListener mQueryInventoryFinishedListener = new QueryInventoryFinishedListener() {
 
+        @Override
+        public void onQueryInventoryFinished(IabResult result, Inventory inv) {
+            Log.d(TAG, "PrePurchase finished: " + result + ", Inventory: "
+                    + inv);
+
+            // if we were disposed of in the meantime, quit.
+            if (mHelper == null)
+                return;
+
+            if (result.isFailure()) {
+                Toast.makeText(context, "Error query: " + result,
+                        Toast.LENGTH_LONG).show();
+                // setWaitScreen(false);
+                return;
+            }
+
+            SkuDetails skuDetails = inv.getSkuDetails(SKU_ADS);
+            skuDetails.getPrice();
+        }
+    };
+    TouchImageView tivMap;
+    ImageButton ibPrev, ibNext, ibRefresh, ibPause, ibBack;
+    ImageView ivRoadsHelp;
+    Spinner spState;
+    NavigationView nvMap;
+    TextView tvError;
+    View inMap, inNews, inAbout, inContact;
+    Dialog updateDialog;
+    private View llAds, purchase1, purchase2;
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result,
                                              Inventory inventory) {
@@ -112,33 +146,6 @@ public class MainActivity extends Activity implements OnClickListener,
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
         }
     };
-
-    boolean mAdsFreeError = false;
-    // The helper object
-    IabHelper mHelper;
-    IabHelper.QueryInventoryFinishedListener mQueryInventoryFinishedListener = new QueryInventoryFinishedListener() {
-
-        @Override
-        public void onQueryInventoryFinished(IabResult result, Inventory inv) {
-            Log.d(TAG, "PrePurchase finished: " + result + ", Inventory: "
-                    + inv);
-
-            // if we were disposed of in the meantime, quit.
-            if (mHelper == null)
-                return;
-
-            if (result.isFailure()) {
-                Toast.makeText(context, "Error query: " + result,
-                        Toast.LENGTH_LONG).show();
-                // setWaitScreen(false);
-                return;
-            }
-
-            SkuDetails skuDetails = inv.getSkuDetails(SKU_ADS);
-            skuDetails.getPrice();
-        }
-    };
-
     // Callback for when a purchase is finished
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
@@ -197,16 +204,6 @@ public class MainActivity extends Activity implements OnClickListener,
         }
 
     };
-
-    TouchImageView tivMap;
-    ImageButton ibPrev, ibNext, ibRefresh, ibPause, ibBack;
-    ImageView ivRoadsHelp;
-    Spinner spState;
-    NavigationView nvMap;
-    TextView tvError;
-    View inMap, inNews, inAbout, inContact;
-    Dialog updateDialog;
-    private View llAds, purchase1, purchase2;
     private boolean doubleBackToExitPressedOnce;
     private DataLoader loader;
 //    static String ms;
@@ -245,7 +242,7 @@ public class MainActivity extends Activity implements OnClickListener,
 
         uncaughtExceptionHandler();
 
-        boolean hasPlayServices = CloudMessage.checkPlayServices(this);
+        /*boolean hasPlayServices = CloudMessage.checkPlayServices(this);
 
         if (hasPlayServices) {
             // If this check succeeds, proceed with normal processing.
@@ -264,7 +261,7 @@ public class MainActivity extends Activity implements OnClickListener,
                             null)            // Event value
                     .build());
         }
-
+*/
         // start GCM
         CloudMessage.startGCM(this);
 
@@ -1038,6 +1035,8 @@ public class MainActivity extends Activity implements OnClickListener,
 
         findViewById(R.id.ibTabTraffic).setEnabled(false);
 
+        tivMap.setBackgroundColor(Color.TRANSPARENT);
+
         if (condition == null && isFirstRun())
             checkLastUpdate();
     }
@@ -1062,6 +1061,8 @@ public class MainActivity extends Activity implements OnClickListener,
         loader.loadRoad(getState(), false);
 
         findViewById(R.id.ibTabRoad).setEnabled(false);
+
+        tivMap.setBackgroundResource(R.drawable.shape_page_bg_white);
 
         checkLastUpdate();
 
@@ -1088,6 +1089,8 @@ public class MainActivity extends Activity implements OnClickListener,
         loader.loadTile(currentTile, false);
 
         findViewById(R.id.ibTabTraffic).setEnabled(false);
+
+        tivMap.setBackgroundColor(Color.TRANSPARENT);
 
         checkLastUpdate();
 
@@ -1125,6 +1128,8 @@ public class MainActivity extends Activity implements OnClickListener,
         loader.loadPlane();
 
         findViewById(R.id.ibTabPlane).setEnabled(false);
+
+        tivMap.setBackgroundResource(R.drawable.shape_page_bg_white);
     }
 
     private void showMetroMap() {
@@ -1144,6 +1149,8 @@ public class MainActivity extends Activity implements OnClickListener,
         loader.loadMetro();
 
         findViewById(R.id.ibTabMetro).setEnabled(false);
+
+        tivMap.setBackgroundResource(R.drawable.shape_page_bg_white);
     }
 
     private void showBrtMap() {
@@ -1163,6 +1170,8 @@ public class MainActivity extends Activity implements OnClickListener,
         loader.loadBrt();
 
         findViewById(R.id.ibTabBrt).setEnabled(false);
+
+        tivMap.setBackgroundResource(R.drawable.shape_page_bg_white);
     }
 
     private void showContact() {

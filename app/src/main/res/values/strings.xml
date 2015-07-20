@@ -2,26 +2,14 @@
 <resources>
 
     <string name="app_name">Tehran Traffic Map</string>
-    <string name="mapURL" translatable="false">http://www.tehrantraffic.com/trafficmap/map.asp</string>
-    <string name="imgURL_old" translatable="false">http://www.tehrantraffic.com/trafficmap/ShowImage.asp</string>
-    <string name="imgURL" translatable="false">http://31.24.237.150/TTCCTrafficWebSite/UploadedFiles/WebTrafficImages/Web0.png</string>
-    <string name="videoURL" translatable="false">http://www.tehrantraffic.com/trafficmap/vmap/vmap.gif</string>
-    <string name="rssURL" translatable="false">http://trafficcontrol.tehran.ir/DesktopModules/DNNArticle/DNNArticleRSS.aspx?portalid=0&amp;moduleid=410</string>
-    <string name="imgPage">
-<![CDATA[
-			<html>
-			 <head></head>
-			 <body>
-				 <center>
-				 	<img src="http://www.tehrantraffic.com/trafficmap/ShowImage.asp" />
-				 </center>
-			 </body>
-			</html>
-		]]>
-    </string>
+    <!--<string name="mapURL" translatable="false">http://www.tehrantraffic.com/trafficmap/map.asp</string>-->
+    <!--<string name="imgURL_old" translatable="false">http://www.tehrantraffic.com/trafficmap/ShowImage.asp</string>-->
+    <string name="imgURL" translatable="false">http://ttmap.link/map-tehran</string>
+    <!--<string name="videoURL" translatable="false">http://www.tehrantraffic.com/trafficmap/vmap/vmap.gif</string>-->
+    <!--<string name="rssURL" translatable="false">http://trafficcontrol.tehran.ir/DesktopModules/DNNArticle/DNNArticleRSS.aspx?portalid=0&amp;moduleid=410</string>-->
     <string name="app_about">All information is provided by Tehran Traffic
 		Control Co. &amp; Iran Roads Management Center</string>
-    <string name="app_ver" translatable="false">4.0.2</string>
+    <string name="app_ver" translatable="false">4.0.3</string>
     <string name="app_design">Developed By: Mohsen Mirhoseini Argi</string>
     <string name="app_email" translatable="false">tehrantrafficmap@mirhoseini.info</string>
     <string name="app_facebook1">Follow us:</string>

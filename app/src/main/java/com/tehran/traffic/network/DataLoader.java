@@ -186,6 +186,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
                         Bitmap bm = BitmapFactory.decodeFile(context
                                 .getFilesDir() + "/" + fName + "." + extention);
                         tivMap.setImageBitmap(bm);
+//                        tivMap.setBackgroundColor(context.getResources().getColor(R.color.white));
                     }
                 });
             } else {
@@ -207,6 +208,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
                         Bitmap bm = BitmapFactory.decodeFile(context
                                 .getFilesDir() + "/newTile" + tile + ".jpg");
                         tivMap.setImageBitmap(bm);
+//                        tivMap.setBackgroundColor(context.getResources().getColor(R.color.white));
                     }
                 });
             } else {
@@ -232,6 +234,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
                         Bitmap bm = BitmapFactory.decodeFile(context
                                 .getFilesDir() + "/newRoad" + id + ".png");
                         tivMap.setImageBitmap(bm);
+//                        tivMap.setBackgroundColor(context.getResources().getColor(R.color.white));
 
 //                        Drawable d = Drawable.createFromPath(context
 //                                .getFilesDir() + "/newRoad" + id + ".png");
