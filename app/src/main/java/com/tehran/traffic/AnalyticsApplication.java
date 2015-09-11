@@ -21,10 +21,6 @@ import org.acra.sender.HttpSender;
 @ReportsCrashes(
         reportType = HttpSender.Type.JSON,
         httpMethod = HttpSender.Method.PUT,
-//        formUri = "http://apps.karinaco.com:5984/acra-karina/_design/acra-storage/_update/report",
-//        formUriBasicAuthLogin = "karina", // optional
-//        formUriBasicAuthPassword = "jasdjioweijsdnb2234", // optional
-//        formKey = "", // This is required for backward compatibility but not used
         formUri = "https://collector.tracepot.com/1bb22253",
         mode = ReportingInteractionMode.DIALOG,
         resToastText = R.string.crash_toast_text, // optional, displayed as soon as the crash occurs, before collecting data which can take a few seconds
