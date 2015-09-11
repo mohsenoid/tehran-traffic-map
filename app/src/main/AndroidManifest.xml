@@ -23,6 +23,7 @@
     <uses-permission android:name="com.tehran.traffic.gcm.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".AnalyticsApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
@@ -46,6 +47,14 @@
         <activity
             android:name="ir.adad.AdadActivity"
             android:theme="@android:style/Theme.Dialog"></activity>
+
+        <activity
+            android:name="org.acra.CrashReportDialog"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleInstance"
+            android:process=":error_report"
+            android:theme="@style/Theme.Dialog" />
 
 
         <receiver

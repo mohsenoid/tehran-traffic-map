@@ -1,5 +1,6 @@
 package com.tehran.traffic.network;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,8 +13,9 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.tehran.traffic.AnalyticsApplication;
 import com.tehran.traffic.R;
 import com.tehran.traffic.models.RoadData;
 import com.tehran.traffic.ui.MainActivity;
@@ -31,32 +33,32 @@ import java.util.Calendar;
 public class DataLoader extends AsyncTask<String, Void, Boolean> {
     static Bitmap bmMetro, bmPlane, bmBrt;
     Dialog progress;
-    Context context;
+    Activity activity;
     TouchImageView tivMap;
     TextView tvError;
     long startTime;
     long endTime;
-    private EasyTracker easyTracker;
+    private Tracker easyTracker;
 
-    public DataLoader(Context context, TouchImageView tivMap, TextView tvError) {
-        this.context = context;
+    public DataLoader(Activity activity, TouchImageView tivMap, TextView tvError) {
+        this.activity = activity;
         this.tivMap = tivMap;
         this.tvError = tvError;
 
-        this.easyTracker = EasyTracker.getInstance(context);
+        this.easyTracker = ((AnalyticsApplication) activity.getApplication()).getTracker();
     }
 
     @Override
     protected void onPreExecute() {
-        progress = ProgressDialog.show(context,
-                context.getString(R.string.app_progress_title),
-                context.getString(R.string.app_progress), true, true,
+        progress = ProgressDialog.show(activity,
+                activity.getString(R.string.app_progress_title),
+                activity.getString(R.string.app_progress), true, true,
                 new OnCancelListener() {
 
                     @Override
                     public void onCancel(DialogInterface dialog) {
                         cancel(true);
-                        ((MainActivity) context).showTrafficMap();
+                        ((MainActivity) activity).showTrafficMap();
                     }
                 });
 
@@ -79,7 +81,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
             // Next create a file, the example below will save to the SDCARD
             // using JPEG format
 
-            FileOutputStream fOut = context.openFileOutput("temp." + extension,
+            FileOutputStream fOut = activity.openFileOutput("temp." + extension,
                     Context.MODE_PRIVATE);
 
             // Next create a Bitmap object and download the image to bitmap
@@ -93,27 +95,27 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             }
 
-            File fTemp = new File(context.getFilesDir() + "/temp." + extension);
+            File fTemp = new File(activity.getFilesDir() + "/temp." + extension);
             if (fTemp.exists()) {
 
-                File fNew = new File(context.getFilesDir() + "/" + newFile
+                File fNew = new File(activity.getFilesDir() + "/" + newFile
                         + "." + extension);
-                File fOld = new File(context.getFilesDir() + "/" + oldFile
+                File fOld = new File(activity.getFilesDir() + "/" + oldFile
                         + "." + extension);
                 if (fOld.exists()) {
                     fOld.delete();
                 }
 
-                fNew.renameTo(new File(context.getFilesDir() + "/" + oldFile
+                fNew.renameTo(new File(activity.getFilesDir() + "/" + oldFile
                         + "." + extension));
 
-                fTemp.renameTo(new File(context.getFilesDir() + "/" + newFile
+                fTemp.renameTo(new File(activity.getFilesDir() + "/" + newFile
                         + "." + extension));
             }
 
             try {
                 // save last update date time
-                SharedPreferences settings = context.getSharedPreferences(
+                SharedPreferences settings = activity.getSharedPreferences(
                         "TehranTrafficMap", 0);
                 SharedPreferences.Editor editor = settings.edit();
                 Calendar now = Calendar.getInstance();
@@ -123,10 +125,10 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
                 editor.putString(newFile, formattedDate);
                 editor.commit();
 
-                // Toast.makeText(context, "6. " + now.toString(),
+                // Toast.makeText(activity, "6. " + now.toString(),
                 // Toast.LENGTH_LONG).show();
             } catch (Exception ex) {
-                // Toast.makeText(context, "7. " + ex.getMessage(),
+                // Toast.makeText(activity, "7. " + ex.getMessage(),
                 // Toast.LENGTH_LONG).show();
             }
 
@@ -147,14 +149,12 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean done) {
         endTime = Calendar.getInstance().getTimeInMillis();
-
-        easyTracker.send(MapBuilder
-                        .createTiming("network",    // Timing category (required)
-                                endTime - startTime,       // Timing interval in milliseconds (required)
-                                "download_image",  // Timing name
-                                null)           // Timing label
-                        .build()
-        );
+        easyTracker.send(new HitBuilders.TimingBuilder()
+                .setCategory("network")// Event category (required)
+                .setValue(endTime - startTime)
+                .setLabel("download_image")
+//                        .setValue()// value
+                .build());
 
         if (done) {
             tvError.post(new Runnable() {
@@ -179,19 +179,19 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
 
     public void loadFile(final String fName, final String extention, boolean isForce) {
         try {
-            File f = new File(context.getFilesDir() + "/" + fName + "." + extention);
+            File f = new File(activity.getFilesDir() + "/" + fName + "." + extention);
             if (f.exists() && !isForce) {
                 tivMap.post(new Runnable() {
                     public void run() {
-                        Bitmap bm = BitmapFactory.decodeFile(context
+                        Bitmap bm = BitmapFactory.decodeFile(activity
                                 .getFilesDir() + "/" + fName + "." + extention);
                         tivMap.setImageBitmap(bm);
-//                        tivMap.setBackgroundColor(context.getResources().getColor(R.color.white));
+//                        tivMap.setBackgroundColor(activity.getResources().getColor(R.color.white));
                     }
                 });
             } else {
                 // First data load
-                execute(context.getString(R.string.imgURL), "oldMap", "newMap", "jpg");
+                execute(activity.getString(R.string.imgURL), "oldMap", "newMap", "jpg");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,21 +200,21 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
 
     public void loadTile(final int tile, boolean isForce) {
         try {
-            File f = new File(context.getFilesDir() + "/newTile" + tile
+            File f = new File(activity.getFilesDir() + "/newTile" + tile
                     + ".jpg");
             if (f.exists() && !isForce) {
                 tivMap.post(new Runnable() {
                     public void run() {
-                        Bitmap bm = BitmapFactory.decodeFile(context
+                        Bitmap bm = BitmapFactory.decodeFile(activity
                                 .getFilesDir() + "/newTile" + tile + ".jpg");
                         tivMap.setImageBitmap(bm);
-//                        tivMap.setBackgroundColor(context.getResources().getColor(R.color.white));
+//                        tivMap.setBackgroundColor(activity.getResources().getColor(R.color.white));
                     }
                 });
             } else {
                 // First data load
                 execute(String.format(
-                        context.getResources().getString(R.string.tileURL),
+                        activity.getResources().getString(R.string.tileURL),
                         tile), "oldTile" + tile, "newTile" + tile, "jpg");
             }
         } catch (Exception e) {
@@ -224,19 +224,19 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
 
     public void loadRoad(final int id, boolean isForce) {
         try {
-            RoadData roadData = new RoadData(context);
+            RoadData roadData = new RoadData(activity);
 
-            File f = new File(context.getFilesDir() + "/newRoad" + id
+            File f = new File(activity.getFilesDir() + "/newRoad" + id
                     + ".png");
             if (f.exists() && !isForce) {
                 tivMap.post(new Runnable() {
                     public void run() {
-                        Bitmap bm = BitmapFactory.decodeFile(context
+                        Bitmap bm = BitmapFactory.decodeFile(activity
                                 .getFilesDir() + "/newRoad" + id + ".png");
                         tivMap.setImageBitmap(bm);
-//                        tivMap.setBackgroundColor(context.getResources().getColor(R.color.white));
+//                        tivMap.setBackgroundColor(activity.getResources().getColor(R.color.white));
 
-//                        Drawable d = Drawable.createFromPath(context
+//                        Drawable d = Drawable.createFromPath(activity
 //                                .getFilesDir() + "/newRoad" + id + ".png");
 //                        tivMap.setImageDrawable(d);
                     }
@@ -281,7 +281,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     }
 
     public Bitmap getBitmapFromAsset(String strName) {
-        AssetManager assetManager = context.getAssets();
+        AssetManager assetManager = activity.getAssets();
 
         InputStream istr;
         Bitmap bitmap = null;
@@ -308,7 +308,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     }
 
     public Boolean fileExist(String fName) {
-        File fOld = new File(context.getFilesDir() + "/" + fName + ".jpg");
+        File fOld = new File(activity.getFilesDir() + "/" + fName + ".jpg");
         return fOld.exists();
     }
 }
