@@ -31,6 +31,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.ecommerce.Product;
 import com.tehran.traffic.AnalyticsApplication;
+import com.tehran.traffic.BuildConfig;
 import com.tehran.traffic.R;
 import com.tehran.traffic.models.CloudMessage;
 import com.tehran.traffic.network.DataLoader;
@@ -104,6 +105,7 @@ public class MainActivity extends Activity implements OnClickListener,
     Spinner spState;
     NavigationView nvMap;
     TextView tvError;
+    TextView tvBuild;
     View inMap, inNews, inAbout, inContact;
     Dialog updateDialog;
     private View llAds, purchase1, purchase2;
@@ -525,6 +527,9 @@ public class MainActivity extends Activity implements OnClickListener,
         // tivMap.setScaleType(ScaleType.CENTER_INSIDE);
 
         tvError = (TextView) findViewById(R.id.tvError);
+        tvBuild = (TextView) findViewById(R.id.tvBuild);
+
+        tvBuild.setText("Build: " + BuildConfig.BUILD_TIME + " - " + BuildConfig.GIT_SHA);
 
         ibRefresh.setVisibility(View.VISIBLE);
         ibNext.setVisibility(View.INVISIBLE);

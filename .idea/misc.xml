@@ -35,12 +35,15 @@
             <id />
           </State>
           <State>
+            <id>Android</id>
+          </State>
+          <State>
             <id>Android Lint</id>
           </State>
         </expanded-state>
         <selected-state>
           <State>
-            <id>Abstraction issues</id>
+            <id>Android</id>
           </State>
         </selected-state>
       </profile-state>
