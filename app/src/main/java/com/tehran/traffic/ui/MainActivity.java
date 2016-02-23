@@ -118,7 +118,7 @@ public class MainActivity extends Activity implements OnClickListener,
                         .setCategory("IabHelper_query")// Event category (required)
                         .setAction("failure")     // Event action (required)
                         .setLabel("Failed to query inventory: " + result.getMessage())  // Event label
-                                //.setValue(null)// Event value
+                        //.setValue(null)// Event value
                         .build());
 
                 Log.d(TAG, "Failed to query inventory: " + result);
@@ -136,7 +136,7 @@ public class MainActivity extends Activity implements OnClickListener,
                         .setCategory("IabHelper_query")// Event category (required)
                         .setAction("successful")     // Event action (required)
                         .setLabel("User is " + (mIsAdsFree ? "premium" : "not premium"))  // Event label
-                                //.setValue(null)// Event value
+                        //.setValue(null)// Event value
                         .build());
 
                 Log.d(TAG, "User is "
@@ -280,7 +280,7 @@ public class MainActivity extends Activity implements OnClickListener,
                     .setCategory("internet")// Event category (required)
                     .setAction("check_internet_connection")     // Event action (required)
                     .setLabel("offline")  // Event label
-                            //.setValue(null)// Event value
+                    //.setValue(null)// Event value
                     .build());
 
             tvError.setVisibility(View.VISIBLE);
@@ -289,7 +289,7 @@ public class MainActivity extends Activity implements OnClickListener,
                     .setCategory("internet")// Event category (required)
                     .setAction("check_internet_connection")     // Event action (required)
                     .setLabel("online")  // Event label
-                            //.setValue(null)// Event value
+                    //.setValue(null)// Event value
                     .build());
         }
 
@@ -298,7 +298,7 @@ public class MainActivity extends Activity implements OnClickListener,
                     .setCategory("first_run")// Event category (required)
                     .setAction("check_first_run")     // Event action (required)
                     .setLabel("is_first_run")  // Event label
-                            //.setValue(null)// Event value
+                    //.setValue(null)// Event value
                     .build());
 
             // show tiles tap help
@@ -311,7 +311,7 @@ public class MainActivity extends Activity implements OnClickListener,
                     .setCategory("first_run")// Event category (required)
                     .setAction("check_first_run")     // Event action (required)
                     .setLabel("is_not_first_run")  // Event label
-                            //.setValue(null)// Event value
+                    //.setValue(null)// Event value
                     .build());
         }
 
@@ -335,7 +335,7 @@ public class MainActivity extends Activity implements OnClickListener,
                                 .setCategory("IabHelper_setup")// Event category (required)
                                 .setAction("error")     // Event action (required)
                                 .setLabel("Problem setting up In-app Billing: " + result.getMessage())  // Event label
-                                        //.setValue(null)// Event value
+                                //.setValue(null)// Event value
                                 .build());
 
                         // Oh noes, there was a problem.
@@ -347,7 +347,7 @@ public class MainActivity extends Activity implements OnClickListener,
                             .setCategory("IabHelper_setup")// Event category (required)
                             .setAction("successful")     // Event action (required)
                             .setLabel("done")  // Event label
-                                    //.setValue(null)// Event value
+                            //.setValue(null)// Event value
                             .build());
 
 
@@ -360,7 +360,7 @@ public class MainActivity extends Activity implements OnClickListener,
                     .setCategory("IabHelper_setup")// Event category (required)
                     .setAction("error")     // Event action (required)
                     .setLabel(e.getMessage())  // Event label
-                            //.setValue(null)// Event value
+                    //.setValue(null)// Event value
                     .build());
 
 
@@ -385,7 +385,7 @@ public class MainActivity extends Activity implements OnClickListener,
                 .setCategory("gcm")// Event category (required)
                 .setAction("message")     // Event action (required)
                 .setLabel(ms)  // Event label
-                        //.setValue(null)// Event value
+                //.setValue(null)// Event value
                 .build());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);

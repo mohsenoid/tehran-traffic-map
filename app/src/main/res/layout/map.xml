@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rlMap"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout android:id="@+id/rlMap"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <com.tehran.traffic.ui.TouchImageView
         android:id="@+id/tivMap"
@@ -11,7 +11,7 @@
         android:layout_centerVertical="true"
         android:background="@android:color/transparent"
         android:cropToPadding="true"
-        android:padding="2dp" />
+        android:padding="2dp"/>
 
     <ImageButton
         android:id="@+id/ibPrev"
@@ -22,7 +22,7 @@
         android:background="@android:color/transparent"
         android:onClick="onClick"
         android:padding="10dp"
-        android:src="@drawable/ic_prev" />
+        android:src="@drawable/ic_prev"/>
 
     <ImageButton
         android:id="@+id/ibNext"
@@ -33,7 +33,7 @@
         android:background="@android:color/transparent"
         android:onClick="onClick"
         android:padding="10dp"
-        android:src="@drawable/ic_next" />
+        android:src="@drawable/ic_next"/>
 
     <ImageButton
         android:id="@+id/ibRefresh"
@@ -44,7 +44,7 @@
         android:background="@android:color/transparent"
         android:onClick="onClick"
         android:padding="10dp"
-        android:src="@drawable/ic_refresh" />
+        android:src="@drawable/ic_refresh"/>
 
     <ImageButton
         android:id="@+id/ibPause"
@@ -55,14 +55,14 @@
         android:background="@android:color/transparent"
         android:onClick="onClick"
         android:padding="10dp"
-        android:src="@drawable/ic_pause" />
+        android:src="@drawable/ic_pause"/>
 
     <com.mirhoseini.navigationview.NavigationView
         android:id="@+id/nvMap"
         android:layout_width="@dimen/navigation"
         android:layout_height="@dimen/navigation"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"/>
 
     <ImageButton
         android:id="@+id/ibBack"
@@ -73,7 +73,7 @@
         android:background="@android:color/transparent"
         android:onClick="onClick"
         android:padding="10dp"
-        android:src="@drawable/ic_back" />
+        android:src="@drawable/ic_back"/>
 
     <TextView
         android:id="@+id/tvError"
@@ -85,6 +85,6 @@
         android:gravity="center_horizontal"
         android:text="@string/app_connection_error"
         android:textColor="@color/error"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 </RelativeLayout>

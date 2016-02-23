@@ -12,291 +12,285 @@ import android.view.View;
 import android.widget.ImageView;
 
 public class TouchImageView extends ImageView {
-	Matrix matrix = new Matrix();
+    // We can be in one of these 3 states
+    static final int NONE = 0;
+    static final int DRAG = 1;
+    static final int ZOOM = 2;
+    static final int CLICK = 3;
+    Matrix matrix = new Matrix();
+    int mode = NONE;
+    // Remember some things for zooming
+    PointF last = new PointF();
+    PointF start = new PointF();
+    float minScale = 1f;
+    float maxScale = 3f;
+    float[] m;
+    float redundantXSpace, redundantYSpace;
+    float width, height;
+    float saveScale = 1f;
+    float right, bottom, origWidth, origHeight, bmWidth, bmHeight;
 
-	// We can be in one of these 3 states
-	static final int NONE = 0;
-	static final int DRAG = 1;
-	static final int ZOOM = 2;
-	int mode = NONE;
+    ScaleGestureDetector mScaleDetector;
 
-	// Remember some things for zooming
-	PointF last = new PointF();
-	PointF start = new PointF();
-	float minScale = 1f;
-	float maxScale = 3f;
-	float[] m;
+    Context context;
+    float scale;
+    private OnTileListener tileListener = null;
 
-	float redundantXSpace, redundantYSpace;
+    public TouchImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
 
-	float width, height;
-	static final int CLICK = 3;
-	float saveScale = 1f;
-	float right, bottom, origWidth, origHeight, bmWidth, bmHeight;
+    public void setOnTileListener(OnTileListener l) {
+        this.tileListener = l;
+    }
 
-	ScaleGestureDetector mScaleDetector;
+    // public TouchImageView(Context context) {
+    // super(context);
+    // init(context);
+    // }
 
-	Context context;
+    public void init(final Context context) {
+        super.setClickable(true);
+        this.context = context;
+        mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
+        matrix.setTranslate(1f, 1f);
+        m = new float[9];
+        setImageMatrix(matrix);
+        setScaleType(ScaleType.MATRIX);
 
-	private OnTileListener tileListener = null;
+        setOnTouchListener(new OnTouchListener() {
 
-	public interface OnTileListener {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mScaleDetector.onTouchEvent(event);
 
-		public void onTileClick(View v, int row, int col);
+                matrix.getValues(m);
+                float x = m[Matrix.MTRANS_X];
+                float y = m[Matrix.MTRANS_Y];
+                PointF curr = new PointF(event.getX(), event.getY());
 
-	}
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        last.set(event.getX(), event.getY());
+                        start.set(last);
+                        mode = DRAG;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (mode == DRAG) {
+                            float deltaX = curr.x - last.x;
+                            float deltaY = curr.y - last.y;
+                            float scaleWidth = Math.round(origWidth * saveScale);
+                            float scaleHeight = Math.round(origHeight * saveScale);
+                            if (scaleWidth < width) {
+                                deltaX = 0;
+                                if (y + deltaY > 0)
+                                    deltaY = -y;
+                                else if (y + deltaY < -bottom)
+                                    deltaY = -(y + bottom);
+                            } else if (scaleHeight < height) {
+                                deltaY = 0;
+                                if (x + deltaX > 0)
+                                    deltaX = -x;
+                                else if (x + deltaX < -right)
+                                    deltaX = -(x + right);
+                            } else {
+                                if (x + deltaX > 0)
+                                    deltaX = -x;
+                                else if (x + deltaX < -right)
+                                    deltaX = -(x + right);
 
-	public void setOnTileListener(OnTileListener l) {
-		this.tileListener = l;
-	}
+                                if (y + deltaY > 0)
+                                    deltaY = -y;
+                                else if (y + deltaY < -bottom)
+                                    deltaY = -(y + bottom);
+                            }
+                            matrix.postTranslate(deltaX, deltaY);
+                            last.set(curr.x, curr.y);
+                        }
+                        break;
 
-	public TouchImageView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(context);
-	}
+                    case MotionEvent.ACTION_UP:
+                        mode = NONE;
+                        int xDiff = (int) Math.abs(curr.x - start.x);
+                        int yDiff = (int) Math.abs(curr.y - start.y);
+                        if (xDiff < CLICK && yDiff < CLICK) {
+                            performClick();
 
-	// public TouchImageView(Context context) {
-	// super(context);
-	// init(context);
-	// }
+                            float factorWidth = origWidth * saveScale / 12;
+                            float factorHeight = origHeight * saveScale / 12;
 
-	public void init(final Context context) {
-		super.setClickable(true);
-		this.context = context;
-		mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
-		matrix.setTranslate(1f, 1f);
-		m = new float[9];
-		setImageMatrix(matrix);
-		setScaleType(ScaleType.MATRIX);
+                            // float relativeX = (curr.x - m[Matrix.MTRANS_X])
+                            // / m[Matrix.MSCALE_X];
+                            // float relativeY = (curr.y - m[Matrix.MTRANS_Y])
+                            // / m[Matrix.MSCALE_Y];
 
-		setOnTouchListener(new OnTouchListener() {
+                            // int col = (int) Math.floor(relativeX / factorWidth);
+                            // int row = (int) Math.floor(relativeY / factorHeight);
 
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				mScaleDetector.onTouchEvent(event);
+                            RectF r = new RectF();
+                            matrix.mapRect(r);
 
-				matrix.getValues(m);
-				float x = m[Matrix.MTRANS_X];
-				float y = m[Matrix.MTRANS_Y];
-				PointF curr = new PointF(event.getX(), event.getY());
+                            float newX = curr.x - r.left;
+                            float newY = curr.y - r.top;
 
-				switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					last.set(event.getX(), event.getY());
-					start.set(last);
-					mode = DRAG;
-					break;
-				case MotionEvent.ACTION_MOVE:
-					if (mode == DRAG) {
-						float deltaX = curr.x - last.x;
-						float deltaY = curr.y - last.y;
-						float scaleWidth = Math.round(origWidth * saveScale);
-						float scaleHeight = Math.round(origHeight * saveScale);
-						if (scaleWidth < width) {
-							deltaX = 0;
-							if (y + deltaY > 0)
-								deltaY = -y;
-							else if (y + deltaY < -bottom)
-								deltaY = -(y + bottom);
-						} else if (scaleHeight < height) {
-							deltaY = 0;
-							if (x + deltaX > 0)
-								deltaX = -x;
-							else if (x + deltaX < -right)
-								deltaX = -(x + right);
-						} else {
-							if (x + deltaX > 0)
-								deltaX = -x;
-							else if (x + deltaX < -right)
-								deltaX = -(x + right);
+                            int col = (int) Math.floor(newX / factorWidth);
+                            int row = (int) Math.floor(newY / factorHeight);
 
-							if (y + deltaY > 0)
-								deltaY = -y;
-							else if (y + deltaY < -bottom)
-								deltaY = -(y + bottom);
-						}
-						matrix.postTranslate(deltaX, deltaY);
-						last.set(curr.x, curr.y);
-					}
-					break;
+                            // Toast.makeText(
+                            // context,
+                            // "newX: " + newX + ", newY: " + newY + ", row: "
+                            // + row + ", col: " + col,
+                            // Toast.LENGTH_SHORT).show();
 
-				case MotionEvent.ACTION_UP:
-					mode = NONE;
-					int xDiff = (int) Math.abs(curr.x - start.x);
-					int yDiff = (int) Math.abs(curr.y - start.y);
-					if (xDiff < CLICK && yDiff < CLICK) {
-						performClick();
+                            if (tileListener != null)
+                                tileListener.onTileClick(TouchImageView.this, row,
+                                        col);
+                        }
+                        break;
 
-						float factorWidth = origWidth * saveScale / 12;
-						float factorHeight = origHeight * saveScale / 12;
+                    case MotionEvent.ACTION_POINTER_UP:
+                        mode = NONE;
+                        break;
+                }
+                setImageMatrix(matrix);
+                invalidate();
+                return true; // indicate event was handled
+            }
 
-						// float relativeX = (curr.x - m[Matrix.MTRANS_X])
-						// / m[Matrix.MSCALE_X];
-						// float relativeY = (curr.y - m[Matrix.MTRANS_Y])
-						// / m[Matrix.MSCALE_Y];
+        });
+    }
 
-						// int col = (int) Math.floor(relativeX / factorWidth);
-						// int row = (int) Math.floor(relativeY / factorHeight);
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        super.setImageBitmap(bm);
 
-						RectF r = new RectF();
-						matrix.mapRect(r);
+        bmWidth = bm.getWidth();
+        bmHeight = bm.getHeight();
 
-						float newX = curr.x - r.left;
-						float newY = curr.y - r.top;
+        matrix.setScale(scale, scale);
+        setImageMatrix(matrix);
+        saveScale = 1f;
 
-						int col = (int) Math.floor(newX / factorWidth);
-						int row = (int) Math.floor(newY / factorHeight);
+        centerImage();
+    }
 
-						// Toast.makeText(
-						// context,
-						// "newX: " + newX + ", newY: " + newY + ", row: "
-						// + row + ", col: " + col,
-						// Toast.LENGTH_SHORT).show();
+    public void setMaxZoom(float x) {
+        maxScale = x;
+    }
 
-						if (tileListener != null)
-							tileListener.onTileClick(TouchImageView.this, row,
-									col);
-					}
-					break;
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        width = MeasureSpec.getSize(widthMeasureSpec);
+        height = MeasureSpec.getSize(heightMeasureSpec);
+        // Fit to screen.
+        // float scale;
+        // Center the image
+        // if (reset) {
+        float scaleX = (float) width / (float) bmWidth;
+        float scaleY = (float) height / (float) bmHeight;
+        scale = Math.min(scaleX, scaleY);
+        matrix.setScale(scale, scale);
+        setImageMatrix(matrix);
+        saveScale = 1f;
 
-				case MotionEvent.ACTION_POINTER_UP:
-					mode = NONE;
-					break;
-				}
-				setImageMatrix(matrix);
-				invalidate();
-				return true; // indicate event was handled
-			}
+        centerImage();
+        // reset = false;
+        // }
+    }
 
-		});
-	}
+    private void centerImage() {
+        redundantYSpace = (float) height - (scale * (float) bmHeight);
+        redundantXSpace = (float) width - (scale * (float) bmWidth);
+        redundantYSpace /= (float) 2;
+        redundantXSpace /= (float) 2;
 
-	@Override
-	public void setImageBitmap(Bitmap bm) {
-		super.setImageBitmap(bm);
+        matrix.postTranslate(redundantXSpace, redundantYSpace);
 
-		bmWidth = bm.getWidth();
-		bmHeight = bm.getHeight();
+        origWidth = width - 2 * redundantXSpace;
+        origHeight = height - 2 * redundantYSpace;
+        right = width * saveScale - width - (2 * redundantXSpace * saveScale);
+        bottom = height * saveScale - height
+                - (2 * redundantYSpace * saveScale);
+        setImageMatrix(matrix);
+    }
 
-		matrix.setScale(scale, scale);
-		setImageMatrix(matrix);
-		saveScale = 1f;
+    // Boolean reset = true;
 
-		centerImage();
-	}
+    public interface OnTileListener {
 
-	public void setMaxZoom(float x) {
-		maxScale = x;
-	}
+        public void onTileClick(View v, int row, int col);
 
-	private class ScaleListener extends
-			ScaleGestureDetector.SimpleOnScaleGestureListener {
-		@Override
-		public boolean onScaleBegin(ScaleGestureDetector detector) {
-			mode = ZOOM;
-			return true;
-		}
+    }
 
-		@Override
-		public boolean onScale(ScaleGestureDetector detector) {
-			float mScaleFactor = (float) Math.min(
-					Math.max(.95f, detector.getScaleFactor()), 1.05);
-			float origScale = saveScale;
-			saveScale *= mScaleFactor;
-			if (saveScale > maxScale) {
-				saveScale = maxScale;
-				mScaleFactor = maxScale / origScale;
-			} else if (saveScale < minScale) {
-				saveScale = minScale;
-				mScaleFactor = minScale / origScale;
-			}
-			right = width * saveScale - width
-					- (2 * redundantXSpace * saveScale);
-			bottom = height * saveScale - height
-					- (2 * redundantYSpace * saveScale);
-			if (origWidth * saveScale <= width
-					|| origHeight * saveScale <= height) {
-				matrix.postScale(mScaleFactor, mScaleFactor, width / 2,
-						height / 2);
-				if (mScaleFactor < 1) {
-					matrix.getValues(m);
-					float x = m[Matrix.MTRANS_X];
-					float y = m[Matrix.MTRANS_Y];
-					if (mScaleFactor < 1) {
-						if (Math.round(origWidth * saveScale) < width) {
-							if (y < -bottom)
-								matrix.postTranslate(0, -(y + bottom));
-							else if (y > 0)
-								matrix.postTranslate(0, -y);
-						} else {
-							if (x < -right)
-								matrix.postTranslate(-(x + right), 0);
-							else if (x > 0)
-								matrix.postTranslate(-x, 0);
-						}
-					}
-				}
-			} else {
-				matrix.postScale(mScaleFactor, mScaleFactor,
-						detector.getFocusX(), detector.getFocusY());
-				matrix.getValues(m);
-				float x = m[Matrix.MTRANS_X];
-				float y = m[Matrix.MTRANS_Y];
-				if (mScaleFactor < 1) {
-					if (x < -right)
-						matrix.postTranslate(-(x + right), 0);
-					else if (x > 0)
-						matrix.postTranslate(-x, 0);
-					if (y < -bottom)
-						matrix.postTranslate(0, -(y + bottom));
-					else if (y > 0)
-						matrix.postTranslate(0, -y);
-				}
-			}
-			return true;
+    private class ScaleListener extends
+            ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            mode = ZOOM;
+            return true;
+        }
 
-		}
-	}
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            float mScaleFactor = (float) Math.min(
+                    Math.max(.95f, detector.getScaleFactor()), 1.05);
+            float origScale = saveScale;
+            saveScale *= mScaleFactor;
+            if (saveScale > maxScale) {
+                saveScale = maxScale;
+                mScaleFactor = maxScale / origScale;
+            } else if (saveScale < minScale) {
+                saveScale = minScale;
+                mScaleFactor = minScale / origScale;
+            }
+            right = width * saveScale - width
+                    - (2 * redundantXSpace * saveScale);
+            bottom = height * saveScale - height
+                    - (2 * redundantYSpace * saveScale);
+            if (origWidth * saveScale <= width
+                    || origHeight * saveScale <= height) {
+                matrix.postScale(mScaleFactor, mScaleFactor, width / 2,
+                        height / 2);
+                if (mScaleFactor < 1) {
+                    matrix.getValues(m);
+                    float x = m[Matrix.MTRANS_X];
+                    float y = m[Matrix.MTRANS_Y];
+                    if (mScaleFactor < 1) {
+                        if (Math.round(origWidth * saveScale) < width) {
+                            if (y < -bottom)
+                                matrix.postTranslate(0, -(y + bottom));
+                            else if (y > 0)
+                                matrix.postTranslate(0, -y);
+                        } else {
+                            if (x < -right)
+                                matrix.postTranslate(-(x + right), 0);
+                            else if (x > 0)
+                                matrix.postTranslate(-x, 0);
+                        }
+                    }
+                }
+            } else {
+                matrix.postScale(mScaleFactor, mScaleFactor,
+                        detector.getFocusX(), detector.getFocusY());
+                matrix.getValues(m);
+                float x = m[Matrix.MTRANS_X];
+                float y = m[Matrix.MTRANS_Y];
+                if (mScaleFactor < 1) {
+                    if (x < -right)
+                        matrix.postTranslate(-(x + right), 0);
+                    else if (x > 0)
+                        matrix.postTranslate(-x, 0);
+                    if (y < -bottom)
+                        matrix.postTranslate(0, -(y + bottom));
+                    else if (y > 0)
+                        matrix.postTranslate(0, -y);
+                }
+            }
+            return true;
 
-	float scale;
-
-	// Boolean reset = true;
-
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		width = MeasureSpec.getSize(widthMeasureSpec);
-		height = MeasureSpec.getSize(heightMeasureSpec);
-		// Fit to screen.
-		// float scale;
-		// Center the image
-		// if (reset) {
-		float scaleX = (float) width / (float) bmWidth;
-		float scaleY = (float) height / (float) bmHeight;
-		scale = Math.min(scaleX, scaleY);
-		matrix.setScale(scale, scale);
-		setImageMatrix(matrix);
-		saveScale = 1f;
-
-		centerImage();
-		// reset = false;
-		// }
-	}
-
-	private void centerImage() {
-		redundantYSpace = (float) height - (scale * (float) bmHeight);
-		redundantXSpace = (float) width - (scale * (float) bmWidth);
-		redundantYSpace /= (float) 2;
-		redundantXSpace /= (float) 2;
-
-		matrix.postTranslate(redundantXSpace, redundantYSpace);
-
-		origWidth = width - 2 * redundantXSpace;
-		origHeight = height - 2 * redundantYSpace;
-		right = width * saveScale - width - (2 * redundantXSpace * saveScale);
-		bottom = height * saveScale - height
-				- (2 * redundantYSpace * saveScale);
-		setImageMatrix(matrix);
-	}
+        }
+    }
 
 }

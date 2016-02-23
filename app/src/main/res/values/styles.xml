@@ -18,7 +18,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="Animations" parent="@android:Animation" />
+    <style name="Animations" parent="@android:Animation"/>
 
     <style name="Animations.SplashScreen">
         <item name="android:windowEnterAnimation">@anim/appear</item>
@@ -35,7 +35,7 @@
         <item name="android:windowAnimationStyle">@style/Animations.SplashScreen</item>
     </style>
 
-    <style name="Theme.Dialog" parent="@android:style/Theme.Dialog" />
+    <style name="Theme.Dialog" parent="@android:style/Theme.Dialog"/>
 
 
 </resources>
