@@ -13,7 +13,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -30,12 +29,13 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.ecommerce.Product;
+import com.mirhoseini.appsettings.AppSettings;
+import com.mirhoseini.navigationview.NavigationView;
 import com.tehran.traffic.AnalyticsApplication;
 import com.tehran.traffic.BuildConfig;
 import com.tehran.traffic.R;
 import com.tehran.traffic.models.CloudMessage;
 import com.tehran.traffic.network.DataLoader;
-import com.tehran.traffic.ui.NavigationView.OnNavigationListener;
 import com.tehran.traffic.ui.TouchImageView.OnTileListener;
 import com.tehran.traffic.util.IabHelper;
 import com.tehran.traffic.util.IabHelper.QueryInventoryFinishedListener;
@@ -54,7 +54,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends Activity implements OnClickListener,
-        DialogInterface.OnClickListener, OnTileListener, OnNavigationListener, AdapterView.OnItemSelectedListener {
+        DialogInterface.OnClickListener, OnTileListener, NavigationView.OnNavigationListener, AdapterView.OnItemSelectedListener {
     public static final String FIRST_RUN = "firstRun";
     public static final String STATE_ID = "stateID";
     // SKUs for our products: the premium upgrade (non-consumable)
@@ -105,7 +105,7 @@ public class MainActivity extends Activity implements OnClickListener,
     Spinner spState;
     NavigationView nvMap;
     TextView tvError;
-    TextView tvBuild;
+    TextView tvBuild, tvVersion;
     View inMap, inNews, inAbout, inContact;
     Dialog updateDialog;
     private View llAds, purchase1, purchase2;
@@ -447,20 +447,14 @@ public class MainActivity extends Activity implements OnClickListener,
         }
     }
 
+    //get first run
     private boolean isFirstRun() {
-        boolean firstRun = PreferenceManager.getDefaultSharedPreferences(
-                context).getBoolean(FIRST_RUN, true);
-
-
-        return firstRun;
+        return AppSettings.getBoolean(context, FIRST_RUN, true);
     }
 
-    private void setFirstRun(@NonNull boolean value) {
-        //set first run
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context)
-                .edit();
-        editor.putBoolean(FIRST_RUN, value);
-        editor.commit();
+    //set first run
+    private void setFirstRun(boolean value) {
+        AppSettings.setValue(context, FIRST_RUN, value);
     }
 
     @Override
@@ -527,9 +521,12 @@ public class MainActivity extends Activity implements OnClickListener,
         // tivMap.setScaleType(ScaleType.CENTER_INSIDE);
 
         tvError = (TextView) findViewById(R.id.tvError);
-        tvBuild = (TextView) findViewById(R.id.tvBuild);
 
-        tvBuild.setText("Build: " + BuildConfig.BUILD_TIME + " - " + BuildConfig.GIT_SHA);
+        tvVersion = (TextView) findViewById(R.id.tvVersion);
+        tvVersion.setText(BuildConfig.VERSION_NAME);
+
+        tvBuild = (TextView) findViewById(R.id.tvBuild);
+        tvBuild.setText("Build: " + BuildConfig.VERSION_NAME + " - " + BuildConfig.GIT_SHA + " - " + BuildConfig.BUILD_TYPE + " - " + BuildConfig.BUILD_TIME);
 
         ibRefresh.setVisibility(View.VISIBLE);
         ibNext.setVisibility(View.INVISIBLE);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- The application name. Defaults to name specified for the application label -->
-    <string name="ga_appName">Karina Category</string>
+    <string name="ga_appName">Tehran Traffic Map</string>
 
     <!-- The application version. Defaults to android:versionName specified in the AndroidManifest.xml -->
     <string name="ga_appVersion">1.0.0</string>
