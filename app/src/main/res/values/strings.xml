@@ -9,9 +9,10 @@
     <!--<string name="rssURL" translatable="false">http://trafficcontrol.tehran.ir/DesktopModules/DNNArticle/DNNArticleRSS.aspx?portalid=0&amp;moduleid=410</string>-->
     <string name="app_about">All information is provided by Tehran Traffic
 		Control Co. &amp; Iran Roads Management Center</string>
-    <string name="app_ver" translatable="false">4.0.2</string>
     <string name="app_design">Developed By: Mohsen Mirhoseini Argi</string>
     <string name="app_email" translatable="false">tehrantrafficmap@mirhoseini.com</string>
+    <string name="app_telegram1">Join our Telegram bot:</string>
+    <string name="app_telegram2" translatable="false">https://telegram.me/TehranTrafficMapBot</string>
     <string name="app_facebook1">Follow us:</string>
     <string name="app_facebook2" translatable="false">http://www.facebook.com/tehrantrafficmap</string>
     <string name="app_about_title">About&#8230;</string>

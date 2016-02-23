@@ -55,6 +55,32 @@
             android:visibility="gone"/>
 
         <ImageView
+            android:id="@+id/imgTelegram"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:scaleType="fitEnd"
+            android:src="@drawable/telegram"></ImageView>
+
+        <TextView
+            android:id="@+id/txtTelegram1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/app_telegram1"></TextView>
+
+        <TextView
+            android:id="@+id/txtTelegram2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:gravity="center_horizontal"
+            android:text="@string/app_telegram2"></TextView>
+
+        <ImageView
             android:id="@+id/imgFacebook"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
