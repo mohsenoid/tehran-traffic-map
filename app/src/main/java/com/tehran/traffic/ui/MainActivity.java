@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
@@ -31,6 +30,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.ecommerce.Product;
 import com.mirhoseini.appsettings.AppSettings;
 import com.mirhoseini.navigationview.NavigationView;
+import com.mirhoseini.utils.Utils;
 import com.tehran.traffic.AnalyticsApplication;
 import com.tehran.traffic.BuildConfig;
 import com.tehran.traffic.R;
@@ -275,7 +275,7 @@ public class MainActivity extends Activity implements OnClickListener,
 
         switchView();
 
-        if (!isConnected()) {
+        if (!Utils.isConnected(context)) {
             easyTracker.send(new HitBuilders.EventBuilder()
                     .setCategory("internet")// Event category (required)
                     .setAction("check_internet_connection")     // Event action (required)
@@ -418,10 +418,7 @@ public class MainActivity extends Activity implements OnClickListener,
 
             alertDialogBuilder.setPositiveButton(getString(R.string.open), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(url));
-                    startActivity(intent);
+                    Utils.openWebsite(context, url);
                 }
             });
         }
@@ -995,7 +992,7 @@ public class MainActivity extends Activity implements OnClickListener,
         if (updateDialog == null || !updateDialog.isShowing()) {
             if (loader != null
                     && (loader.isCancelled() || loader.getStatus() == Status.PENDING)
-                    && isConnected()) {
+                    && Utils.isConnected(context)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 updateDialog = builder
                         .setMessage(getString(R.string.msg_updatemap))
@@ -1192,7 +1189,6 @@ public class MainActivity extends Activity implements OnClickListener,
         if (appState == ApplicationState.Zoom)
             showTrafficMap();
         else {
-
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 return;
@@ -1278,14 +1274,6 @@ public class MainActivity extends Activity implements OnClickListener,
         switchView();
         setNavigator();
 
-    }
-
-    public boolean isConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager
-                .getActiveNetworkInfo();
-        return activeNetworkInfo != null;
     }
 
     @Override

@@ -45,4 +45,5 @@ dependencies {
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     compile 'com.mirhoseini.appsettings:appsettings:1.0.0'
     compile 'com.mirhoseini.navigationview:navigationview:1.0.0'
+    compile 'com.mirhoseini.utils:utils:1.0.0'
 }
