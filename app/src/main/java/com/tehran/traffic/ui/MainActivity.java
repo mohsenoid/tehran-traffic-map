@@ -233,9 +233,10 @@ public class MainActivity extends Activity implements OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        easyTracker = easyTracker = ((AnalyticsApplication) getApplication()).getTracker();
+        easyTracker = ((AnalyticsApplication) getApplication()).getTracker();
+        easyTracker.enableAdvertisingIdCollection(true);
 
-//        uncaughtExceptionHandler();
+        // uncaughtExceptionHandler();
 
         /*boolean hasPlayServices = CloudMessage.checkPlayServices(this);
 
