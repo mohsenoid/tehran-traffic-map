@@ -1,4 +1,4 @@
-Tehran Traffic Map
+Tehran Traffic Map [![Circle CI](https://circleci.com/gh/mmirhoseini/tehran_traffic_map.svg?style=svg)](https://circleci.com/gh/mmirhoseini/tehran_traffic_map)
 ==================
 
 <b>Tehran and Roads Traffic Maps Android Application</b><br />
