@@ -36,3 +36,6 @@ captures/
 
 # publish Folder
 /publish
+
+# avoid proxy settings impact build
+/gradle.properties
