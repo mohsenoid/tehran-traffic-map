@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">نقشه ترافیک شهر تهران و جاده ها</string>
-    <string name="imgPage">&lt;html&gt;&lt;body&gt;&lt;center&gt;&lt;img src=\&quot;http://www.tehrantraffic.com/trafficmap/ShowImage.asp&quot;+path to your image+&quot;\&quot;/&gt;&lt;/center&gt;&lt;/body&gt;&lt;/html&gt;</string>
     <string name="app_about">اطلاعات نمایش داده شده در این نرم افزار توسط شرکت کنترل ترافیک شهر تهران و مركز مديريت راههاي كشور ارائه می گردد.</string>
     <string name="app_design">طراح و برنامه نویس: محسن میرحسینی ارگي</string>
     <string name="app_telegram1">به روبات تلگرام ما بپیوندید:</string>
