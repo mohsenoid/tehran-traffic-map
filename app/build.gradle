@@ -4,14 +4,14 @@ def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim
 def buildTime = new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.0'
     defaultConfig {
         applicationId "com.tehran.traffic"
         minSdkVersion 9
-        targetSdkVersion 23
-        versionCode 22
-        versionName '4.0.2'
+        targetSdkVersion 24
+        versionCode 24
+        versionName '4.0.4'
     }
     buildTypes {
         release {
@@ -38,12 +38,12 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-annotations:23.1.1'
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    compile 'com.android.support:support-annotations:24.0.0'
+    compile 'com.google.android.gms:play-services-analytics:9.2.0'
+    compile 'com.google.android.gms:play-services-gcm:9.2.0'
     compile 'ch.acra:acra:4.6.2'
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
-    compile 'com.mirhoseini.appsettings:appsettings:1.0.0'
+    compile 'com.mirhoseini.appsettings:appsettings:1.0.2'
     compile 'com.mirhoseini.navigationview:navigationview:1.0.0'
     compile 'com.mirhoseini.utils:utils:1.0.0'
 }

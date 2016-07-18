@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CloudMessage {
 
-    public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -37,8 +36,6 @@ public class CloudMessage {
     static String SENDER_ID = "247656184528";
     static String URL = "http://mirhoseini.com";
     static GoogleCloudMessaging gcm;
-    static AtomicInteger msgId = new AtomicInteger();
-    static SharedPreferences prefs;
     static Context context;
     static String regid;
     static String responseBody;
@@ -135,7 +132,7 @@ public class CloudMessage {
     private static class registerInBackground extends AsyncTask<Void, Integer, String> {
         @Override
         protected String doInBackground(Void... params) {
-            String msg = "";
+            String msg;
             try {
                 if (gcm == null) {
                     gcm = GoogleCloudMessaging.getInstance(context);
