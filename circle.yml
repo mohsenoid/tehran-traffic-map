@@ -9,6 +9,10 @@ general:
 machine:
     environment:
         ANDROID_HOME: /usr/local/android-sdk-linux
+        JAVA6_HOME: /usr/lib/jvm/java-6-openjdk-amd64
+
+    java:
+        version: openjdk8
 
 dependencies:
     override:
