@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "247656184528",
+    "firebase_url": "https://api-project-247656184528.firebaseio.com",
+    "project_id": "api-project-247656184528",
+    "storage_bucket": "api-project-247656184528.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247656184528:android:83b9ea7247f70c22",
+        "android_client_info": {
+          "package_name": "com.tehran.traffic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247656184528-05d1cmbt65bueep6u0aloqq26cq685l2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwoiicg4oYAYcTdSV71u9OQntC-sh369E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247656184528:android:97fcb9476c1c271f",
+        "android_client_info": {
+          "package_name": "com.tehran.traffic.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247656184528-05d1cmbt65bueep6u0aloqq26cq685l2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwoiicg4oYAYcTdSV71u9OQntC-sh369E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

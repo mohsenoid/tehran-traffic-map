@@ -6,18 +6,12 @@ package com.tehran.traffic;
 
 import android.app.Application;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender;
 
-/**
- * This is a subclass of {@link Application} used to provide shared objects for this app, such as
- * the {@link Tracker}.
- */
 @ReportsCrashes(
         reportType = HttpSender.Type.JSON,
         httpMethod = HttpSender.Method.PUT,
@@ -35,8 +29,6 @@ public class AnalyticsApplication extends Application {
     //Logging TAG
     private static final String TAG = "AnalyticsApplication";
 
-    private Tracker mTracker;
-
     public AnalyticsApplication() {
         super();
     }
@@ -50,11 +42,4 @@ public class AnalyticsApplication extends Application {
 
     }
 
-    public synchronized Tracker getTracker() {
-        if (mTracker == null) {
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            mTracker = analytics.newTracker(R.xml.analytics_app_tracker);
-        }
-        return mTracker;
-    }
 }

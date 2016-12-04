@@ -11,11 +11,10 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.tehran.traffic.AnalyticsApplication;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.tehran.traffic.R;
 import com.tehran.traffic.models.RoadData;
 import com.tehran.traffic.ui.MainActivity;
@@ -38,14 +37,16 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     TextView tvError;
     long startTime;
     long endTime;
-    private Tracker easyTracker;
+    private FirebaseAnalytics firebaseAnalytics;
 
     public DataLoader(Activity activity, TouchImageView tivMap, TextView tvError) {
         this.activity = activity;
         this.tivMap = tivMap;
         this.tvError = tvError;
 
-        this.easyTracker = ((AnalyticsApplication) activity.getApplication()).getTracker();
+        // Analytics instance
+        firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
+        firebaseAnalytics.setAnalyticsCollectionEnabled(true);
     }
 
     @Override
@@ -149,12 +150,10 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean done) {
         endTime = Calendar.getInstance().getTimeInMillis();
-        easyTracker.send(new HitBuilders.TimingBuilder()
-                .setCategory("network")// Event category (required)
-                .setValue(endTime - startTime)
-                .setLabel("download_image")
-//                        .setValue()// value
-                .build());
+        Bundle bundle = new Bundle();
+        bundle.putString("value", endTime - startTime+"");
+        bundle.putString("action", "successful");
+        firebaseAnalytics.logEvent("network", bundle);
 
         if (done) {
             tvError.post(new Runnable() {
