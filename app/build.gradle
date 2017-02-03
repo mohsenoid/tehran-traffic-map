@@ -5,13 +5,13 @@ def buildTime = new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "com.tehran.traffic"
         minSdkVersion 9
         targetSdkVersion 25
-        versionCode 25
-        versionName '4.1.0'
+        versionCode 26
+        versionName '4.1.1'
     }
     buildTypes {
         release {
@@ -24,6 +24,13 @@ android {
         }
     }
     productFlavors {
+        play{
+
+        }
+
+        bazaar{
+
+        }
     }
 
     signingConfigs {
@@ -42,7 +49,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-annotations:25.0.1'
+    compile 'com.android.support:support-annotations:25.1.1'
     compile 'ch.acra:acra:4.6.2'
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     compile 'com.mirhoseini.appsettings:appsettings:1.0.2'

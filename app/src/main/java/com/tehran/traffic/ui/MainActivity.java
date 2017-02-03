@@ -127,6 +127,8 @@ public class MainActivity extends Activity implements OnClickListener,
                 bundle.putString("action", "successful");
                 firebaseAnalytics.logEvent("IabHelper_query", bundle);
 
+                firebaseAnalytics.setUserProperty("user_type", (mIsAdsFree ? "premium" : "not premium"));
+
                 Log.d(TAG, "User is "
                         + (mIsAdsFree ? "PREMIUM" : "NOT PREMIUM"));
 
@@ -281,42 +283,44 @@ public class MainActivity extends Activity implements OnClickListener,
 
         // mHelper.enableDebugLogging(true);
 
-        try {
-            Log.d(TAG, "Starting setup.");
-            mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-                @Override
-                public void onIabSetupFinished(IabResult result) {
-                    Log.d(TAG, "Setup finished.");
+        if (isBazaarVersion()) {
+            try {
+                Log.d(TAG, "Starting setup.");
+                mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+                    @Override
+                    public void onIabSetupFinished(IabResult result) {
+                        Log.d(TAG, "Setup finished.");
 
-                    if (!result.isSuccess()) {
+                        if (!result.isSuccess()) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("label", "Problem setting up In-app Billing: " + result.getMessage());
+                            bundle.putString("action", "error");
+                            firebaseAnalytics.logEvent("IabHelper_setup", bundle);
+
+                            // Oh noes, there was a problem.
+                            Log.d(TAG, "Problem setting up In-app Billing: "
+                                    + result);
+                        }
+
                         Bundle bundle = new Bundle();
-                        bundle.putString("label", "Problem setting up In-app Billing: " + result.getMessage());
-                        bundle.putString("action", "error");
+                        bundle.putString("label", "done");
+                        bundle.putString("action", "successful");
                         firebaseAnalytics.logEvent("IabHelper_setup", bundle);
 
-                        // Oh noes, there was a problem.
-                        Log.d(TAG, "Problem setting up In-app Billing: "
-                                + result);
+                        // Hooray, IAB is fully set up!
+                        mHelper.queryInventoryAsync(mGotInventoryListener);
                     }
+                });
+            } catch (Exception e) {
+                Bundle bundle = new Bundle();
+                bundle.putString("label", e.getMessage());
+                bundle.putString("action", "error");
+                firebaseAnalytics.logEvent("IabHelper_setup", bundle);
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("label", "done");
-                    bundle.putString("action", "successful");
-                    firebaseAnalytics.logEvent("IabHelper_setup", bundle);
-
-                    // Hooray, IAB is fully set up!
-                    mHelper.queryInventoryAsync(mGotInventoryListener);
-                }
-            });
-        } catch (Exception e) {
-            Bundle bundle = new Bundle();
-            bundle.putString("label", e.getMessage());
-            bundle.putString("action", "error");
-            firebaseAnalytics.logEvent("IabHelper_setup", bundle);
-
-            e.printStackTrace();
-            mAdsFreeError = true;
-            updateUi();
+                e.printStackTrace();
+                mAdsFreeError = true;
+                updateUi();
+            }
         }
 
     }
@@ -1132,6 +1136,10 @@ public class MainActivity extends Activity implements OnClickListener,
                 mAdsFreeError = true;
             }
         mHelper = null;
+    }
+
+    public boolean isBazaarVersion() {
+        return BuildConfig.FLAVOR.equalsIgnoreCase("bazaar");
     }
 
 
