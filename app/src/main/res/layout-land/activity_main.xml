@@ -86,21 +86,8 @@
                 android:src="@drawable/roads_help"
                 android:visibility="gone"/>
 
-            <LinearLayout
-                android:id="@+id/llAds"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal|bottom"
-                android:orientation="vertical"
-                android:visibility="gone">
+            <include layout="@layout/ads_layout"/>
 
-                <ir.adad.AdView
-                    android:id="@+id/ad"
-                    token="d8efa7999202494f80252e5539496795"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"/>
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

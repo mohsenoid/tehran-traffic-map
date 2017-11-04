@@ -10,7 +10,6 @@ import com.mirhoseini.appsettings.AppSettings;
 /**
  * Created by Mohsen on 04/12/2016.
  */
-
 public class TrafficFirebaseInstanceIdService extends FirebaseInstanceIdService {
     public static final String TOKEN_ID = "token_id";
     public static final String TAG = "FirebaseService";

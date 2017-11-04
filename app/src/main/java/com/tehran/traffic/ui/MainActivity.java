@@ -23,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mirhoseini.appsettings.AppSettings;
 import com.mirhoseini.navigationview.NavigationView;
@@ -69,6 +71,7 @@ public class MainActivity extends Activity implements OnClickListener,
     // Does the user have the premium upgrade?
     boolean mIsAdsFree = false;
     boolean mAdsFreeError = false;
+    private AdView mPlayAdView;
     // The helper object
     IabHelper mHelper;
     IabHelper.QueryInventoryFinishedListener mQueryInventoryFinishedListener = new QueryInventoryFinishedListener() {
@@ -321,6 +324,14 @@ public class MainActivity extends Activity implements OnClickListener,
                 mAdsFreeError = true;
                 updateUi();
             }
+        } else {
+            mAdsFreeError = true;
+
+            mPlayAdView = findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mPlayAdView.loadAd(adRequest);
+
+            updateUi();
         }
 
     }

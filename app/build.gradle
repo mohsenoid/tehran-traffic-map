@@ -4,14 +4,17 @@ def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim
 def buildTime = new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
     defaultConfig {
         applicationId "com.tehran.traffic"
-        minSdkVersion 9
-        targetSdkVersion 25
-        versionCode 26
-        versionName '4.1.1'
+
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.compileSdkVersion
+
+        versionCode 32
+        versionName '5.0.0'
     }
     buildTypes {
         release {
@@ -23,13 +26,16 @@ android {
             versionNameSuffix '_debug'
         }
     }
+
+    flavorDimensions "ads"
+
     productFlavors {
         play{
-
+            dimension "ads"
         }
 
         bazaar{
-
+            dimension "ads"
         }
     }
 
@@ -45,17 +51,31 @@ android {
             }
         }
     }
+
+    /* fixes espresso conflict with supportAnnotation and androidSupport new versions */
+    configurations.all {
+        resolutionStrategy {
+            force "com.android.support:support-annotations:${androidSupportVersion}"
+            force "com.android.support:appcompat-v7:${androidSupportVersion}"
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-annotations:25.1.1'
-    compile 'ch.acra:acra:4.6.2'
-    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
-    compile 'com.mirhoseini.appsettings:appsettings:1.0.2'
-    compile 'com.mirhoseini.navigationview:navigationview:1.0.0'
-    compile 'com.mirhoseini.utils:utils:1.0.7'
-    compile 'com.google.firebase:firebase-messaging:9.8.0'
-    compile 'com.google.firebase:firebase-core:9.8.0'
+    androidTestImplementation "com.android.support:support-annotations:${androidSupportVersion}"
+    implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+    implementation "com.mirhoseini.appsettings:appsettings:${appSettingsVersion}"
+    implementation "com.mirhoseini.navigationview:navigationview:${navigationViewVersion}"
+    implementation "com.mirhoseini.utils:utils:${utilsVersion}"
+    implementation "com.google.firebase:firebase-messaging:${playServicesVersion}"
+    implementation "com.google.firebase:firebase-ads:${playServicesVersion}"
 }
 apply plugin: 'com.google.gms.google-services'
