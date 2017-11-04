@@ -25,16 +25,17 @@
         </activity>
 
         <activity
-            android:name="ir.adad.AdadActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:name="ir.adad.client.AdadActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
 
-        <activity
-            android:name="org.acra.CrashReportDialog"
-            android:excludeFromRecents="true"
-            android:finishOnTaskLaunch="true"
-            android:launchMode="singleInstance"
-            android:process=":error_report"
-            android:theme="@style/Theme.Dialog" />
+        <!--<activity-->
+        <!--android:name="org.acra.CrashReportDialog"-->
+        <!--android:excludeFromRecents="true"-->
+        <!--android:finishOnTaskLaunch="true"-->
+        <!--android:launchMode="singleInstance"-->
+        <!--android:process=":error_report"-->
+        <!--android:theme="@style/Theme.Dialog" />-->
 
         <service android:name=".service.TrafficFirebaseInstanceIdService">
             <intent-filter>
@@ -55,6 +56,30 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/button" />
+
+        <meta-data
+            android:name="AdadToken"
+            android:value="d8efa7999202494f80252e5539496795" />
+
+        <meta-data
+            android:name="AdadBannersEnabledOnStart"
+            android:value="true" />
+
+        <meta-data
+            android:name="AdadTestMode"
+            android:value="false" />
+
+        <meta-data
+            android:name="AdadShowRemoveAds"
+            android:value="false" />
+
+        <meta-data
+            android:name="AdadLogging"
+            android:value="false" />
+
+        <meta-data
+            android:name="AdadLoggingLevel"
+            android:value="debug" />
 
     </application>
 

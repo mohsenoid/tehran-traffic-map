@@ -66,5 +66,6 @@
     <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
     <string name="crash_dialog_ok_toast">Thank you !</string>
     <string name="crash_user_email_label">Your email</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9854501364301815/8918715628</string>
 
 </resources>

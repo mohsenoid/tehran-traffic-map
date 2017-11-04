@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "247656184528-q1c0aoqlfob4ipspc86i15sbgc6oh6jb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tehran.traffic",
+            "certificate_hash": "a526353ec05830e542a4cc44146f40cadf057860"
+          }
+        },
+        {
           "client_id": "247656184528-05d1cmbt65bueep6u0aloqq26cq685l2.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247656184528-05d1cmbt65bueep6u0aloqq26cq685l2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
@@ -46,6 +59,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "247656184528-0jrohukb5087ou19cq0kiq7eo0r6j4jk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tehran.traffic.debug",
+            "certificate_hash": "61f85413386d797878e8ecc1e504a494443c8dc0"
+          }
+        },
+        {
           "client_id": "247656184528-05d1cmbt65bueep6u0aloqq26cq685l2.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -60,8 +81,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247656184528-05d1cmbt65bueep6u0aloqq26cq685l2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
