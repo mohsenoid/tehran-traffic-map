@@ -7,7 +7,7 @@
     android:visibility="gone"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ir.adad.AdView
+    <ir.adad.client.AdView
         android:id="@+id/adView"
         token="d8efa7999202494f80252e5539496795"
         android:layout_width="wrap_content"

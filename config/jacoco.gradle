@@ -1,0 +1,50 @@
+apply plugin: 'jacoco'
+apply from: "$rootDir/config/dependencies.gradle"
+
+jacoco {
+    toolVersion = "$jacoco_version"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+tasks.create(name: "jacoco", type: JacocoReport, dependsOn: ["testPlayDebugUnitTest", "createPlayDebugCoverageReport"]) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for build."
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            'androidx/**/*.*',
+            '**/BR.*',
+            '**/*Binding.*',
+            '**/*Binding*Impl.*',
+            '*_.*',
+            '**/*Directions.*',
+            '**/*Args.*'
+    ]
+    def javaClasses = fileTree(dir: "$project.buildDir/intermediates/javac/playDebug", excludes: excludes)
+    def kotlinClasses = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/playDebug", excludes: excludes)
+    getClassDirectories().setFrom(files([javaClasses, kotlinClasses]))
+
+    getSourceDirectories().setFrom(files([
+            "$project.projectDir/src/main/java",
+            "$project.projectDir/src/bazaar/java",
+    ]))
+
+    def includes = [
+            'jacoco/testPlayDebugUnitTest.exec',
+            'outputs/code_coverage/playDebugAndroidTest/connected/**/*.ec'
+    ]
+    getExecutionData().setFrom(fileTree(dir: project.buildDir, includes: includes))
+}

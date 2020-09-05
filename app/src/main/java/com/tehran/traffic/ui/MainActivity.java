@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -409,12 +410,12 @@ public class MainActivity extends Activity implements OnClickListener,
 
     //get first run
     private boolean isFirstRun() {
-        return AppSettings.getBoolean(context, FIRST_RUN, true);
+        return AppSettings.INSTANCE.getBoolean(context, FIRST_RUN, true);
     }
 
     //set first run
     private void setFirstRun(boolean value) {
-        AppSettings.setValue(context, FIRST_RUN, value);
+        AppSettings.INSTANCE.setValue(context, FIRST_RUN, value);
     }
 
     @Override
