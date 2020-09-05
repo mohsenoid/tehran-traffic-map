@@ -1,0 +1,25 @@
+apply from: "$rootDir/config/dependencies.gradle"
+
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+detekt {
+    version = detekt_version
+    failFast = true
+    reports {
+        txt {
+            enabled = false
+        }
+        xml {
+            enabled = true
+            destination = file("$buildDir/reports/detekt.xml")
+        }
+        html {
+            enabled = true
+            destination = file("$buildDir/reports/detekt.html")
+        }
+    }
+}
+
+tasks.detekt {
+    jvmTarget = JavaVersion.VERSION_1_8.toString()
+}

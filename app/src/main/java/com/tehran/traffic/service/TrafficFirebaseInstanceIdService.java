@@ -20,7 +20,7 @@ public class TrafficFirebaseInstanceIdService extends FirebaseInstanceIdService 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
-        AppSettings.setValue(getApplicationContext(), TOKEN_ID, refreshedToken);
+        AppSettings.INSTANCE.setValue(getApplicationContext(), TOKEN_ID, refreshedToken);
 
         FirebaseMessaging.getInstance().subscribeToTopic("news");
 

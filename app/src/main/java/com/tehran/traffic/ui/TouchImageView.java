@@ -11,7 +11,9 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 
-public class TouchImageView extends ImageView {
+import androidx.appcompat.widget.AppCompatImageView;
+
+public class TouchImageView extends AppCompatImageView {
     // We can be in one of these 3 states
     static final int NONE = 0;
     static final int DRAG = 1;
