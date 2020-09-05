@@ -1,40 +1,76 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'com.google.firebase.appdistribution'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+apply from: "$rootDir/config/ktlint.gradle"
+
+apply from: "$rootDir/config/jacoco.gradle"
+
+apply from: "$rootDir/config/detekt.gradle"
+
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+
 def buildTime = new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 
+def releaseNote = "Commit: ${commitMessage()}\n\n" +
+        "Branch: ${System.getenv('GITHUB_REF')}\n\n" +
+        "Author: ${commitAuthor()}\n\n" +
+        "Hash: ${commitShortHash()}"
+
+def releaseTestersGroup = "qa, dev"
+
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.ext.compile_sdk_version
 
     defaultConfig {
         applicationId "com.tehran.traffic"
 
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.compileSdkVersion
+        minSdkVersion rootProject.ext.min_sdk_version
+        targetSdkVersion rootProject.ext.compile_sdk_version
+        multiDexEnabled true
 
         versionCode 32
         versionName '5.0.0'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            firebaseAppDistribution {
+                releaseNotes = releaseNote
+                groups = releaseTestersGroup
+            }
         }
         debug {
             applicationIdSuffix '.debug'
             versionNameSuffix '_debug'
+
+            testCoverageEnabled true
+
+            firebaseAppDistribution {
+                releaseNotes = releaseNote
+                groups = releaseTestersGroup
+            }
         }
     }
 
     flavorDimensions "ads"
 
     productFlavors {
-        play{
+        play {
             dimension "ads"
         }
 
-        bazaar{
+        bazaar {
             dimension "ads"
         }
     }
@@ -52,30 +88,82 @@ android {
         }
     }
 
-    /* fixes espresso conflict with supportAnnotation and androidSupport new versions */
-    configurations.all {
-        resolutionStrategy {
-            force "com.android.support:support-annotations:${androidSupportVersion}"
-            force "com.android.support:appcompat-v7:${androidSupportVersion}"
+    viewBinding {
+        enabled = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled true
+
+        unitTests {
+            includeAndroidResources = true
         }
     }
 
-    packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/MANIFEST.MF'
-        exclude 'META-INF/rxjava.properties'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation "com.android.support:support-annotations:${androidSupportVersion}"
+    implementation files('libs/adad-client-3.1.jar')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_android_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_test_version"
+
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+    implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
+    implementation "androidx.constraintlayout:constraintlayout:$androidx_constraintlayout_version"
+    implementation "com.android.support:support-annotations:$support_annotations_version"
+    implementation "androidx.legacy:legacy-support-v4:$androidx_legacy_support_v4"
+    implementation "androidx.multidex:multidex:$multidex_version"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-service:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$androidx_lifecycle_version"
+    kapt "android.arch.lifecycle:common-java8:$androidx_lifecycle_version"
+    testImplementation "androidx.arch.core:core-testing:$androidx_arch_version"
+
+    implementation "com.google.android.material:material:$android_material_version"
+
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_testext_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_testespresso_version"
+
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-core-ext:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
+    testImplementation "org.koin:koin-test:$koin_version"
+
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_component_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_component_version"
+
     implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
-    implementation "com.mirhoseini.appsettings:appsettings:${appSettingsVersion}"
-    implementation "com.mirhoseini.navigationview:navigationview:${navigationViewVersion}"
-    implementation "com.mirhoseini.utils:utils:${utilsVersion}"
-    implementation "com.google.firebase:firebase-messaging:${playServicesVersion}"
-    implementation "com.google.firebase:firebase-ads:${playServicesVersion}"
+
+    implementation "com.mirhoseini.appsettings:appsettings:$appsettings_version"
+    implementation "com.mirhoseini.navigationview:navigationview:$navigation_view_version"
+    implementation "com.mirhoseini.utils:utils:$utils_version"
+
+    implementation "com.google.firebase:firebase-messaging:$firebase_messaging_version"
+    implementation "com.google.firebase:firebase-ads:$firebase_ads_version"
 }
+
 apply plugin: 'com.google.gms.google-services'
