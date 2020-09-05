@@ -1,4 +1,4 @@
-Tehran Traffic Map [![Circle CI](https://circleci.com/gh/mmirhoseini/tehran_traffic_map.svg?style=svg)](https://circleci.com/gh/mmirhoseini/tehran_traffic_map)
+Tehran Traffic Map ![Test and Build](https://github.com/mohsenoid/tehran_traffic_map/workflows/Test%20and%20Build/badge.svg)
 ==================
 
 <b>Tehran and Roads Traffic Maps Android Application</b><br />
@@ -10,4 +10,4 @@ It also lets you zoom on the streets and compare new received and older map.
 Published at: <a href="https://play.google.com/store/apps/details?id=com.tehran.traffic"> Google Play</a> | <a href="http://cafebazaar.ir/app/com.tehran.traffic" target="_blank">Cafe Bazaar</a> | <a href="http://cando.asr24.com/app.jsp?appId=291953" target="_blank">Cando Market</a>
 Telegram Bot: <a href="https://telegram.me/TehranTrafficMapBot" target="_blank">https://telegram.me/TehranTrafficMapBot</a>
 Facebook Fan Page: <a href="http://www.facebook.com/tehrantrafficmap" target="_blank">http://www.facebook.com/tehrantrafficmap</a>
-Contact me: mohsen@mirhoseini.com
+Contact me: contact@mohsenoid.com
