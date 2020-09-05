@@ -25,6 +25,9 @@ def releaseNote = "Commit: ${commitMessage()}\n\n" +
 
 def releaseTestersGroup = "qa, dev"
 
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+
 android {
     compileSdkVersion rootProject.ext.compile_sdk_version
 
@@ -40,10 +43,22 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        releaseKey {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.releaseKey
 
             firebaseAppDistribution {
                 releaseNotes = releaseNote
@@ -55,6 +70,8 @@ android {
             versionNameSuffix '_debug'
 
             testCoverageEnabled true
+
+            signingConfig signingConfigs.releaseKey
 
             firebaseAppDistribution {
                 releaseNotes = releaseNote
