@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:id="@+id/svTab"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:fadingEdge="none"
-            android:fillViewport="true"
-            android:scrollbars="none">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/svTab"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:fadingEdge="none"
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
             android:onClick="onClick"
             android:padding="20dp"
             android:src="@drawable/ic_tab_traffic"
-            android:text="@string/mnu_traffic"/>
+            android:text="@string/mnu_traffic" />
 
         <ImageButton
             android:id="@+id/ibTabRoad"
@@ -35,7 +35,7 @@
             android:onClick="onClick"
             android:padding="20dp"
             android:src="@drawable/ic_tab_road"
-            android:text="@string/mnu_road"/>
+            android:text="@string/mnu_road" />
 
         <ImageButton
             android:id="@+id/ibTabPlane"
@@ -47,7 +47,7 @@
             android:onClick="onClick"
             android:padding="20dp"
             android:src="@drawable/ic_tab_plane"
-            android:text="@string/mnu_plans"/>
+            android:text="@string/mnu_plans" />
 
         <ImageButton
             android:id="@+id/ibTabBrt"
@@ -59,7 +59,7 @@
             android:onClick="onClick"
             android:padding="20dp"
             android:src="@drawable/ic_tab_brt"
-            android:text="@string/mnu_brt"/>
+            android:text="@string/mnu_brt" />
 
         <ImageButton
             android:id="@+id/ibTabMetro"
@@ -71,7 +71,7 @@
             android:onClick="onClick"
             android:padding="20dp"
             android:src="@drawable/ic_tab_underground"
-            android:text="@string/mnu_metro"/>
+            android:text="@string/mnu_metro" />
 
         <ImageButton
             android:id="@+id/ibTabContact"
@@ -83,7 +83,7 @@
             android:onClick="onClick"
             android:padding="20dp"
             android:src="@drawable/ic_tab_contact"
-            android:text="@string/mnu_contact"/>
+            android:text="@string/mnu_contact" />
 
         <ImageButton
             android:id="@+id/ibTabAbout"
@@ -95,7 +95,7 @@
             android:onClick="onClick"
             android:padding="20dp"
             android:src="@drawable/ic_tab_about"
-            android:text="@string/mnu_about"/>
+            android:text="@string/mnu_about" />
     </LinearLayout>
 
 </ScrollView>
