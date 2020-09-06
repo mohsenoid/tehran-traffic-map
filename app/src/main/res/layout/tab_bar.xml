@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/ibTabTraffic"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
             android:enabled="false"
             android:onClick="onClick"
             android:padding="20dp"
-            android:src="@drawable/ic_tab_traffic" />
+            android:src="@drawable/ic_tab_traffic" />-->
 
         <ImageButton
             android:id="@+id/ibTabRoad"
