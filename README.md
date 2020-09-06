@@ -1,7 +1,9 @@
-# Tehran Traffic Map ![Test and Build](https://github.com/mohsenoid/tehran_traffic_map/workflows/Test%20and%20Build/badge.svg) [![codecov](https://codecov.io/gh/mohsenoid/tehran_traffic_map/branch/develop/graph/badge.svg)](https://codecov.io/gh/mohsenoid/tehran_traffic_map)
+# ![launcher icon](logo.png) Tehran Traffic Map ![Test and Build](https://github.com/mohsenoid/tehran_traffic_map/workflows/Test%20and%20Build/badge.svg) [![codecov](https://codecov.io/gh/mohsenoid/tehran_traffic_map/branch/develop/graph/badge.svg)](https://codecov.io/gh/mohsenoid/tehran_traffic_map)
 
 Tehran and Iran Roads Traffic Maps Android Application
 Designed By: <a href="http://mohsenoid.com" target="_blank"><b>Mohsen Mirhoseini</b></a>
+
+![Screenshot](SCREENSHOT1.png) ![Screenshot](SCREENSHOT2.png)
 
 This app uses your mobile internet connection to show a real-time Traffic info about surface street traffic conditions within the city of Tehran. All information received from "Tehran Traffic Control Co." cameras services and visualize on a map.
 It also lets you zoom on the streets and compare new received and older map.
