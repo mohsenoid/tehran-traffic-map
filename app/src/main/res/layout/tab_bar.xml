@@ -37,15 +37,15 @@
             android:text="@string/mnu_news" />
 
         <ImageButton
-            android:id="@+id/ibTabPlane"
+            android:id="@+id/ibTabPlans"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/selector_tab_4"
-            android:drawableTop="@drawable/ic_tab_plane"
+            android:drawableTop="@drawable/ic_tab_plans"
             android:onClick="onClick"
             android:padding="20dp"
-            android:src="@drawable/ic_tab_plane"
+            android:src="@drawable/ic_tab_plans"
             android:text="@string/mnu_plans" />
 
         <ImageButton
@@ -70,18 +70,6 @@
             android:padding="20dp"
             android:src="@drawable/ic_tab_underground"
             android:text="@string/mnu_metro" />
-
-        <ImageButton
-            android:id="@+id/ibTabContact"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/selector_tab_5"
-            android:drawableTop="@drawable/ic_tab_contact"
-            android:onClick="onClick"
-            android:padding="20dp"
-            android:src="@drawable/ic_tab_contact"
-            android:text="@string/mnu_contact" />
 
         <ImageButton
             android:id="@+id/ibTabAbout"
