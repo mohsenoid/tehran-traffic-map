@@ -45,7 +45,7 @@ public class MainActivity extends Activity implements OnClickListener,
     public static final String FIRST_RUN = "firstRun";
     public static final String STATE_ID = "stateID";
     final static int[][] tiles = new int[12][12];
-    static ApplicationState appState = ApplicationState.Traffic;
+    static ApplicationState appState = ApplicationState.Road;
     static int currentTile;
     static int currentRow;
     static int currentCol;
@@ -308,7 +308,7 @@ public class MainActivity extends Activity implements OnClickListener,
     }
 
     private void enableAllTabs() {
-        findViewById(R.id.ibTabTraffic).setEnabled(true);
+//        findViewById(R.id.ibTabTraffic).setEnabled(true);
         findViewById(R.id.ibTabRoad).setEnabled(true);
         findViewById(R.id.ibTabPlans).setEnabled(true);
         findViewById(R.id.ibTabMetro).setEnabled(true);
@@ -366,12 +366,12 @@ public class MainActivity extends Activity implements OnClickListener,
 
                 switchView();
                 break;
-            case R.id.ibTabTraffic:
-                bundle.putString("label", "ib_tab_traffic");
-
-                appState = ApplicationState.Traffic;
-                switchView();
-                break;
+//            case R.id.ibTabTraffic:
+//                bundle.putString("label", "ib_tab_traffic");
+//
+//                appState = ApplicationState.Traffic;
+//                switchView();
+//                break;
             case R.id.ibTabRoad:
                 bundle.putString("label", "ib_tab_road");
 
@@ -573,7 +573,7 @@ public class MainActivity extends Activity implements OnClickListener,
             ibPrev.setVisibility(Button.INVISIBLE);
         }
 
-        findViewById(R.id.ibTabTraffic).setEnabled(false);
+//        findViewById(R.id.ibTabTraffic).setEnabled(false);
 
         tivMap.setBackgroundColor(Color.TRANSPARENT);
 
@@ -628,7 +628,7 @@ public class MainActivity extends Activity implements OnClickListener,
         }
         loader.loadTile(currentTile, false);
 
-        findViewById(R.id.ibTabTraffic).setEnabled(false);
+//        findViewById(R.id.ibTabTraffic).setEnabled(false);
 
         tivMap.setBackgroundColor(Color.TRANSPARENT);
 
