@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="roads">
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_ITabriz.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IOromyeh.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IArdebil.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IEsfehan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IKaraj.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IIlam.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IBoshehr.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_ITehran.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IShahrkord.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IJonobi.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IMashhad.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IShomali.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IAhvaz.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IZanjan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_ISemnan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IZahedan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IShiraz.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGhazvin.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IQom.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_ISanandaj.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IKerman.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IKermanshah.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IYasoj.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGolestan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IGilan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IKhoramabad.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IMazandaran.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IArak.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IBandar.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IHamedan.png</item>
-        <item>http://91.98.46.98/traffic_map/traffic_images/S_IYazd.png</item>
+        <item>https://141.ir/wayonlinetraffic/6</item><!-- آذربايجان شرقي-->
+        <item>https://141.ir/wayonlinetraffic/5</item><!-- آذربايجان غربي-->
+        <item>https://141.ir/wayonlinetraffic/7</item><!-- اردبيل-->
+        <item>https://141.ir/wayonlinetraffic/22</item><!-- اصفهان-->
+        <item>https://141.ir/wayonlinetraffic/14</item><!-- البرز-->
+        <item>https://141.ir/wayonlinetraffic/21</item><!-- ايلام-->
+        <item>https://141.ir/wayonlinetraffic/28</item><!-- بوشهر-->
+        <item>https://141.ir/wayonlinetraffic/2</item><!-- تهران-->
+        <item>https://141.ir/wayonlinetraffic/25</item><!-- چهار محال و بختياري-->
+        <item>https://141.ir/wayonlinetraffic/24</item><!-- خراسان جنوبي-->
+        <item>https://141.ir/wayonlinetraffic/4</item><!-- خراسان رضوي-->
+        <item>https://141.ir/wayonlinetraffic/16</item><!-- خراسان شمالي-->
+        <item>https://141.ir/wayonlinetraffic/26</item><!-- خوزستان-->
+        <item>https://141.ir/wayonlinetraffic/9</item><!-- زنجان-->
+        <item>https://141.ir/wayonlinetraffic/17</item><!-- سمنان-->
+        <item>https://141.ir/wayonlinetraffic/30</item><!-- سيستان و بلوچستان-->
+        <item>https://141.ir/wayonlinetraffic/3</item><!-- فارس-->
+        <item>https://141.ir/wayonlinetraffic/13</item><!-- قزوين-->
+        <item>https://141.ir/wayonlinetraffic/18</item><!-- قم-->
+        <item>https://141.ir/wayonlinetraffic/10</item><!-- كردستان-->
+        <item>https://141.ir/wayonlinetraffic/29</item><!-- كرمان-->
+        <item>https://141.ir/wayonlinetraffic/11</item><!-- كرمانشاه-->
+        <item>https://141.ir/wayonlinetraffic/27</item><!-- كهگيلويه و بويراحمد-->
+        <item>https://141.ir/wayonlinetraffic/15</item><!-- گلستان-->
+        <item>https://141.ir/wayonlinetraffic/8</item><!-- گيلان-->
+        <item>https://141.ir/wayonlinetraffic/20</item><!-- لرستان-->
+        <item>https://141.ir/wayonlinetraffic/1</item><!-- مازندران-->
+        <item>https://141.ir/wayonlinetraffic/19</item><!-- مركزي-->
+        <item>https://141.ir/wayonlinetraffic/31</item><!-- هرمزگان-->
+        <item>https://141.ir/wayonlinetraffic/12</item><!-- همدان-->
+        <item>https://141.ir/wayonlinetraffic/23</item><!-- یزد-->
     </string-array>
 
     <string-array name="states">
@@ -67,4 +68,5 @@
         <item>همدان</item>
         <item>یزد</item>
     </string-array>
+
 </resources>
