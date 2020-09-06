@@ -24,6 +24,11 @@ import com.tehran.traffic.ui.MainActivity;
 
 public class TrafficFirebaseMessagingService extends FirebaseMessagingService {
     public static final String TAG = "FirebaseMessaging";
+    public static final String ALERT = "alert";
+    public static final String MESSAGE = "msg";
+    public static final String TITLE = "title";
+    public static final String URL = "url";
+    public static final String DEFAULT_TITLE = "Traffic";
     private static final String KEY_LAST_NOTIFICATION_TITLE = "last_notification";
 
     @Override
@@ -38,12 +43,6 @@ public class TrafficFirebaseMessagingService extends FirebaseMessagingService {
             showNotification(remoteMessage.getMessageId().hashCode(), remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), remoteMessage.getData().get("url"));
         }
     }
-
-    public static final String ALERT = "alert";
-    public static final String MESSAGE = "msg";
-    public static final String TITLE = "title";
-    public static final String URL = "url";
-    public static final String DEFAULT_TITLE = "Traffic";
 
     private void showNotification(int notificationId, String title, String message, String url) {
         NotificationManager notificationManager = (NotificationManager)

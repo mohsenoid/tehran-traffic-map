@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:id="@+id/scrollViewAbout"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollViewAbout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:id="@+id/linearLayoutAbout"
@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:adjustViewBounds="false"
             android:scaleType="fitEnd"
-            android:src="@drawable/ic_launcher"/>
+            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/txtAppName"
@@ -29,7 +29,7 @@
             android:layout_gravity="center_horizontal"
             android:autoLink="none"
             android:gravity="center_horizontal"
-            android:text="@string/app_name"/>
+            android:text="@string/app_name" />
 
         <TextView
             android:id="@+id/tvVersion"
@@ -37,22 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:autoLink="none"
-            android:gravity="center_horizontal"/>
-
-        <Button
-            android:id="@+id/purchase1"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:onClick="onClick"
-            android:padding="10dp"
-            android:text="@string/purchase"
-            android:textColor="@color/button"
-            android:textStyle="bold"
-            android:visibility="gone"/>
+            android:gravity="center_horizontal" />
 
         <ImageView
             android:id="@+id/imgTelegram"

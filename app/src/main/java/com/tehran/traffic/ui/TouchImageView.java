@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
@@ -222,7 +221,7 @@ public class TouchImageView extends AppCompatImageView {
 
     public interface OnTileListener {
 
-        public void onTileClick(View v, int row, int col);
+        void onTileClick(View v, int row, int col);
 
     }
 
