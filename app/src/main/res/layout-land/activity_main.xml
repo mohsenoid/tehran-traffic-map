@@ -60,13 +60,6 @@
                     android:visibility="gone" />
 
                 <include
-                    android:id="@+id/inContact"
-                    layout="@layout/contact"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <include
                     android:id="@+id/inAbout"
                     layout="@layout/about"
                     android:layout_width="match_parent"

@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class DataLoader extends AsyncTask<String, Void, Boolean> {
-    static Bitmap bmMetro, bmPlane, bmBrt;
+    static Bitmap bmMetro, bmPlans, bmBrt;
     Dialog progress;
     Activity activity;
     TouchImageView tivMap;
@@ -253,15 +253,11 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
         loadFile("oldMap", "jpg", false);
     }
 
-    // public void loadNext() {
-    // loadFile("newMap");
-    // }
-
-    public void loadPlane() {
+    public void loadPlans() {
         try {
-            if (bmPlane == null)
-                bmPlane = getBitmapFromAsset("traffic_cam.jpg");
-            tivMap.setImageBitmap(bmPlane);
+            if (bmPlans == null)
+                bmPlans = getBitmapFromAsset("traffic_cam.jpg");
+            tivMap.setImageBitmap(bmPlans);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
