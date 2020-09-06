@@ -1,38 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="roads">
-        <item>http://ttmap.link/road-alborz</item>
-        <item>http://ttmap.link/road-ardabil</item>
-        <item>http://ttmap.link/road-azerbaijan-east</item>
-        <item>http://ttmap.link/road-azerbaijan-west</item>
-        <item>http://ttmap.link/road-boshehr</item>
-        <item>http://ttmap.link/road-chaharmahal</item>
-        <item>http://ttmap.link/road-fars</item>
-        <item>http://ttmap.link/road-gilan</item>
-        <item>http://ttmap.link/road-golestan</item>
-        <item>http://ttmap.link/road-hamedan</item>
-        <item>http://ttmap.link/road-hormozgan</item>
-        <item>http://ttmap.link/road-ilam</item>
-        <item>http://ttmap.link/road-isfahan</item>
-        <item>http://ttmap.link/road-kerman</item>
-        <item>http://ttmap.link/road-kermanshah</item>
-        <item>http://ttmap.link/road-khorasan-north</item>
-        <item>http://ttmap.link/road-khorasan-razavi</item>
-        <item>http://ttmap.link/road-khorasan-south</item>
-        <item>http://ttmap.link/road-khuzestan</item>
-        <item>http://ttmap.link/road-kohgiluyeh</item>
-        <item>http://ttmap.link/road-kurdistan</item>
-        <item>http://ttmap.link/road-lurestan</item>
-        <item>http://ttmap.link/road-markazi</item>
-        <item>http://ttmap.link/road-mazandaran</item>
-        <item>http://ttmap.link/road-qazvin</item>
-        <item>http://ttmap.link/road-qom</item>
-        <item>http://ttmap.link/road-semnan</item>
-        <item>http://ttmap.link/road-sistan</item>
-        <item>http://ttmap.link/road-tehran</item>
-        <item>http://ttmap.link/road-yazd</item>
-        <item>http://ttmap.link/road-zanjan</item>
+
+    <string-array name="states">
+        <item>Alborz</item>
+        <item>Ardabil</item>
+        <item>East Azerbaijan</item>
+        <item>West Azerbaijan</item>
+        <item>Boushehr</item>
+        <item>Chaharmahal and Bakhtiari</item>
+        <item>Fars</item>
+        <item>Gilan</item>
+        <item>Golestan</item>
+        <item>Hamadan</item>
+        <item>Hormozgan</item>
+        <item>Ilam</item>
+        <item>Isfahan</item>
+        <item>Kerman</item>
+        <item>Kermanshah</item>
+        <item>North Khorasan</item>
+        <item>Razavi Khorasan</item>
+        <item>South Khorasan</item>
+        <item>Khuzestan</item>
+        <item>Kohgiluyeh And Boyer-Ahmad</item>
+        <item>Kurdistan</item>
+        <item>Lurestan</item>
+        <item>Markazi</item>
+        <item>Mazandaran</item>
+        <item>Qazvin</item>
+        <item>Qom</item>
+        <item>Semnan</item>
+        <item>Sistan and Baluchestan</item>
+        <item>Tehran</item>
+        <item>Yazd</item>
+        <item>Zanjan</item>
     </string-array>
+
+    <string-array name="roads">
+        <item>https://141.ir/wayonlinetraffic/14</item><!-- Alborz -->
+        <item>https://141.ir/wayonlinetraffic/7</item><!-- Ardabil -->
+        <item>https://141.ir/wayonlinetraffic/6</item><!-- East Azerbaijan -->
+        <item>https://141.ir/wayonlinetraffic/5</item><!-- West Azerbaijan -->
+        <item>https://141.ir/wayonlinetraffic/28</item><!-- Boushehr -->
+        <item>https://141.ir/wayonlinetraffic/25</item><!-- Chaharmahal and Bakhtiari -->
+        <item>https://141.ir/wayonlinetraffic/3</item><!-- Fars -->
+        <item>https://141.ir/wayonlinetraffic/8</item><!-- Gilan -->
+        <item>https://141.ir/wayonlinetraffic/15</item><!-- Golestan -->
+        <item>https://141.ir/wayonlinetraffic/12</item><!-- Hamadan -->
+        <item>https://141.ir/wayonlinetraffic/31</item><!-- Hormozgan -->
+        <item>https://141.ir/wayonlinetraffic/21</item><!-- Ilam -->
+        <item>https://141.ir/wayonlinetraffic/22</item><!-- Isfahan -->
+        <item>https://141.ir/wayonlinetraffic/29</item><!-- Kerman -->
+        <item>https://141.ir/wayonlinetraffic/11</item><!-- Kermanshah -->
+        <item>https://141.ir/wayonlinetraffic/16</item><!-- North Khorasan -->
+        <item>https://141.ir/wayonlinetraffic/4</item><!-- Razavi Khorasan -->
+        <item>https://141.ir/wayonlinetraffic/24</item><!-- South Khorasan -->
+        <item>https://141.ir/wayonlinetraffic/26</item><!-- Khuzestan -->
+        <item>https://141.ir/wayonlinetraffic/27</item><!-- Kohgiluyeh And Boyer-Ahmad -->
+        <item>https://141.ir/wayonlinetraffic/10</item><!-- Kurdistan -->
+        <item>https://141.ir/wayonlinetraffic/20</item><!-- Lurestan -->
+        <item>https://141.ir/wayonlinetraffic/19</item><!-- Markazi -->
+        <item>https://141.ir/wayonlinetraffic/1</item><!-- Mazandaran -->
+        <item>https://141.ir/wayonlinetraffic/13</item><!-- Qazvin -->
+        <item>https://141.ir/wayonlinetraffic/18</item><!-- Qom -->
+        <item>https://141.ir/wayonlinetraffic/17</item><!-- Semnan -->
+        <item>https://141.ir/wayonlinetraffic/30</item><!-- Sistan and Baluchestan -->
+        <item>https://141.ir/wayonlinetraffic/2</item><!-- Tehran -->
+        <item>https://141.ir/wayonlinetraffic/23</item><!-- Yazd -->
+        <item>https://141.ir/wayonlinetraffic/9</item><!-- Zanjan -->
+    </string-array>
+
+    <!--    <string-array name="roads">-->
+    <!--        <item>http://ttmap.link/road-alborz</item>-->
+    <!--        <item>http://ttmap.link/road-ardabil</item>-->
+    <!--        <item>http://ttmap.link/road-azerbaijan-east</item>-->
+    <!--        <item>http://ttmap.link/road-azerbaijan-west</item>-->
+    <!--        <item>http://ttmap.link/road-boshehr</item>-->
+    <!--        <item>http://ttmap.link/road-chaharmahal</item>-->
+    <!--        <item>http://ttmap.link/road-fars</item>-->
+    <!--        <item>http://ttmap.link/road-gilan</item>-->
+    <!--        <item>http://ttmap.link/road-golestan</item>-->
+    <!--        <item>http://ttmap.link/road-hamedan</item>-->
+    <!--        <item>http://ttmap.link/road-hormozgan</item>-->
+    <!--        <item>http://ttmap.link/road-ilam</item>-->
+    <!--        <item>http://ttmap.link/road-isfahan</item>-->
+    <!--        <item>http://ttmap.link/road-kerman</item>-->
+    <!--        <item>http://ttmap.link/road-kermanshah</item>-->
+    <!--        <item>http://ttmap.link/road-khorasan-north</item>-->
+    <!--        <item>http://ttmap.link/road-khorasan-razavi</item>-->
+    <!--        <item>http://ttmap.link/road-khorasan-south</item>-->
+    <!--        <item>http://ttmap.link/road-khuzestan</item>-->
+    <!--        <item>http://ttmap.link/road-kohgiluyeh</item>-->
+    <!--        <item>http://ttmap.link/road-kurdistan</item>-->
+    <!--        <item>http://ttmap.link/road-lurestan</item>-->
+    <!--        <item>http://ttmap.link/road-markazi</item>-->
+    <!--        <item>http://ttmap.link/road-mazandaran</item>-->
+    <!--        <item>http://ttmap.link/road-qazvin</item>-->
+    <!--        <item>http://ttmap.link/road-qom</item>-->
+    <!--        <item>http://ttmap.link/road-semnan</item>-->
+    <!--        <item>http://ttmap.link/road-sistan</item>-->
+    <!--        <item>http://ttmap.link/road-tehran</item>-->
+    <!--        <item>http://ttmap.link/road-yazd</item>-->
+    <!--        <item>http://ttmap.link/road-zanjan</item>-->
+    <!--    </string-array>-->
 
     <!--<string-array name="roads">-->
     <!--<item>http://daszarrin.ir/traffic_images/show.php?ostan=Karaj</item>-->
@@ -102,37 +171,4 @@
     <!--<item>http://91.98.46.98/traffic_map/traffic_images/S_IZanjan.png</item>-->
     <!--</string-array>-->
 
-    <string-array name="states">
-        <item>Alborz</item>
-        <item>Ardabil</item>
-        <item>East Azerbaijan</item>
-        <item>West Azerbaijan</item>
-        <item>Boushehr</item>
-        <item>Chaharmahal And Bakhtiari</item>
-        <item>Fars</item>
-        <item>Gilan</item>
-        <item>Golestan</item>
-        <item>Hamadan</item>
-        <item>Hormozgan</item>
-        <item>Ilam</item>
-        <item>Isfahan</item>
-        <item>Kerman</item>
-        <item>Kermanshah</item>
-        <item>North Khorasan</item>
-        <item>Razavi Khorasan</item>
-        <item>South Khorasan</item>
-        <item>Khuzestan</item>
-        <item>Kohgiluyeh And Boyer-Ahmad</item>
-        <item>Kurdistan</item>
-        <item>Lurestan</item>
-        <item>Markazi</item>
-        <item>Mazandaran</item>
-        <item>Qazvin</item>
-        <item>Qom</item>
-        <item>Semnan</item>
-        <item>Sistan And Baluchestan</item>
-        <item>Tehran</item>
-        <item>Yazd</item>
-        <item>Zanjan</item>
-    </string-array>
 </resources>
