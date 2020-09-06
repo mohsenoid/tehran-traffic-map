@@ -1,9 +1,10 @@
-name: Deploy Production Bazaar
+name: Deploy Production
 
 on:
   push:
     branches:
       - master
+      - develop
 
 jobs:
   build:
@@ -31,4 +32,4 @@ jobs:
       - name: Firebase App Distribution
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: ./gradlew assembleBazaarRelease appDistributionUploadBazaarRelease
+        run: ./gradlew assembleRelease appDistributionUploadRelease

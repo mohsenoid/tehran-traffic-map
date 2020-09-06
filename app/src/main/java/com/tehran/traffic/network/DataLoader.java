@@ -151,7 +151,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean done) {
         endTime = Calendar.getInstance().getTimeInMillis();
         Bundle bundle = new Bundle();
-        bundle.putString("value", endTime - startTime+"");
+        bundle.putString("value", endTime - startTime + "");
         bundle.putString("action", "successful");
         firebaseAnalytics.logEvent("network", bundle);
 

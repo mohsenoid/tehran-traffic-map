@@ -13,9 +13,9 @@
             android:id="@+id/icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
             android:src="@drawable/ic_notification" />
 
         <TextView
@@ -23,12 +23,12 @@
             style="@android:style/TextAppearance.StatusBar.EventContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/icon"
             android:layout_toStartOf="@+id/icon"
+            android:layout_toLeftOf="@+id/icon"
             android:gravity="right"
             android:textStyle="normal|bold"
             tools:text="Title" />
@@ -38,12 +38,12 @@
             style="@android:style/TextAppearance.StatusBar.EventContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/title"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/icon"
             android:layout_toStartOf="@+id/icon"
+            android:layout_toLeftOf="@+id/icon"
             android:gravity="right"
             tools:text="Message" />
     </RelativeLayout>

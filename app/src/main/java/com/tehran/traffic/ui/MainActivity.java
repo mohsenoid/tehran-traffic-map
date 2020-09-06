@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
-import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +25,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mirhoseini.appsettings.AppSettings;
 import com.mirhoseini.navigationview.NavigationView;
@@ -34,33 +34,17 @@ import com.tehran.traffic.BuildConfig;
 import com.tehran.traffic.R;
 import com.tehran.traffic.network.DataLoader;
 import com.tehran.traffic.ui.TouchImageView.OnTileListener;
-import com.tehran.traffic.util.IabHelper;
-import com.tehran.traffic.util.IabHelper.QueryInventoryFinishedListener;
-import com.tehran.traffic.util.IabResult;
-import com.tehran.traffic.util.Inventory;
-import com.tehran.traffic.util.Purchase;
-import com.tehran.traffic.util.SkuDetails;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends Activity implements OnClickListener,
         DialogInterface.OnClickListener, OnTileListener, NavigationView.OnNavigationListener, AdapterView.OnItemSelectedListener {
     public static final String FIRST_RUN = "firstRun";
     public static final String STATE_ID = "stateID";
-    // SKUs for our products: the premium upgrade (non-consumable)
-    static final String SKU_ADS = "ads";
-    // (arbitrary) request code for the purchase flow
-    static final int RC_REQUEST = 10001;
     final static int[][] tiles = new int[12][12];
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 0;
-    //    public static boolean firstRun = true;
     static ApplicationState appState = ApplicationState.Traffic;
     static int currentTile;
     static int currentRow;
@@ -68,35 +52,6 @@ public class MainActivity extends Activity implements OnClickListener,
     static String condition = "0";
     final String TAG = MainActivity.class.getName();
     final Context context = this;
-    private FirebaseAnalytics firebaseAnalytics;
-    // Does the user have the premium upgrade?
-    boolean mIsAdsFree = false;
-    boolean mAdsFreeError = false;
-    private AdView mPlayAdView;
-    // The helper object
-    IabHelper mHelper;
-    IabHelper.QueryInventoryFinishedListener mQueryInventoryFinishedListener = new QueryInventoryFinishedListener() {
-
-        @Override
-        public void onQueryInventoryFinished(IabResult result, Inventory inv) {
-            Log.d(TAG, "PrePurchase finished: " + result + ", Inventory: "
-                    + inv);
-
-            // if we were disposed of in the meantime, quit.
-            if (mHelper == null)
-                return;
-
-            if (result.isFailure()) {
-                Toast.makeText(context, "Error query: " + result,
-                        Toast.LENGTH_LONG).show();
-                // setWaitScreen(false);
-                return;
-            }
-
-            SkuDetails skuDetails = inv.getSkuDetails(SKU_ADS);
-            skuDetails.getPrice();
-        }
-    };
     TouchImageView tivMap;
     ImageButton ibPrev, ibNext, ibRefresh, ibPause, ibBack;
     ImageView ivRoadsHelp;
@@ -106,102 +61,9 @@ public class MainActivity extends Activity implements OnClickListener,
     TextView tvBuild, tvVersion;
     View inMap, inNews, inAbout, inContact;
     Dialog updateDialog;
-    private View llAds, purchase1, purchase2;
-    IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
-        public void onQueryInventoryFinished(IabResult result,
-                                             Inventory inventory) {
-            Log.d(TAG, "Query inventory finished.");
-            if (result.isFailure()) {
-                Bundle bundle = new Bundle();
-                bundle.putString("label", "Failed to query inventory: " + result.getMessage());
-                bundle.putString("action", "failure");
-                firebaseAnalytics.logEvent("IabHelper_query", bundle);
-
-                Log.d(TAG, "Failed to query inventory: " + result);
-                // mAdsFreeError = true;
-                updateUi();
-                return;
-            } else {
-                Log.d(TAG, "Query inventory was successful.");
-                // does the user have the premium upgrade?
-                mIsAdsFree = inventory.hasPurchase(SKU_ADS);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("label", "User is " + (mIsAdsFree ? "premium" : "not premium"));
-                bundle.putString("action", "successful");
-                firebaseAnalytics.logEvent("IabHelper_query", bundle);
-
-                firebaseAnalytics.setUserProperty("user_type", (mIsAdsFree ? "premium" : "not premium"));
-
-                Log.d(TAG, "User is "
-                        + (mIsAdsFree ? "PREMIUM" : "NOT PREMIUM"));
-
-                // update UI accordingly
-                updateUi();
-            }
-
-            Log.d(TAG, "Initial inventory query finished; enabling main UI.");
-        }
-    };
-    // Callback for when a purchase is finished
-    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
-        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-            Log.d(TAG, "Purchase finished: " + result + ", purchase: "
-                    + purchase);
-
-            // if we were disposed of in the meantime, quit.
-            if (mHelper == null)
-                return;
-
-            if (result.isFailure()) {
-                Toast.makeText(context, "Error purchasing: " + result,
-                        Toast.LENGTH_LONG).show();
-                // setWaitScreen(false);
-                return;
-            }
-            if (!verifyDeveloperPayload(purchase)) {
-                Toast.makeText(context,
-                        "Error purchasing. Authenticity verification failed.",
-                        Toast.LENGTH_LONG).show();
-                // setWaitScreen(false);
-                return;
-            }
-
-            Log.d(TAG, "Purchase successful.");
-
-            if (purchase.getSku().equals(SKU_ADS)) {
-//                easyTracker.send(new HitBuilders.TransactionBuilder()
-//                        .setTransactionId(purchase.getOrderId())
-//                        .setAffiliation(purchase.getPackageName())
-//                        .setRevenue(10000d)
-//                        .setTax(741d)
-//                        .setShipping(2778d)
-//                        .setCurrencyCode("IRLS")
-//                        .build());
-//
-//                easyTracker.send(new HitBuilders.ItemBuilder()
-//                        .setTransactionId(purchase.getOrderId())
-//                        .addProduct(new Product().setCategory("cafebazaar").setName(purchase.getPackageName()))
-//                        .setSku(purchase.getSku())
-//                        .setPrice(10000d)
-//                        .setQuantity(1L)
-//                        .setCurrencyCode("IRLS")
-//                        .build());
-
-                // bought the premium upgrade!
-                Log.d(TAG, "Purchase is premium upgrade. Congratulating user.");
-                Toast.makeText(context, "Thank you for upgrading to premium!",
-                        Toast.LENGTH_LONG).show();
-                mIsAdsFree = true;
-                updateUi();
-                // setWaitScreen(false);
-            }
-        }
-
-    };
-    private boolean doubleBackToExitPressedOnce;
+    private FirebaseAnalytics firebaseAnalytics;
+    private AdView mPlayAdView;
     private DataLoader loader;
-//    static String ms;
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -279,62 +141,11 @@ public class MainActivity extends Activity implements OnClickListener,
             firebaseAnalytics.logEvent("first_run", bundle);
         }
 
-        // in app billing
-
-        String base64EncodedPublicKey = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDc6DJpNhliflAPBa/8eNgOLjcfQKfr5PachBqf66cBhk32coQat6ZkEM2TtMylipvNBKrv50zfEpSkQt4NO0uWPuAlk8pJ10mlrhx77Bdz83nSBkLegJym7v4yUG9vC0AgbTm+bDTfNjCVUJEdnM/qCh/NbTOppUUE8tpa+sOgiCwv4P8fyeXGiss75y7yryt7bdWHpqXVvUETmqVfGG/6Epu0uHsi7WbhpTcv+eECAwEAAQ==";
-
-        mHelper = new IabHelper(context, base64EncodedPublicKey);
-
-        // mHelper.enableDebugLogging(true);
-
-        if (isBazaarVersion()) {
-            try {
-                Log.d(TAG, "Starting setup.");
-                mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-                    @Override
-                    public void onIabSetupFinished(IabResult result) {
-                        Log.d(TAG, "Setup finished.");
-
-                        if (!result.isSuccess()) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("label", "Problem setting up In-app Billing: " + result.getMessage());
-                            bundle.putString("action", "error");
-                            firebaseAnalytics.logEvent("IabHelper_setup", bundle);
-
-                            // Oh noes, there was a problem.
-                            Log.d(TAG, "Problem setting up In-app Billing: "
-                                    + result);
-                        }
-
-                        Bundle bundle = new Bundle();
-                        bundle.putString("label", "done");
-                        bundle.putString("action", "successful");
-                        firebaseAnalytics.logEvent("IabHelper_setup", bundle);
-
-                        // Hooray, IAB is fully set up!
-                        mHelper.queryInventoryAsync(mGotInventoryListener);
-                    }
-                });
-            } catch (Exception e) {
-                Bundle bundle = new Bundle();
-                bundle.putString("label", e.getMessage());
-                bundle.putString("action", "error");
-                firebaseAnalytics.logEvent("IabHelper_setup", bundle);
-
-                e.printStackTrace();
-                mAdsFreeError = true;
-                updateUi();
-            }
-        } else {
-            mAdsFreeError = true;
-
+        MobileAds.initialize(this, initializationStatus -> {
             mPlayAdView = findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             mPlayAdView.loadAd(adRequest);
-
-            updateUi();
-        }
-
+        });
     }
 
 //    private void uncaughtExceptionHandler() {
@@ -357,11 +168,7 @@ public class MainActivity extends Activity implements OnClickListener,
         alertDialogBuilder
                 .setMessage(ms)
                 .setCancelable(false)
-                .setNegativeButton(getString(R.string.close), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                .setNegativeButton(getString(R.string.close), (dialog, id) -> dialog.cancel());
 
         if (ms.contains("http")) {
             // extract url from message
@@ -380,32 +187,12 @@ public class MainActivity extends Activity implements OnClickListener,
             // remove url from message
             //ms = ms.replaceFirst(url, "");
 
-            alertDialogBuilder.setPositiveButton(getString(R.string.open), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    Utils.openWebsite(context, url);
-                }
-            });
+            alertDialogBuilder.setPositiveButton(getString(R.string.open), (dialog, id) -> Utils.openWebsite(context, url));
         }
 
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-    }
-
-    private void updateUi() {
-        if (mAdsFreeError) {
-            llAds.setVisibility(View.VISIBLE);
-            purchase1.setVisibility(View.GONE);
-            purchase2.setVisibility(View.GONE);
-        } else if (mIsAdsFree) {
-            llAds.setVisibility(View.GONE);
-            purchase1.setVisibility(View.GONE);
-            purchase2.setVisibility(View.GONE);
-        } else {
-            llAds.setVisibility(View.VISIBLE);
-            purchase1.setVisibility(View.VISIBLE);
-            purchase2.setVisibility(View.VISIBLE);
-        }
     }
 
     //get first run
@@ -424,13 +211,6 @@ public class MainActivity extends Activity implements OnClickListener,
 
         Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + ","
                 + data);
-
-        // Pass on the activity result to the helper for handling
-        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
-            super.onActivityResult(requestCode, resultCode, data);
-        } else {
-            Log.d(TAG, "onActivityResult handled by IABUtil.");
-        }
     }
 
     private void fillTiles() {
@@ -447,12 +227,6 @@ public class MainActivity extends Activity implements OnClickListener,
         tiles[9] = getResources().getIntArray(R.array.map_row10);
         tiles[10] = getResources().getIntArray(R.array.map_row11);
         tiles[11] = getResources().getIntArray(R.array.map_row12);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        doubleBackToExitPressedOnce = false;
     }
 
     private void initForm() {
@@ -497,11 +271,6 @@ public class MainActivity extends Activity implements OnClickListener,
 
         spState.setSelection(getState());
         spState.setOnItemSelectedListener(this);
-
-
-        llAds = findViewById(R.id.llAds);
-        purchase1 = findViewById(R.id.purchase1);
-        purchase2 = findViewById(R.id.purchase2);
     }
 
     private int getState() {
@@ -672,67 +441,10 @@ public class MainActivity extends Activity implements OnClickListener,
                 appState = ApplicationState.About;
                 switchView();
                 break;
-            case R.id.purchase1:
-                bundle.putString("label", "purchase_contact");
-            case R.id.purchase2:
-                bundle.putString("label", "purchase_about");
-
-                // prePurchase();
-                purchase();
-                break;
         }
 
         firebaseAnalytics.logEvent("ui_action", bundle);
 
-    }
-
-    private void prePurchase() {
-        List<String> skuList = new ArrayList<String>();
-        skuList.add(SKU_ADS);
-
-        try {
-            Log.d(TAG, "Launching prepurchase flow for ads free app.");
-            mHelper.queryInventoryAsync(true, skuList,
-                    mQueryInventoryFinishedListener);
-        } catch (Exception e) {
-            e.printStackTrace();
-            mAdsFreeError = true;
-        }
-    }
-
-    private void purchase() {
-        // if (!mHelper.subscriptionsSupported()) {
-        // Toast.makeText(context,
-        // "Subscriptions not supported on your device yet. Sorry!",
-        // Toast.LENGTH_LONG).show();
-        // return;
-        // }
-
-        String payload = getPayloadParam();
-
-        // setWaitScreen(true);
-        try {
-            Log.d(TAG, "Launching purchase flow for ads free app.");
-            mHelper.launchPurchaseFlow(this, SKU_ADS, RC_REQUEST,
-                    mPurchaseFinishedListener, payload);
-        } catch (Exception e) {
-            e.printStackTrace();
-            mAdsFreeError = true;
-        }
-    }
-
-    private String getPayloadParam() {
-        return Secure
-                .getString(context.getContentResolver(), Secure.ANDROID_ID);
-    }
-
-    /**
-     * Verifies the developer payload of a purchase.
-     */
-    boolean verifyDeveloperPayload(Purchase p) {
-        String payload = p.getDeveloperPayload();
-
-        return payload.equals(getPayloadParam());
     }
 
     @Override
@@ -1058,23 +770,8 @@ public class MainActivity extends Activity implements OnClickListener,
         if (appState == ApplicationState.Zoom)
             showTrafficMap();
         else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                return;
-            }
-            doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, R.string.msg_exit, Toast.LENGTH_SHORT).show();
-
-            Timer t = new Timer();
-            t.schedule(new TimerTask() {
-
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;
-                }
-            }, 2500);
+            super.onBackPressed();
         }
-
     }
 
     //private void showNews() {
@@ -1137,26 +834,8 @@ public class MainActivity extends Activity implements OnClickListener,
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mHelper != null)
-            try {
-                mHelper.dispose();
-            } catch (Exception e) {
-                e.printStackTrace();
-                mAdsFreeError = true;
-            }
-        mHelper = null;
-    }
-
-    public boolean isBazaarVersion() {
-        return BuildConfig.FLAVOR.equalsIgnoreCase("bazaar");
-    }
-
-
     enum ApplicationState {
-        Traffic, Road, Zoom, Plane, Metro, Brt, News, Contact, About
+        Traffic, Road, Zoom, Plane, Metro, Brt, Contact, About
     }
 
 }

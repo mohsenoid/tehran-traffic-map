@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollViewHelp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentTop="true"
@@ -31,7 +30,7 @@
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/logo"/>
+                android:src="@drawable/logo" />
 
             <ImageView
                 android:id="@+id/ivRoadLogo"
@@ -41,9 +40,8 @@
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/road_logo"/>
+                android:src="@drawable/road_logo" />
         </LinearLayout>
-
 
         <TextView
             android:id="@+id/tvAbout"
@@ -52,7 +50,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/app_about"/>
+            android:text="@string/app_about" />
 
         <TextView
             android:id="@+id/txtHelp"
@@ -61,23 +59,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="2"
             android:gravity="right"
-            android:text="@string/app_help"/>
-
-
-        <Button
-            android:id="@+id/purchase2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:onClick="onClick"
-            android:padding="10dp"
-            android:text="@string/purchase"
-            android:textColor="@color/button"
-            android:textStyle="bold"
-            android:visibility="gone"/>
+            android:text="@string/app_help" />
 
         <TextView
             android:id="@+id/tvBuild"
@@ -86,7 +68,7 @@
             android:layout_gravity="bottom"
             android:padding="2dp"
             android:textColor="#aaa"
-            android:textSize="10dp"/>
+            android:textSize="10dp" />
     </LinearLayout>
 
 </ScrollView>
