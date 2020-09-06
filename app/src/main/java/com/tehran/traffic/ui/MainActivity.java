@@ -58,8 +58,8 @@ public class MainActivity extends Activity implements OnClickListener,
     Spinner spState;
     NavigationView nvMap;
     TextView tvError;
-    TextView tvBuild, tvVersion;
-    View inMap, inNews, inAbout, inContact;
+    TextView tvBuild;
+    View inMap, inNews, inAbout;
     Dialog updateDialog;
     private FirebaseAnalytics firebaseAnalytics;
     private AdView mPlayAdView;
@@ -83,7 +83,6 @@ public class MainActivity extends Activity implements OnClickListener,
 
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +91,6 @@ public class MainActivity extends Activity implements OnClickListener,
         // Analytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         firebaseAnalytics.setAnalyticsCollectionEnabled(true);
-
 
         // show GCM alert
         condition = getIntent().getStringExtra("alert");
@@ -148,15 +146,6 @@ public class MainActivity extends Activity implements OnClickListener,
         });
     }
 
-//    private void uncaughtExceptionHandler() {
-//        Thread.UncaughtExceptionHandler myHandler = new ExceptionReporter(easyTracker,
-//                GAServiceManager.getInstance(),
-//                Thread.getDefaultUncaughtExceptionHandler(), this);
-//
-//        // Make myHandler the new default uncaught exception handler.
-//        Thread.setDefaultUncaughtExceptionHandler(myHandler);
-//    }
-
     private void alertCloudMessage(@NonNull String ms) {
         Bundle bundle = new Bundle();
         bundle.putString("label", ms);
@@ -183,9 +172,6 @@ public class MainActivity extends Activity implements OnClickListener,
             endEnter = endEnter == -1 ? len : endEnter;
 
             final String url = ms.substring(start, Math.min(Math.min(endSpace, endEnter), len));
-
-            // remove url from message
-            //ms = ms.replaceFirst(url, "");
 
             alertDialogBuilder.setPositiveButton(getString(R.string.open), (dialog, id) -> Utils.openWebsite(context, url));
         }
@@ -232,7 +218,6 @@ public class MainActivity extends Activity implements OnClickListener,
     private void initForm() {
         inMap = findViewById(R.id.inMap);
         inNews = findViewById(R.id.inNews);
-        inContact = findViewById(R.id.inContact);
         inAbout = findViewById(R.id.inAbout);
 
         ibPrev = (ImageButton) findViewById(R.id.ibPrev);
@@ -249,14 +234,8 @@ public class MainActivity extends Activity implements OnClickListener,
         tivMap = (TouchImageView) findViewById(R.id.tivMap);
         tivMap.setMaxZoom(6f);
         tivMap.setOnTileListener(this);
-        // tivMap.setImageDrawable(context.getResources().getDrawable(
-        // R.drawable.logo));
-        // tivMap.setScaleType(ScaleType.CENTER_INSIDE);
 
         tvError = (TextView) findViewById(R.id.tvError);
-
-        tvVersion = (TextView) findViewById(R.id.tvVersion);
-        tvVersion.setText(BuildConfig.VERSION_NAME);
 
         tvBuild = (TextView) findViewById(R.id.tvBuild);
         tvBuild.setText("Build: " + BuildConfig.VERSION_NAME + " - " + BuildConfig.GIT_SHA + " - " + BuildConfig.BUILD_TYPE + " - " + BuildConfig.BUILD_TIME);
@@ -313,20 +292,14 @@ public class MainActivity extends Activity implements OnClickListener,
             case Zoom:
                 showTrafficTile();
                 break;
-            case Plane:
-                showTrafficPlane();
+            case Plans:
+                showTrafficPlans();
                 break;
             case Metro:
                 showMetroMap();
                 break;
             case Brt:
                 showBrtMap();
-                break;
-//            case News:
-//                showNews();
-//                break;
-            case Contact:
-                showContact();
                 break;
             case About:
                 showAbout();
@@ -337,11 +310,9 @@ public class MainActivity extends Activity implements OnClickListener,
     private void enableAllTabs() {
         findViewById(R.id.ibTabTraffic).setEnabled(true);
         findViewById(R.id.ibTabRoad).setEnabled(true);
-        findViewById(R.id.ibTabPlane).setEnabled(true);
+        findViewById(R.id.ibTabPlans).setEnabled(true);
         findViewById(R.id.ibTabMetro).setEnabled(true);
         findViewById(R.id.ibTabBrt).setEnabled(true);
-        //findViewById(R.id.ibTabNews).setEnabled(true);
-        findViewById(R.id.ibTabContact).setEnabled(true);
         findViewById(R.id.ibTabAbout).setEnabled(true);
     }
 
@@ -407,10 +378,10 @@ public class MainActivity extends Activity implements OnClickListener,
                 appState = ApplicationState.Road;
                 switchView();
                 break;
-            case R.id.ibTabPlane:
-                bundle.putString("label", "ib_tab_plane");
+            case R.id.ibTabPlans:
+                bundle.putString("label", "ib_tab_plans");
 
-                appState = ApplicationState.Plane;
+                appState = ApplicationState.Plans;
                 switchView();
                 break;
             case R.id.ibTabMetro:
@@ -423,16 +394,6 @@ public class MainActivity extends Activity implements OnClickListener,
                 bundle.putString("label", "ib_tab_brt");
 
                 appState = ApplicationState.Brt;
-                switchView();
-                break;
-//            case R.id.ibTabNews:
-//                appState = ApplicationState.News;
-//                switchView();
-//                break;
-            case R.id.ibTabContact:
-                bundle.putString("label", "ib_tab_contact");
-
-                appState = ApplicationState.Contact;
                 switchView();
                 break;
             case R.id.ibTabAbout:
@@ -530,7 +491,6 @@ public class MainActivity extends Activity implements OnClickListener,
     private void invisibleAllIncludes() {
         inMap.setVisibility(View.GONE);
         inNews.setVisibility(View.GONE);
-        inContact.setVisibility(View.GONE);
         inAbout.setVisibility(View.GONE);
     }
 
@@ -691,8 +651,8 @@ public class MainActivity extends Activity implements OnClickListener,
 
     }
 
-    private void showTrafficPlane() {
-        appState = ApplicationState.Plane;
+    private void showTrafficPlans() {
+        appState = ApplicationState.Plans;
 
         findViewById(R.id.inMap).setVisibility(View.VISIBLE);
 
@@ -705,9 +665,9 @@ public class MainActivity extends Activity implements OnClickListener,
         ivRoadsHelp.setVisibility(View.GONE);
         spState.setVisibility(View.GONE);
 
-        loader.loadPlane();
+        loader.loadPlans();
 
-        findViewById(R.id.ibTabPlane).setEnabled(false);
+        findViewById(R.id.ibTabPlans).setEnabled(false);
 
         tivMap.setBackgroundResource(R.drawable.shape_page_bg_white);
     }
@@ -754,12 +714,6 @@ public class MainActivity extends Activity implements OnClickListener,
         tivMap.setBackgroundResource(R.drawable.shape_page_bg_white);
     }
 
-    private void showContact() {
-
-        findViewById(R.id.ibTabContact).setEnabled(false);
-        findViewById(R.id.inContact).setVisibility(View.VISIBLE);
-    }
-
     private void showAbout() {
         findViewById(R.id.ibTabAbout).setEnabled(false);
         findViewById(R.id.inAbout).setVisibility(View.VISIBLE);
@@ -773,13 +727,6 @@ public class MainActivity extends Activity implements OnClickListener,
             super.onBackPressed();
         }
     }
-
-    //private void showNews() {
-    //    findViewById(R.id.ibTabNews).setEnabled(false);
-    //    findViewById(R.id.inNews).setVisibility(View.VISIBLE);
-    //
-    //}
-
 
     @Override
     public void onDownClick(View v) {
@@ -831,11 +778,9 @@ public class MainActivity extends Activity implements OnClickListener,
         currentTile = tiles[currentRow][currentCol];
         switchView();
         setNavigator();
-
     }
 
     enum ApplicationState {
-        Traffic, Road, Zoom, Plane, Metro, Brt, Contact, About
+        Traffic, Road, Zoom, Plans, Metro, Brt, About
     }
-
 }

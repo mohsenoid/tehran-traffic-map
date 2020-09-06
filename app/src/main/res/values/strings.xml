@@ -9,20 +9,11 @@
     <!--<string name="rssURL" translatable="false">http://trafficcontrol.tehran.ir/DesktopModules/DNNArticle/DNNArticleRSS.aspx?portalid=0&amp;moduleid=410</string>-->
     <string name="app_about">All information is provided by Tehran Traffic
 		Control Co. &amp; Iran Roads Management Center</string>
-    <string name="app_design">Developed By: Mohsen Mirhoseini Argi</string>
-    <string name="app_email" translatable="false">tehrantrafficmap@mirhoseini.com</string>
-    <string name="app_telegram1">Join our Telegram bot:</string>
-    <string name="app_telegram2" translatable="false">https://telegram.me/TehranTrafficMapBot</string>
-    <string name="app_facebook1">Follow us:</string>
-    <string name="app_facebook2" translatable="false">http://www.facebook.com/tehrantrafficmap</string>
-    <string name="app_about_title">About&#8230;</string>
     <string name="app_progress">Please wait&#8230;</string>
     <string name="app_progress_title">Downloading&#8230;</string>
     <string name="app_connection_error">Unable to connect to server and download, Please check your
 		internet connection.</string>
-    <string name="app_plans_title">Traffic Plans</string>
-    <string name="app_help_title">Help</string>
-    <string name="app_help">This program show you a Real-Time Traffic information for surface street traffic conditions within the City of Tehran. All information received from Tehran Traffic Control Co.	cameras and server.\nPress Refresh button to download the lastest map.The older map will be archived for later use and compare.</string>
+    <string name="app_help_text">This app shows a Real-Time Traffic info about traffic conditions within the city of Tehran. All information is provided by from Tehran Traffic Control Co. cameras and services.\nPress Refresh button to download the latest map. The older map will be archived for later use and comparison.</string>
     <string name="mnu_traffic">Traffic Map</string>
     <string name="mnu_traffic_short">Traffic</string>
     <string name="mnu_news">Traffic News</string>
@@ -41,31 +32,14 @@
     <string name="mnu_help_short">Help</string>
     <string name="mnu_about">About</string>
     <string name="mnu_about_short">About</string>
-    <string name="mnu_contact">Contact</string>
-    <string name="mnu_contact_short">Contact</string>
     <string name="mnu_exit">Exit</string>
     <string name="mnu_exit_short">Exit</string>
     <string name="msg_updatemap">New data available, Do you want to update the map?</string>
     <string name="msg_yes">Yes</string>
     <string name="msg_no">No</string>
-    <string name="msg_highdensity">Loading high density image, please be patient&#8230;</string>
-    <string name="msg_exit">Press back again to exit&#8230;</string>
     <string name="msg_tile_click">Tap on any part of map for more information&#8230;</string>
     <string name="tileURL" translatable="false">http://31.24.237.150/TTCCTrafficWebSite/UploadedFiles/WebTrafficImages/web%1$d.png</string>
-    <string name="purchase"><u>Buy ads free version</u></string>
     <string name="close">Close</string>
-    <string name="download">Download</string>
     <string name="open">Open</string>
-
-    <string name="crash_toast_text">Ooooops ! I crashed, but a report has been sent to my developer to help fix the issue !</string>
-
-    <string name="crash_dialog_title">Tehran Traffic Map has crashed</string>
-    <string name="crash_dialog_text">An unexpected error occurred forcing the
-    application to stop. Please help us fix this by sending us error data,
-    all you have to do is click OK.</string>
-    <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
-    <string name="crash_dialog_ok_toast">Thank you !</string>
-    <string name="crash_user_email_label">Your email</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9854501364301815/8918715628</string>
-
 </resources>
