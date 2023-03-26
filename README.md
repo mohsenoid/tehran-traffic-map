@@ -12,7 +12,7 @@ Published at: <a href="https://play.google.com/store/apps/details?id=com.tehran.
 
 ## License
 
-Copyright 2020 Mohsen Mirhoseini Argi
+Copyright 2013 Mohsen Mirhoseini Argi
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
