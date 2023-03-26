@@ -2,7 +2,8 @@ package com.tehran.traffic.models;
 
 import android.content.Context;
 
-import com.tehran.traffic.R;
+import com.mohsenoid.tehran.traffic.R;
+
 
 /**
  * Created by Mohsen on 11/3/14.

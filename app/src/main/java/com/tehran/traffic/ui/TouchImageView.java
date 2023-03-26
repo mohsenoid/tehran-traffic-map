@@ -9,10 +9,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.ImageView;
 
-import androidx.appcompat.widget.AppCompatImageView;
-
-public class TouchImageView extends AppCompatImageView {
+public class TouchImageView extends ImageView {
     // We can be in one of these 3 states
     static final int NONE = 0;
     static final int DRAG = 1;
@@ -60,105 +59,100 @@ public class TouchImageView extends AppCompatImageView {
         setImageMatrix(matrix);
         setScaleType(ScaleType.MATRIX);
 
-        setOnTouchListener(new OnTouchListener() {
+        setOnTouchListener((v, event) -> {
+            mScaleDetector.onTouchEvent(event);
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mScaleDetector.onTouchEvent(event);
+            matrix.getValues(m);
+            float x = m[Matrix.MTRANS_X];
+            float y = m[Matrix.MTRANS_Y];
+            PointF curr = new PointF(event.getX(), event.getY());
 
-                matrix.getValues(m);
-                float x = m[Matrix.MTRANS_X];
-                float y = m[Matrix.MTRANS_Y];
-                PointF curr = new PointF(event.getX(), event.getY());
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    last.set(event.getX(), event.getY());
+                    start.set(last);
+                    mode = DRAG;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if (mode == DRAG) {
+                        float deltaX = curr.x - last.x;
+                        float deltaY = curr.y - last.y;
+                        float scaleWidth = Math.round(origWidth * saveScale);
+                        float scaleHeight = Math.round(origHeight * saveScale);
+                        if (scaleWidth < width) {
+                            deltaX = 0;
+                            if (y + deltaY > 0)
+                                deltaY = -y;
+                            else if (y + deltaY < -bottom)
+                                deltaY = -(y + bottom);
+                        } else if (scaleHeight < height) {
+                            deltaY = 0;
+                            if (x + deltaX > 0)
+                                deltaX = -x;
+                            else if (x + deltaX < -right)
+                                deltaX = -(x + right);
+                        } else {
+                            if (x + deltaX > 0)
+                                deltaX = -x;
+                            else if (x + deltaX < -right)
+                                deltaX = -(x + right);
 
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        last.set(event.getX(), event.getY());
-                        start.set(last);
-                        mode = DRAG;
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (mode == DRAG) {
-                            float deltaX = curr.x - last.x;
-                            float deltaY = curr.y - last.y;
-                            float scaleWidth = Math.round(origWidth * saveScale);
-                            float scaleHeight = Math.round(origHeight * saveScale);
-                            if (scaleWidth < width) {
-                                deltaX = 0;
-                                if (y + deltaY > 0)
-                                    deltaY = -y;
-                                else if (y + deltaY < -bottom)
-                                    deltaY = -(y + bottom);
-                            } else if (scaleHeight < height) {
-                                deltaY = 0;
-                                if (x + deltaX > 0)
-                                    deltaX = -x;
-                                else if (x + deltaX < -right)
-                                    deltaX = -(x + right);
-                            } else {
-                                if (x + deltaX > 0)
-                                    deltaX = -x;
-                                else if (x + deltaX < -right)
-                                    deltaX = -(x + right);
-
-                                if (y + deltaY > 0)
-                                    deltaY = -y;
-                                else if (y + deltaY < -bottom)
-                                    deltaY = -(y + bottom);
-                            }
-                            matrix.postTranslate(deltaX, deltaY);
-                            last.set(curr.x, curr.y);
+                            if (y + deltaY > 0)
+                                deltaY = -y;
+                            else if (y + deltaY < -bottom)
+                                deltaY = -(y + bottom);
                         }
-                        break;
+                        matrix.postTranslate(deltaX, deltaY);
+                        last.set(curr.x, curr.y);
+                    }
+                    break;
 
-                    case MotionEvent.ACTION_UP:
-                        mode = NONE;
-                        int xDiff = (int) Math.abs(curr.x - start.x);
-                        int yDiff = (int) Math.abs(curr.y - start.y);
-                        if (xDiff < CLICK && yDiff < CLICK) {
-                            performClick();
+                case MotionEvent.ACTION_UP:
+                    mode = NONE;
+                    int xDiff = (int) Math.abs(curr.x - start.x);
+                    int yDiff = (int) Math.abs(curr.y - start.y);
+                    if (xDiff < CLICK && yDiff < CLICK) {
+                        performClick();
 
-                            float factorWidth = origWidth * saveScale / 12;
-                            float factorHeight = origHeight * saveScale / 12;
+                        float factorWidth = origWidth * saveScale / 12;
+                        float factorHeight = origHeight * saveScale / 12;
 
-                            // float relativeX = (curr.x - m[Matrix.MTRANS_X])
-                            // / m[Matrix.MSCALE_X];
-                            // float relativeY = (curr.y - m[Matrix.MTRANS_Y])
-                            // / m[Matrix.MSCALE_Y];
+                        // float relativeX = (curr.x - m[Matrix.MTRANS_X])
+                        // / m[Matrix.MSCALE_X];
+                        // float relativeY = (curr.y - m[Matrix.MTRANS_Y])
+                        // / m[Matrix.MSCALE_Y];
 
-                            // int col = (int) Math.floor(relativeX / factorWidth);
-                            // int row = (int) Math.floor(relativeY / factorHeight);
+                        // int col = (int) Math.floor(relativeX / factorWidth);
+                        // int row = (int) Math.floor(relativeY / factorHeight);
 
-                            RectF r = new RectF();
-                            matrix.mapRect(r);
+                        RectF r = new RectF();
+                        matrix.mapRect(r);
 
-                            float newX = curr.x - r.left;
-                            float newY = curr.y - r.top;
+                        float newX = curr.x - r.left;
+                        float newY = curr.y - r.top;
 
-                            int col = (int) Math.floor(newX / factorWidth);
-                            int row = (int) Math.floor(newY / factorHeight);
+                        int col = (int) Math.floor(newX / factorWidth);
+                        int row = (int) Math.floor(newY / factorHeight);
 
-                            // Toast.makeText(
-                            // context,
-                            // "newX: " + newX + ", newY: " + newY + ", row: "
-                            // + row + ", col: " + col,
-                            // Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(
+                        // context,
+                        // "newX: " + newX + ", newY: " + newY + ", row: "
+                        // + row + ", col: " + col,
+                        // Toast.LENGTH_SHORT).show();
 
-                            if (tileListener != null)
-                                tileListener.onTileClick(TouchImageView.this, row,
-                                        col);
-                        }
-                        break;
+                        if (tileListener != null)
+                            tileListener.onTileClick(TouchImageView.this, row,
+                                    col);
+                    }
+                    break;
 
-                    case MotionEvent.ACTION_POINTER_UP:
-                        mode = NONE;
-                        break;
-                }
-                setImageMatrix(matrix);
-                invalidate();
-                return true; // indicate event was handled
+                case MotionEvent.ACTION_POINTER_UP:
+                    mode = NONE;
+                    break;
             }
-
+            setImageMatrix(matrix);
+            invalidate();
+            return true; // indicate event was handled
         });
     }
 

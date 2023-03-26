@@ -20,10 +20,10 @@
     <string name="mnu_news_short">News</string>
     <string name="mnu_video">Traffic Animation</string>
     <string name="mnu_video_short">Animation</string>
-    <string name="mnu_plans">Traffic Plans</string>
-    <string name="mnu_plans_short">Traffic</string>
-    <string name="mnu_metro">Metro Map</string>
-    <string name="mnu_metro_short">Metro</string>
+    <string name="mnu_plans">Plans Map</string>
+    <string name="mnu_plans_short">Plans</string>
+    <string name="mnu_underground">Metro Map</string>
+    <string name="mnu_underground_short">Metro</string>
     <string name="mnu_brt">BRT Map</string>
     <string name="mnu_brt_short">BRT</string>
     <string name="mnu_road">Roads Traffic</string>
@@ -35,11 +35,13 @@
     <string name="mnu_exit">Exit</string>
     <string name="mnu_exit_short">Exit</string>
     <string name="msg_updatemap">New data available, Do you want to update the map?</string>
+    <string name="msg_update">Update</string>
     <string name="msg_yes">Yes</string>
     <string name="msg_no">No</string>
     <string name="msg_tile_click">Tap on any part of map for more information&#8230;</string>
     <string name="tileURL" translatable="false">http://31.24.237.150/TTCCTrafficWebSite/UploadedFiles/WebTrafficImages/web%1$d.png</string>
     <string name="close">Close</string>
     <string name="open">Open</string>
+    <string name="state">State</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9854501364301815/8918715628</string>
 </resources>

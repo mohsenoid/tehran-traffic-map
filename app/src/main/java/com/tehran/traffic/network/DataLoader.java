@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.tehran.traffic.R;
+import com.mohsenoid.tehran.traffic.R;
 import com.tehran.traffic.models.RoadData;
 import com.tehran.traffic.ui.MainActivity;
 import com.tehran.traffic.ui.TouchImageView;
@@ -256,7 +256,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     public void loadPlans() {
         try {
             if (bmPlans == null)
-                bmPlans = getBitmapFromAsset("traffic_cam.jpg");
+                bmPlans = getBitmapFromAsset("raw/traffic_cam.jpg");
             tivMap.setImageBitmap(bmPlans);
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -267,7 +267,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     public void loadBrt() {
         try {
             if (bmBrt == null)
-                bmBrt = getBitmapFromAsset("brt_map.jpg");
+                bmBrt = getBitmapFromAsset("raw/brt_map.jpg");
             tivMap.setImageBitmap(bmBrt);
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -293,7 +293,7 @@ public class DataLoader extends AsyncTask<String, Void, Boolean> {
     public void loadMetro() {
         try {
             if (bmMetro == null)
-                bmMetro = getBitmapFromAsset("metro_map.jpg");
+                bmMetro = getBitmapFromAsset("raw/metro_map.jpg");
             tivMap.setImageBitmap(bmMetro);
         } catch (Exception e) {
             // TODO Auto-generated catch block

@@ -30,8 +30,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mohsenoid.androidutils.Utils;
 import com.mohsenoid.appsettings.AppSettings;
 import com.mohsenoid.navigationview.NavigationView;
-import com.tehran.traffic.BuildConfig;
-import com.tehran.traffic.R;
+import com.mohsenoid.tehran.traffic.BuildConfig;
+import com.mohsenoid.tehran.traffic.R;
 import com.tehran.traffic.network.DataLoader;
 import com.tehran.traffic.ui.TouchImageView.OnTileListener;
 

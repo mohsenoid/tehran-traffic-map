@@ -10,5 +10,6 @@
     <color name="button">#fe635f</color>
     <color name="button_pressed">#264d47</color>
     <color name="button_stroke">#264d47</color>
+    <color name="logo">#999</color>
 
 </resources>

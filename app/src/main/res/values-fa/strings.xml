@@ -14,10 +14,10 @@
     <string name="mnu_video_short">انيميشن</string>
     <string name="mnu_plans">طرح ترافيك</string>
     <string name="mnu_plans_short">طرح</string>
-    <string name="mnu_metro">نقشه مترو</string>
-    <string name="mnu_metro_short">مترو</string>
-    <string name="mnu_brt">نقشه BRT</string>
-    <string name="mnu_brt_short">BRT</string>
+    <string name="mnu_underground">نقشه مترو</string>
+    <string name="mnu_underground_short">مترو</string>
+    <string name="mnu_brt">نقشه بی آر تی</string>
+    <string name="mnu_brt_short">بی آر تی</string>
     <string name="mnu_road">ترافیک جاده ها</string>
     <string name="mnu_road_short">جاده ها</string>
     <string name="mnu_help">راهنماي نرم افزار</string>
@@ -27,9 +27,11 @@
     <string name="mnu_exit">خروج از نرم افزار</string>
     <string name="mnu_exit_short">خروج</string>
     <string name="msg_updatemap">اطلاعات تغيير كرده است، آيا تمايل داريد نقشه بروزرساني شود؟</string>
+    <string name="msg_update">بروزرساني</string>
     <string name="msg_yes">بلي</string>
     <string name="msg_no">خير</string>
     <string name="msg_tile_click">برای نمایش اطلاعات بیشتر بر روی بخش مورد نظر خود بر روی نقشه کلیک نمایید&#8230;</string>
     <string name="close">انصراف</string>
     <string name="open">بازکردن</string>
+    <string name="state">استان</string>
 </resources>

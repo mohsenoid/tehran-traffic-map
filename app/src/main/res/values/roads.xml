@@ -4,8 +4,8 @@
     <string-array name="states">
         <item>Alborz</item>
         <item>Ardabil</item>
-        <item>East Azerbaijan</item>
-        <item>West Azerbaijan</item>
+        <item>Azerbaijan(East)</item>
+        <item>Azerbaijan(West)</item>
         <item>Boushehr</item>
         <item>Chaharmahal and Bakhtiari</item>
         <item>Fars</item>
@@ -17,11 +17,11 @@
         <item>Isfahan</item>
         <item>Kerman</item>
         <item>Kermanshah</item>
-        <item>North Khorasan</item>
-        <item>Razavi Khorasan</item>
-        <item>South Khorasan</item>
+        <item>Khorasan(North)</item>
+        <item>Khorasan(Razavi)</item>
+        <item>Khorasan(South)</item>
         <item>Khuzestan</item>
-        <item>Kohgiluyeh And Boyer-Ahmad</item>
+        <item>Kohgiluyeh and Boyer-Ahmad</item>
         <item>Kurdistan</item>
         <item>Lurestan</item>
         <item>Markazi</item>

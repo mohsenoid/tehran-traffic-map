@@ -69,7 +69,7 @@
             android:onClick="onClick"
             android:padding="20dp"
             android:src="@drawable/ic_tab_underground"
-            android:text="@string/mnu_metro" />
+            android:text="@string/mnu_underground" />
 
         <ImageButton
             android:id="@+id/ibTabAbout"

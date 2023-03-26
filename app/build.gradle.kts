@@ -18,7 +18,7 @@ plugins {
 val releaseTestersGroup = listOf("qa", "dev")
 
 android {
-    namespace = "com.tehran.traffic"
+    namespace = "com.mohsenoid.tehran.traffic"
 
     compileSdk = 33
 
@@ -34,13 +34,11 @@ android {
     defaultConfig {
         applicationId = "com.tehran.traffic"
 
-        minSdk = 19
+        minSdk = 24
         targetSdk = 33
 
         versionCode = 33
         versionName = "5.1.0"
-
-        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -94,6 +92,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.3"
+    }
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -102,27 +106,49 @@ android {
 }
 
 dependencies {
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
-    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.android.support:support-annotations:28.0.0")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.multidex:multidex:2.0.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.activity:activity-compose:1.7.0")
+    implementation("androidx.compose.material:material:1.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     testImplementation("junit:junit:4.13.2")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation("com.jakewharton.timber:timber:4.7.1")
+    val composeBom = platform("androidx.compose:compose-bom:2023.01.00")
+    implementation(composeBom)
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.ui:ui-util")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation(composeBom)
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+
+    val koinVersion = "3.4.0"
+    implementation("io.insert-koin:koin-android:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+    testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+
+    implementation("com.jakewharton.timber:timber:5.0.1")
 
     implementation("org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2")
 
+    implementation("io.coil-kt:coil-compose:2.3.0")
+
     implementation("com.mohsenoid.app-settings:app-settings:1.0.7")
-    implementation("com.mohsenoid.navigation-view:navigation-view:1.1.3")
-    implementation("com.mohsenoid.android-utils:android-utils:1.0.14")
+    implementation("com.mohsenoid.navigation-view:navigation-view:1.1.4")
+    implementation("com.mohsenoid.android-utils:android-utils:1.0.15")
     implementation("com.google.firebase:firebase-messaging:20.2.4")
     implementation("com.google.firebase:firebase-ads:19.3.0")
 }
