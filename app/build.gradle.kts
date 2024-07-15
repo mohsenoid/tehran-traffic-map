@@ -1,6 +1,9 @@
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter.ofPattern
+
 val gitSha: String = System.getenv("GITHUB_SHA")?.substring(0, 7) ?: "IDE"
 
-val buildTime: String = "" // LocalDate.now().format(ofPattern("yyyy-MM-dd"))
+val buildTime: String = LocalDate.now().format(ofPattern("yyyy-MM-dd"))
 
 plugins {
     id("com.android.application")
@@ -10,8 +13,8 @@ plugins {
     id("com.google.firebase.appdistribution")
 }
 
-//val releaseNote = "Commit: ${commitMessage()}\n\n" +
-//        "Branch: ${System.getenv('GITHUB_REF')}\n\n" +
+val releaseNote = //"Commit: ${commitMessage()}\n\n" +
+    "Branch: ${System.getenv("GITHUB_REF")}"//\n\n" +
 //        "Author: ${commitAuthor()}\n\n" +
 //        "Hash: ${commitShortHash()}"
 
@@ -20,25 +23,25 @@ val releaseTestersGroup = listOf("qa", "dev")
 android {
     namespace = "com.tehran.traffic"
 
-    compileSdk = 33
+    compileSdk = 34
 
-    //    signingConfigs {
+//    signingConfigs {
 //        releaseKey {
-//            storeFile file(keystoreProperties['storeFile'])
-//            storePassword keystoreProperties['storePassword']
-//            keyAlias keystoreProperties['keyAlias']
-//            keyPassword keystoreProperties['keyPassword']
+//            storeFile file (keystoreProperties['storeFile'])
+//            storePassword keystoreProperties ['storePassword']
+//            keyAlias keystoreProperties ['keyAlias']
+//            keyPassword keystoreProperties ['keyPassword']
 //        }
 //    }
 
     defaultConfig {
         applicationId = "com.tehran.traffic"
 
-        minSdk = 19
-        targetSdk = 33
+        minSdk = 21
+        targetSdk = 34
 
-        versionCode = 33
-        versionName = "5.1.0"
+        versionCode = 35
+        versionName = "5.2.0"
 
         multiDexEnabled = true
 
@@ -51,15 +54,18 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
 
-            //            signingConfig signingConfigs.releaseKey
-
-            //            firebaseAppDistribution {
-            //                artifactType = "APK"
-            //                releaseNotes = releaseNote
-            //                groups = "production"
-            //            }
+//            signingConfig signingConfigs . releaseKey
+//
+//                    firebaseAppDistribution {
+//                        artifactType = "APK"
+//                        releaseNotes = releaseNote
+//                        groups = "production"
+//                    }
 
             buildConfigField("String", "GIT_SHA", "\"${gitSha}\"")
             buildConfigField("String", "BUILD_TIME", "\"${buildTime}\"")
@@ -69,7 +75,7 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "_debug"
 
-            isTestCoverageEnabled = true
+            enableUnitTestCoverage = true
 
 //            signingConfig signingConfigs.releaseKey
 
@@ -87,34 +93,40 @@ android {
 //            }
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    packagingOptions {
+
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.android.support:support-annotations:28.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.multidex:multidex:2.0.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.12.0")
 
     testImplementation("junit:junit:4.13.2")
 
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     implementation("com.jakewharton.timber:timber:4.7.1")
 
